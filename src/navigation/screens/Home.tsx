@@ -9,9 +9,21 @@ import {
     SafeAreaView
 } from 'react-native';
 import { FoodItemCard } from '../../components/FoodItemCard'; // Adjust path as needed
+// images import
+import bellPepper from '../../assets/Food/bellpepper.png';
+import egg from '../../assets/Food/egg.png';
+import shrimp from '../../assets/Food/shrimp.png';
+import salmon from '../../assets/Food/salmon.png';
+import bokchoy from '../../assets/Food/bokchoy.png';
+import broccoli from '../../assets/Food/broccoli.png';
+import cucumber from '../../assets/Food/cucumber.png';
+import milk from '../../assets/Food/milk.png';
+import pumpkin from '../../assets/Food/pumpkin.png';
+import tomato from '../../assets/Food/tomato.png';
+import yogurt from '../../assets/Food/yogurt.png';
 
 
-// --- Sample Data (Replace with actual data fetching) ---
+// --- Sample Data ---
 type ExpiringItem = {
   id: string;
   name: string;
@@ -21,12 +33,18 @@ type ExpiringItem = {
 };
 
 const expiringItemsData: ExpiringItem[] = [
-  { id: '1', name: 'Pumpkin', quantity: '2 left', expiry: 'Expires in 3 days', image: null },
-  { id: '2', name: 'Eggs', quantity: '6 left', expiry: 'Expires in 1 day', image: null },
-  { id: '3', name: 'Greek Yoghurt', quantity: '2 left', expiry: 'Expires in 2 days', image: null },
-  { id: '4', name: 'Shrimp', quantity: '6 left', expiry: 'Expires in 1 day', image: null },
-  { id: '5', name: 'Salmon', quantity: '1 left', expiry: 'Expires in 2 days', image: null },
-  { id: '6', name: 'Yellow Pepper', quantity: '1 left', expiry: 'Expires in 2 days', image: null },
+  { id: '1', name: 'Pumpkin', quantity: '2 left', expiry: 'Expires in 3 days', image: pumpkin },
+  { id: '2', name: 'Eggs', quantity: '6 left', expiry: 'Expires in 1 day', image: egg },
+  { id: '3', name: 'Greek Yoghurt', quantity: '2 left', expiry: 'Expires in 2 days', image: yogurt },
+  { id: '4', name: 'Shrimp', quantity: '6 left', expiry: 'Expires in 1 day', image: shrimp },
+  { id: '5', name: 'Salmon', quantity: '1 left', expiry: 'Expires in 2 days', image: salmon },
+  { id: '6', name: 'Yellow Pepper', quantity: '1 left', expiry: 'Expires in 2 days', image: bellPepper },
+  { id: '7', name: 'Bokchoy', quantity: '3 left', expiry: 'Expires in 5 days', image: bokchoy },
+  { id: '8', name: 'Broccoli', quantity: '2 left', expiry: 'Expires in 7 days', image: broccoli },
+  { id: '9', name: 'Cucumber', quantity: '3 left', expiry: 'Expires in 2 days', image: cucumber },
+  { id: '10', name: 'Milk', quantity: '1 left', expiry: 'Expires in 2 days', image: milk },
+  { id: '11', name: 'Tomato', quantity: '1 left', expiry: 'Expires in 2 days', image: tomato },
+  { id: '12', name: 'Bell Pepper', quantity: '1 left', expiry: 'Expires in 2 days', image: bellPepper },
 ];
 
 const quickRecipeData = {
@@ -34,20 +52,20 @@ const quickRecipeData = {
     name: 'Avocado Egg Sandwich',
     uses: 'avocados, eggs, white bread, fresh thyme',
     consume: 'Consume within 2 days',
-    image: null // Replace null with image source
+    image: null
 };
 // --- End Sample Data ---
 
 
-export function Home() {
 
+export function Home() {
   // --- Render Function for Grid Item ---
   const renderExpiringItem = ({ item }: { item: ExpiringItem }) => (
     <FoodItemCard
         name={item.name}
         quantity={item.quantity}
         expiry={item.expiry}
-        // Removed explicit width/margin setting here, handled inside or via FlatList spacing
+        image={item.image}
     />
 );
   // --- End Render Function ---
@@ -76,16 +94,16 @@ export function Home() {
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Items Expiring Soon</Text>
           <FlatList
-            data={expiringItemsData}
-            renderItem={renderExpiringItem}
-            keyExtractor={(item) => item.id}
-            numColumns={3}
-            style={styles.itemsGrid} // Keep or remove if no specific style needed
-            contentContainerStyle={styles.gridContentContainer} // Use for padding around grid items
-            // columnWrapperStyle={styles.gridRow} // Use for spacing between items in a row if needed
-            scrollEnabled={false}
-          />
-        </View>
+              data={expiringItemsData}
+              renderItem={renderExpiringItem}
+              keyExtractor={(item) => item.id}
+              numColumns={3}
+              scrollEnabled={false}
+              // Add styles for layout:
+              contentContainerStyle={styles.gridContainer} // Padding around the whole grid
+              columnWrapperStyle={styles.gridRow} // Style for each row
+            />
+          </View>
 
         {/* === Quick Recipes Section === */}
         <View style={styles.sectionContainer}>
@@ -192,12 +210,13 @@ const styles = StyleSheet.create({
       left: -40, // Adjust as needed
   },
   // Items Expiring Soon Section
-  itemsGrid: {
-    // Removed marginHorizontal adjustments if item card handles its own width/margin
+  
+  gridContainer: {
+    paddingHorizontal: 5, // Padding on the left/right of the entire grid
   },
-  gridContentContainer: {
-      // Example: Add padding if cards don't have outer margins
-      // paddingHorizontal: 5,
+  gridRow: {
+      justifyContent: 'space-between', // Distributes items evenly in the row
+      // marginBottom: 15, // Can add bottom margin here INSTEAD of the card if preferred
   },
   
   // Quick Recipes Section
