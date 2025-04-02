@@ -1,0 +1,31 @@
+import { Assets as NavigationAssets } from '@react-navigation/elements';
+import { Asset } from 'expo-asset';
+import * as SplashScreen from 'expo-splash-screen';
+import * as React from 'react';
+import { Navigation } from './navigation';
+
+Asset.loadAsync([
+  ...NavigationAssets,
+  require('./assets/NavBar/donut.png'),
+  require('./assets/NavBar/fork.png'),
+  require('./assets/NavBar/fridge.png'),
+]);
+
+SplashScreen.preventAutoHideAsync();
+
+export function App() {
+  return (
+    <Navigation
+      linking={{
+        enabled: 'auto',
+        prefixes: [
+          // Change the scheme to match your app's scheme defined in app.json
+          'samwich://',
+        ],
+      }}
+      onReady={() => {
+        SplashScreen.hideAsync();
+      }}
+    />
+  );
+}
