@@ -100,7 +100,8 @@ const RootStack = createNativeStackNavigator<RootStackParamList>({
     RecipeDetail: {
       screen: RecipeDetail,
       options: {
-        title: 'Recipe Details',
+        // title: 'Recipe Details',
+        headerShown: false, // hide the header banner at the top of the screen
       },
     },
     // Settings: {

@@ -72,7 +72,7 @@ const expiringItemsData: ExpiringItem[] = [
 const quickRecipeData = {
     id: '1',
     name: 'Avocado Egg Sandwich',
-    uses: 'avocados, eggs, white bread, fresh thyme',
+    uses: 'Avocados, Eggs, White bread, Fresh thyme',
     consume: 'Consume within 2 days',
     image: avocadoEggSandwich,
 };

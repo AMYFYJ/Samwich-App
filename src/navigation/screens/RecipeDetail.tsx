@@ -10,60 +10,40 @@ import {
   StatusBar, // Import StatusBar
   ImageSourcePropType
 } from 'react-native';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../types/navigation';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList, RecipeData } from '../../types/navigation';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'RecipeDetail'>;
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-// Example Recipe Data Structure (This would usually come from route.params)
-const avocadoToastData = {
-  name: 'Avocado Tomato Toast',
-  image: {  }, // Replace with your actual image URL or local require
-  serves: 1,
-  ingredients: [
-    '2 slices White Bread',
-    '1 medium Avocado',
-    '1 medium Roma Tomato',
-    '1 tsp Olive Oil',
-    '1 tsp Fresh Thyme',
-    'Salt & Pepper to taste',
-  ],
-  macronutrients: {
-    calories: '452 cal',
-    protein: '9.5 g',
-    carbohydrates: '43 g',
-    fats: '29 g',
-    fiber: '7 g',
-  },
-  instructions: [
-    'Lightly toast the 2 slices of white bread until golden and crisp.',
-    'Prepare the avocado by cutting the avocado in half, removing the pit, and scooping the flesh into a bowl. Mash the avocado with a fork and season with salt and pepper.',
-    'Cut the Roma tomato into thin slices.',
-    'Assemble the toast. Spread the mashed avocado evenly over the toasted bread. Top with sliced tomatoes.',
-    'Finish off your toast with a drizzle with olive oil and sprinkle fresh thyme on top. Add more salt and pepper if desired.',
-  ],
-};
 
 // --- RecipeDetailScreen Component ---
 // This component expects `navigation` and `route` props from React Navigation
 // `route.params.recipeData` should contain the data for the recipe to display
-const RecipeDetailScreen = ({ route, navigation }: Props) => {
-  // Get recipe data from navigation parameters or use default example data
-  const recipeData = route.params?.recipeData || avocadoToastData;
+const RecipeDetailScreen = ({ route }: { route: { params: { recipeData: RecipeData } } }) => {
+  const navigation = useNavigation<NavigationProp>();
+  const { recipeData } = route.params;
 
   const handleMakeNow = () => {
     console.log(`Making "${recipeData.name}" now!`);
     // Add logic here: e.g., deduct ingredients from inventory, navigate elsewhere
   };
 
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* Optional: Configure Status Bar */}
+      {/* Status Bar */}
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
 
       {/* Back Button */}
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-        <Text style={styles.backButtonText}>{'< Back'}</Text>
+      <TouchableOpacity 
+        style={styles.backButton} 
+        onPress={handleGoBack}
+      >
+        <Text style={styles.backButtonText}>← Back</Text>
       </TouchableOpacity>
 
       <ScrollView style={styles.container}>
@@ -78,7 +58,7 @@ const RecipeDetailScreen = ({ route, navigation }: Props) => {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Ingredients</Text>
             <Text style={styles.servesText}>Serves {recipeData.serves}</Text>
-            {recipeData.ingredients.map((item, index) => (
+            {recipeData.ingredients.map((item: string, index: number) => (
               <Text key={index} style={styles.listItem}>
                 • {item}
               </Text>
@@ -89,7 +69,7 @@ const RecipeDetailScreen = ({ route, navigation }: Props) => {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Macronutrients</Text>
             <Text style={styles.macroText}>Per serving:</Text>
-            {Object.entries(recipeData.macronutrients).map(([key, value]) => (
+            {Object.entries(recipeData.macronutrients).map(([key, value]: [string, string]) => (
               <Text key={key} style={styles.listItem}>
                 • {key.charAt(0).toUpperCase() + key.slice(1)}: {value}
               </Text>
@@ -100,7 +80,7 @@ const RecipeDetailScreen = ({ route, navigation }: Props) => {
         {/* Instructions Section */}
         <View style={styles.instructionsSection}>
           <Text style={styles.sectionTitle}>Instructions</Text>
-          {recipeData.instructions.map((step, index) => (
+          {recipeData.instructions.map((step: string, index: number) => (
             <Text key={index} style={styles.instructionStep}>
               {index + 1}. {step}
             </Text>
@@ -136,19 +116,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   backButton: {
-    position: 'absolute',
-    top: StatusBar.currentHeight ? StatusBar.currentHeight + 10 : 50, // Adjust based on platform/status bar
-    left: 15,
-    zIndex: 10, // Ensure it's above the image
-    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Semi-transparent background
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 15,
+    padding: 10,
+    marginTop: 5,
   },
   backButtonText: {
-    color: '#ffffff', // White text for visibility on image
     fontSize: 16,
-    fontWeight: 'bold',
+    color: '#4A7C59',
+    fontWeight: '600',
   },
   recipeImage: {
     width: '100%',
@@ -211,7 +185,7 @@ const styles = StyleSheet.create({
   },
   makeNowButton: {
     backgroundColor: '#2E8B57', // SeaGreen color from image
-    paddingVertical: 18,
+    paddingVertical: 15,
     paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
