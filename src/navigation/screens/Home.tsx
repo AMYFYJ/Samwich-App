@@ -6,8 +6,12 @@ import {
     ScrollView,
     FlatList,
     TouchableOpacity,
-    SafeAreaView
+    SafeAreaView,
+    ImageSourcePropType
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../types/navigation';
 
 // import components
 import { FoodItemCard } from '../../components/FoodItemCard';
@@ -68,7 +72,7 @@ const expiringItemsData: ExpiringItem[] = [
 const quickRecipeData = {
     id: '1',
     name: 'Avocado Egg Sandwich',
-    uses: 'avocados, eggs, white bread, fresh thyme',
+    uses: 'Avocados, Eggs, White bread, Fresh thyme',
     consume: 'Consume within 2 days',
     image: avocadoEggSandwich,
 };
@@ -76,9 +80,11 @@ const quickRecipeData = {
 
 // --- End Sample Data ---
 
-
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export function Home() {
+  const navigation = useNavigation<NavigationProp>();
+
   // --- Render Function for Grid Item ---
   const renderExpiringItem = ({ item }: { item: ExpiringItem }) => (
     <FoodItemCard
@@ -126,8 +132,26 @@ export function Home() {
           consume={quickRecipeData.consume}
           imageSource={quickRecipeData.image}
           onUseNow={() => {
-            // Handle button press logic here
-            console.log('Recipe Card "View Recipe" button pressed');
+            navigation.navigate('RecipeDetail', {
+              recipeData: {
+                name: quickRecipeData.name,
+                image: quickRecipeData.image,
+                serves: 1,
+                ingredients: quickRecipeData.uses.split(', '),
+                macronutrients: {
+                  calories: '452 cal',
+                  protein: '9.5 g',
+                  carbohydrates: '43 g',
+                  fats: '29 g',
+                  fiber: '7 g',
+                },
+                instructions: [
+                  'Lightly toast the bread until golden and crisp.',
+                  'Prepare the avocado by cutting it in half, removing the pit, and scooping the flesh into a bowl. Mash with a fork and season with salt and pepper.',
+                  'Assemble the sandwich with the mashed avocado and fresh thyme.',
+                ],
+              }
+            });
           }}
         />
 
