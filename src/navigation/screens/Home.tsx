@@ -30,6 +30,7 @@ import milk from '../../assets/Food/milk.png';
 import pumpkin from '../../assets/Food/pumpkin.png';
 import tomato from '../../assets/Food/tomato.png';
 import yogurt from '../../assets/Food/yogurt.png';
+import avocado from '../../assets/Food/avocado.png';
 import avocadoEggSandwich from '../../assets/Recipe/avocado sandwich.png';
 
 
@@ -64,7 +65,7 @@ const expiringItemsData: ExpiringItem[] = [
   { id: '9', name: 'Cucumber', quantity: '3 left', expiry: 'Expires in 2 days', image: cucumber },
   { id: '10', name: 'Milk', quantity: '1 left', expiry: 'Expires in 2 days', image: milk },
   { id: '11', name: 'Tomato', quantity: '1 left', expiry: 'Expires in 2 days', image: tomato },
-  { id: '12', name: 'Bell Pepper', quantity: '1 left', expiry: 'Expires in 2 days', image: bellPepper },
+  { id: '12', name: 'Avocado', quantity: '1 left', expiry: 'Expires in 2 days', image: avocado },
 ];
 
 

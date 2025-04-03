@@ -27,7 +27,7 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
 
   const handleFinishRecipe = () => {
     console.log(`Finish making "${recipeData.name}" `);
-    // Add logic here: e.g., deduct ingredients from inventory, navigate elsewhere
+    navigation.navigate('Congrats', { recipeData });
   };
 
   const handleGoBack = () => {
@@ -120,11 +120,11 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#ffffff', // Match background
+    backgroundColor: '#FFF9F0', // Match background
   },
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#FFF9F0',
   },
   backButton: {
     padding: 10,

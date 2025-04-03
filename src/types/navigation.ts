@@ -23,4 +23,7 @@ export type RootStackParamList = {
   RecipeAdjust: {
     recipeData: RecipeData;
   };
+  Congrats: {
+    recipeData: RecipeData;
+  };
 }; 

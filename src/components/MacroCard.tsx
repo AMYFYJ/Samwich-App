@@ -1,6 +1,6 @@
 // src/components/MacrosCard.tsx
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ViewStyle, TextStyle } from 'react-native';
 
 // --- Prop Types ---
 interface MacrosCardProps {
@@ -9,6 +9,8 @@ interface MacrosCardProps {
   protein: number;
   fat: number;
   fiber: number;
+  style?: ViewStyle;
+  titleStyle?: TextStyle;
 }
 
 // --- Component ---
@@ -18,10 +20,12 @@ export const MacrosCard: React.FC<MacrosCardProps> = ({
   protein,
   fat,
   fiber,
+  style,
+  titleStyle,
 }) => {
   return (
-    <View style={styles.cardContainer}>
-      <Text style={styles.title}>Today's Macros</Text>
+    <View style={[styles.cardContainer, style]}>
+      <Text style={[styles.title, titleStyle]}>Today's Macros</Text>
       <View style={styles.chartArea}>
         <View style={styles.donutContainer}>
           {/* Simulated donut arcs */}

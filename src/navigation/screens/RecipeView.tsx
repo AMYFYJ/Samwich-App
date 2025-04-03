@@ -16,11 +16,18 @@ import { RootStackParamList, RecipeData } from '../../types/navigation';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
+type Props = {
+  route: {
+    params: {
+      recipeData: RecipeData;
+    };
+  };
+};
 
 // --- RecipeDetailScreen Component ---
 // This component expects `navigation` and `route` props from React Navigation
 // `route.params.recipeData` should contain the data for the recipe to display
-const RecipeViewScreen = ({ route }: { route: { params: { recipeData: RecipeData } } }) => {
+const RecipeViewScreen = ({ route }: Props) => {
   const navigation = useNavigation<NavigationProp>();
   const { recipeData } = route.params;
 
@@ -110,11 +117,11 @@ const RecipeViewScreen = ({ route }: { route: { params: { recipeData: RecipeData
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#ffffff', // Match background
+    backgroundColor: '#FFF9F0', // Match background
   },
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#FFF9F0',
   },
   backButton: {
     padding: 10,

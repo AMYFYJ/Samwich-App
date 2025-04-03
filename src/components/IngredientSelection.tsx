@@ -125,14 +125,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 15, // Rounded corners
+    paddingHorizontal: 10,
+    borderRadius: 15,
     marginRight: 10, // Space between quantity and ingredient name
-    minWidth: 80, // Minimum width to prevent being too small
+    minWidth: 50, // Minimum width of quantitybox
     justifyContent: 'center', // Center text inside
   },
   quantityBoxColored: {
-     backgroundColor: '#E0F2E9', // Light greenish color
+     backgroundColor: '#E0F2E9',
   },
   quantityBoxGray: {
     backgroundColor: '#F0F0F0', // Light gray color

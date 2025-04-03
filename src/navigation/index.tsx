@@ -14,6 +14,7 @@ import { Recipes } from './screens/Recipes';
 import { Inventory } from './screens/Inventory';
 import RecipeDetail from './screens/RecipeView';
 import RecipeAdjust from './screens/RecipeAdjust';
+import RecipeCompletionScreen from './screens/Congrats';
 import { RootStackParamList } from '../types/navigation';
 
 // bottom navigation bar: Home, Recipes, Inventory
@@ -86,6 +87,12 @@ const RootStack = createNativeStackNavigator<RootStackParamList>({
     },
     RecipeAdjust: {
       screen: RecipeAdjust,
+      options: {
+        headerShown: false,
+      },
+    },
+    Congrats: {
+      screen: RecipeCompletionScreen,
       options: {
         headerShown: false,
       },
