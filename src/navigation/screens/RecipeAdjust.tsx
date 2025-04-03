@@ -13,6 +13,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList, RecipeData } from '../../types/navigation';
+import IngredientItemCard from '../../components/IngredientSelection';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -20,17 +21,23 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 // --- RecipeDetailScreen Component ---
 // This component expects `navigation` and `route` props from React Navigation
 // `route.params.recipeData` should contain the data for the recipe to display
-const RecipeDetailScreen = ({ route }: { route: { params: { recipeData: RecipeData } } }) => {
+const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeData } } }) => {
   const navigation = useNavigation<NavigationProp>();
   const { recipeData } = route.params;
 
-  const handleMakeNow = () => {
-    console.log(`Making "${recipeData.name}" now!`);
+  const handleFinishRecipe = () => {
+    console.log(`Finish making "${recipeData.name}" `);
     // Add logic here: e.g., deduct ingredients from inventory, navigate elsewhere
   };
 
   const handleGoBack = () => {
     navigation.goBack();
+  };
+
+  // Function to handle quantity changes
+  const handleQuantityChange = (ingredientName: string, newQuantity: string) => {
+    console.log(`Changed ${ingredientName} to ${newQuantity}`);
+    // Add your logic here to update the recipe data
   };
 
   return (
@@ -58,10 +65,14 @@ const RecipeDetailScreen = ({ route }: { route: { params: { recipeData: RecipeDa
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Ingredients</Text>
             <Text style={styles.servesText}>Serves {recipeData.serves}</Text>
-            {recipeData.ingredients.map((item: string, index: number) => (
-              <Text key={index} style={styles.listItem}>
-                • {item}
-              </Text>
+            {recipeData.ingredients.map((ingredient, index) => (
+              <IngredientItemCard
+                key={index}
+                initialQuantity="1" // You might want to get this from your recipe data
+                ingredientName={ingredient}
+                quantityOptions={["1", "2", "3", "4", "5"]} // Customize these options
+                onQuantityChange={(newQuantity) => handleQuantityChange(ingredient, newQuantity)}
+              />
             ))}
           </View>
 
@@ -93,8 +104,8 @@ const RecipeDetailScreen = ({ route }: { route: { params: { recipeData: RecipeDa
       </ScrollView>
 
        {/* Make this now Button */}
-       <TouchableOpacity style={styles.makeNowButton} onPress={handleMakeNow}>
-          <Text style={styles.makeNowButtonText}>Make this now</Text>
+       <TouchableOpacity style={styles.finishRecipeButton} onPress={handleFinishRecipe}>
+          <Text style={styles.finishRecipeText}> ✓ Finish recipe </Text>
         </TouchableOpacity>
 
        {/* Note: The Bottom Navigation (Home, Recipes, Inventory) is typically
@@ -183,7 +194,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     lineHeight: 22, // Improve readability
   },
-  makeNowButton: {
+  finishRecipeButton: {
     backgroundColor: '#2E8B57', // SeaGreen color from image
     paddingVertical: 15,
     paddingHorizontal: 20,
@@ -194,11 +205,11 @@ const styles = StyleSheet.create({
     marginBottom: 15, // Space from bottom or nav bar
     marginTop: 10, // Space from content above
   },
-  makeNowButtonText: {
+  finishRecipeText: {
     color: '#ffffff',
     fontSize: 18,
     fontWeight: 'bold',
   },
 });
 
-export default RecipeDetailScreen;
+export default RecipeAdjustScreen;

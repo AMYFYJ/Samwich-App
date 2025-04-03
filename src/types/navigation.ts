@@ -15,5 +15,12 @@ export type RecipeData = {
   instructions: string[];
 };
 
-// Import the navigation types from index.tsx
-export type { RootStackParamList } from '../navigation'; 
+export type RootStackParamList = {
+  HomeTabs: undefined;
+  RecipeDetail: {
+    recipeData: RecipeData;
+  };
+  RecipeAdjust: {
+    recipeData: RecipeData;
+  };
+}; 

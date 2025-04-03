@@ -12,28 +12,9 @@ import inventoryIcon from '../assets/NavBar/fridge.png';
 import { Home } from './screens/Home';
 import { Recipes } from './screens/Recipes';
 import { Inventory } from './screens/Inventory';
-import RecipeDetail from './screens/RecipeDetail';
-
-// Define the navigation types first
-export type RootStackParamList = {
-  HomeTabs: undefined;
-  RecipeDetail: {
-    recipeData: {
-      name: string;
-      image: any; // You might want to use a more specific type
-      serves: number;
-      ingredients: string[];
-      macronutrients: {
-        calories: string;
-        protein: string;
-        carbohydrates: string;
-        fats: string;
-        fiber: string;
-      };
-      instructions: string[];
-    };
-  };
-};
+import RecipeDetail from './screens/RecipeView';
+import RecipeAdjust from './screens/RecipeAdjust';
+import { RootStackParamList } from '../types/navigation';
 
 // bottom navigation bar: Home, Recipes, Inventory
 const HomeTabs = createBottomTabNavigator({
@@ -100,8 +81,13 @@ const RootStack = createNativeStackNavigator<RootStackParamList>({
     RecipeDetail: {
       screen: RecipeDetail,
       options: {
-        // title: 'Recipe Details',
-        headerShown: false, // hide the header banner at the top of the screen
+        headerShown: false,
+      },
+    },
+    RecipeAdjust: {
+      screen: RecipeAdjust,
+      options: {
+        headerShown: false,
       },
     },
     // Settings: {
