@@ -8,8 +8,13 @@ import {
     TouchableOpacity,
     SafeAreaView
 } from 'react-native';
-import { FoodItemCard } from '../../components/FoodItemCard'; // Adjust path as needed
-// images import
+
+// import components
+import { FoodItemCard } from '../../components/FoodItemCard';
+import { MacrosCard } from '../../components/MacroCard';
+import {RecipeCard } from '../../components/RecipeCard';
+
+// images
 import bellPepper from '../../assets/Food/bellpepper.png';
 import egg from '../../assets/Food/egg.png';
 import shrimp from '../../assets/Food/shrimp.png';
@@ -21,9 +26,20 @@ import milk from '../../assets/Food/milk.png';
 import pumpkin from '../../assets/Food/pumpkin.png';
 import tomato from '../../assets/Food/tomato.png';
 import yogurt from '../../assets/Food/yogurt.png';
+import avocadoEggSandwich from '../../assets/Recipe/avocado sandwich.png';
 
 
 // --- Sample Data ---
+// Sample Macro Data
+const currentMacros = {
+  totalCalories: 1440,
+  carbs: 136,
+  protein: 48,
+  fat:30,
+  fiber: 36,
+};
+
+// Expiring Items Data
 type ExpiringItem = {
   id: string;
   name: string;
@@ -47,13 +63,17 @@ const expiringItemsData: ExpiringItem[] = [
   { id: '12', name: 'Bell Pepper', quantity: '1 left', expiry: 'Expires in 2 days', image: bellPepper },
 ];
 
+
+// Quick Recipes Data
 const quickRecipeData = {
     id: '1',
     name: 'Avocado Egg Sandwich',
     uses: 'avocados, eggs, white bread, fresh thyme',
     consume: 'Consume within 2 days',
-    image: null
+    image: avocadoEggSandwich,
 };
+
+
 // --- End Sample Data ---
 
 
@@ -75,20 +95,13 @@ export function Home() {
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
 
         {/* === Today's Macros Section === */}
-        <View style={[styles.sectionContainer, styles.macrosContainer]}>
-          <Text style={[styles.sectionTitle, styles.macrosTitle]}>Today's Macros</Text>
-          <View style={styles.macrosChartArea}>
-             {/* Donut Chart Placeholder */}
-            <View style={styles.macrosChartPlaceholder}>
-                <Text style={styles.macrosCenterText}>1440</Text>
-                <Text style={styles.macrosTotalText}>Total Calories</Text>
-            </View>
-             {/* Labels - Position these more accurately with absolute positioning or flex arrangement */}
-            <Text style={[styles.macrosLabel, styles.macrosLabelCarbs]}>Carbohydrates: 136g</Text>
-            <Text style={[styles.macrosLabel, styles.macrosLabelProtein]}>Protein: 48g</Text>
-            <Text style={[styles.macrosLabel, styles.macrosLabelFiber]}>Fiber: 36g</Text>
-          </View>
-        </View>
+        <MacrosCard
+            totalCalories={currentMacros.totalCalories}
+            carbs={currentMacros.carbs}
+            protein={currentMacros.protein}
+            fat={currentMacros.fat}
+            fiber={currentMacros.fiber}
+        />
 
         {/* === Items Expiring Soon Section === */}
         <View style={styles.sectionContainer}>
@@ -106,23 +119,17 @@ export function Home() {
           </View>
 
         {/* === Quick Recipes Section === */}
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Quick Recipes</Text>
-          <View style={styles.recipeCardContainer}>
-            {/* Replace View with Image */}
-            <View style={styles.recipeImagePlaceholder} />
-            <View style={styles.recipeDetails}>
-              <Text style={styles.recipeTitle}>{quickRecipeData.name}</Text>
-              <Text style={styles.recipeUses}>Uses: {quickRecipeData.uses}</Text>
-              <View style={styles.recipeFooter}>
-                 <Text style={styles.recipeConsume}>{quickRecipeData.consume}</Text>
-                 <TouchableOpacity style={styles.useNowButton}>
-                    <Text style={styles.useNowButtonText}>Use now ▸</Text>
-                 </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </View>
+        <Text style={styles.sectionTitle}>Quick Recipes</Text>
+        <RecipeCard
+          name={quickRecipeData.name}
+          uses={quickRecipeData.uses}
+          consume={quickRecipeData.consume}
+          imageSource={quickRecipeData.image}
+          onUseNow={() => {
+            // Handle button press logic here
+            console.log('Recipe Card "View Recipe" button pressed');
+          }}
+        />
 
       </ScrollView>
     </SafeAreaView>
@@ -148,69 +155,9 @@ const styles = StyleSheet.create({
     color: '#333', // Dark text color
     marginBottom: 15,
   },
-  // Macros Section
-  macrosContainer: {
-    backgroundColor: '#4A7C59', // Darker green background
-    borderRadius: 15,
-    padding: 20,
-    alignItems: 'center', // Center title and chart area
-  },
-   macrosTitle: {
-    color: '#FFFFFF', // White title text
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  macrosChartArea: {
-    // This view helps in positioning labels relative to the chart placeholder
-    alignItems: 'center', // Center the placeholder horizontally
-    position: 'relative', // Needed for absolute positioning of labels if used
-    width: 200, // Example width, adjust as needed
-    height: 200, // Example height, adjust as needed
-    marginBottom: 10, // Space below the chart area
-  },
-  macrosChartPlaceholder: {
-    width: 160, // Adjust size as needed
-    height: 160,
-    borderRadius: 80, // Make it a circle
-    backgroundColor: '#E0E0E0', // Placeholder color for chart background
-    justifyContent: 'center',
-    alignItems: 'center',
-    // Add specific colors/borders later for actual chart segments
-    // Example segments (would be drawn with SVG or a library)
-    borderWidth: 20, // Simulate thickness
-    borderColor: '#F9A825', // Example outer color (Protein - Yellow)
-    // Inner segments would need more complex drawing
-  },
-  macrosCenterText: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      color: '#333',
-  },
-  macrosTotalText: {
-      fontSize: 12,
-      color: '#555',
-  },
-  macrosLabel: {
-      color: '#FFFFFF', // White label text
-      fontSize: 12,
-      // Use absolute positioning or adjust flex layout for precise placement
-      // Example - adjust these based on final chart layout:
-      position: 'absolute',
-  },
-  macrosLabelCarbs: {
-      top: 20, // Adjust as needed
-      right: -60, // Adjust as needed
-  },
-  macrosLabelProtein: {
-      bottom: 20, // Adjust as needed
-      right: -40, // Adjust as needed
-  },
-  macrosLabelFiber: {
-      top: '40%', // Adjust as needed
-      left: -40, // Adjust as needed
-  },
-  // Items Expiring Soon Section
   
+  // Items Expiring Soon Section  
+
   gridContainer: {
     paddingHorizontal: 5, // Padding on the left/right of the entire grid
   },
