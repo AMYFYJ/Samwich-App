@@ -4,17 +4,38 @@ import {
   createStaticNavigation,
   StaticParamList,
 } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Image } from 'react-native';
 import homeIcon from '../assets/NavBar/donut.png';
 import forkIcon from '../assets/NavBar/fork.png';
 import inventoryIcon from '../assets/NavBar/fridge.png';
 import { Home } from './screens/Home';
 import { Recipes } from './screens/Recipes';
-import { Settings } from './screens/Settings';
 import { Inventory } from './screens/Inventory';
-import { NotFound } from './screens/NotFound';
+import RecipeDetail from './screens/RecipeDetail';
 
+// Define the navigation types first
+export type RootStackParamList = {
+  HomeTabs: undefined;
+  RecipeDetail: {
+    recipeData: {
+      name: string;
+      image: any; // You might want to use a more specific type
+      serves: number;
+      ingredients: string[];
+      macronutrients: {
+        calories: string;
+        protein: string;
+        carbohydrates: string;
+        fats: string;
+        fiber: string;
+      };
+      instructions: string[];
+    };
+  };
+};
+
+// bottom navigation bar: Home, Recipes, Inventory
 const HomeTabs = createBottomTabNavigator({
   screens: {
     Home: {
@@ -67,53 +88,45 @@ const HomeTabs = createBottomTabNavigator({
   },
 });
 
-const RootStack = createNativeStackNavigator({
+// Overall app navigation
+const RootStack = createNativeStackNavigator<RootStackParamList>({
   screens: {
     HomeTabs: {
       screen: HomeTabs,
       options: {
-        title: 'Home',
         headerShown: false,
       },
     },
-    // Profile: {
-    //   screen: Profile,
+    RecipeDetail: {
+      screen: RecipeDetail,
+      options: {
+        title: 'Recipe Details',
+      },
+    },
+    // Settings: {
+    //   screen: Settings,
+    //   options: ({ navigation }) => ({
+    //     presentation: 'modal',
+    //     headerRight: () => (
+    //       <HeaderButton onPress={navigation.goBack}>
+    //         <Text>Close</Text>
+    //       </HeaderButton>
+    //     ),
+    //   }),
+    // },
+    // NotFound: {
+    //   screen: NotFound,
+    //   options: {
+    //     title: '404',
+    //   },
     //   linking: {
-    //     path: ':user(@[a-zA-Z0-9-_]+)',
-    //     parse: {
-    //       user: (value) => value.replace(/^@/, ''),
-    //     },
-    //     stringify: {
-    //       user: (value) => `@${value}`,
-    //     },
+    //     path: '*',
     //   },
     // },
-    Settings: {
-      screen: Settings,
-      options: ({ navigation }) => ({
-        presentation: 'modal',
-        headerRight: () => (
-          <HeaderButton onPress={navigation.goBack}>
-            <Text>Close</Text>
-          </HeaderButton>
-        ),
-      }),
-    },
-    NotFound: {
-      screen: NotFound,
-      options: {
-        title: '404',
-      },
-      linking: {
-        path: '*',
-      },
-    },
   },
 });
 
 export const Navigation = createStaticNavigation(RootStack);
-
-type RootStackParamList = StaticParamList<typeof RootStack>;
 
 declare global {
   namespace ReactNavigation {
