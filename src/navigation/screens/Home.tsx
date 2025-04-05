@@ -49,23 +49,23 @@ type ExpiringItem = {
   id: string;
   name: string;
   quantity: string;
-  expiry: string;
+  expiry: number;
   image: any;
 };
 
 const expiringItemsData: ExpiringItem[] = [
-  { id: '1', name: 'Pumpkin', quantity: '2 left', expiry: 'Expires in 3 days', image: pumpkin },
-  { id: '2', name: 'Eggs', quantity: '6 left', expiry: 'Expires in 1 day', image: egg },
-  { id: '3', name: 'Greek Yoghurt', quantity: '2 left', expiry: 'Expires in 2 days', image: yogurt },
-  { id: '4', name: 'Shrimp', quantity: '6 left', expiry: 'Expires in 1 day', image: shrimp },
-  { id: '5', name: 'Salmon', quantity: '1 left', expiry: 'Expires in 2 days', image: salmon },
-  { id: '6', name: 'Yellow Pepper', quantity: '1 left', expiry: 'Expires in 2 days', image: bellPepper },
-  { id: '7', name: 'Bokchoy', quantity: '3 left', expiry: 'Expires in 5 days', image: bokchoy },
-  { id: '8', name: 'Broccoli', quantity: '2 left', expiry: 'Expires in 7 days', image: broccoli },
-  { id: '9', name: 'Cucumber', quantity: '3 left', expiry: 'Expires in 2 days', image: cucumber },
-  { id: '10', name: 'Milk', quantity: '1 left', expiry: 'Expires in 2 days', image: milk },
-  { id: '11', name: 'Tomato', quantity: '1 left', expiry: 'Expires in 2 days', image: tomato },
-  { id: '12', name: 'Avocado', quantity: '1 left', expiry: 'Expires in 2 days', image: avocado },
+  { id: '1', name: 'Pumpkin', quantity: '2 left', expiry: 3, image: pumpkin },
+  { id: '2', name: 'Eggs', quantity: '6 left', expiry: 1, image: egg },
+  { id: '3', name: 'Greek Yoghurt', quantity: '1 left', expiry: 7, image: yogurt },
+  { id: '4', name: 'Shrimp', quantity: '6 left', expiry: 1, image: shrimp },
+  { id: '5', name: 'Salmon', quantity: '1 left', expiry: 2, image: salmon },
+  { id: '6', name: 'Yellow Pepper', quantity: '1 left', expiry: -2, image: bellPepper },
+  { id: '7', name: 'Bokchoy', quantity: '3 left', expiry: 5, image: bokchoy },
+  { id: '8', name: 'Broccoli', quantity: '2 left', expiry: 7, image: broccoli },
+  { id: '9', name: 'Cucumber', quantity: '3 left', expiry: 2, image: cucumber },
+  { id: '10', name: 'Milk', quantity: '1 left', expiry: 2, image: milk },
+  { id: '11', name: 'Tomato', quantity: '1 left', expiry: -1, image: tomato },
+  { id: '12', name: 'Avocado', quantity: '1 left', expiry: 3, image: avocado },
 ];
 
 
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   },
   gridRow: {
       justifyContent: 'space-between', // Distributes items evenly in the row
-      // marginBottom: 15, // Can add bottom margin here INSTEAD of the card if preferred
+      marginBottom: 2, // Small spacing between rows
   },
   
   // Quick Recipes Section

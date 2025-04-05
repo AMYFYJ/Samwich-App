@@ -40,19 +40,19 @@ const ingredientsSampleData = [
     name: "Avocado",
     image: avocado,
     quantity: "1 whole",
-    expiry: "3 days"
+    expiry: 3
   },
   {
     name: "White Bread",
     image: bread,
     quantity: "2 slices",
-    expiry: "5 days"
+    expiry: 5
   },
   {
     name: "Cherry Tomatoes",
     image: tomato,
     quantity: "6 pieces",
-    expiry: "1 week"
+    expiry: 7
   }
 ];
 
@@ -204,19 +204,20 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: 'bold',
       color: '#333',
-      marginBottom: 15,
+      marginBottom: 7,
   },
   // --- Horizontal Scroll for Ingredients ---
   horizontalScroll: {
       paddingRight: screenPadding, // Ensure last item isn't cut off
   },
   foodItemCardWrapper: {
-      marginRight: 15, // Space between food cards
-      width: 130, // Example fixed width for FoodItemCard, adjust as needed
+      margin: -2, // Space between food cards
+      width: 130,
+      paddingTop: 10
   },
   // --- Recipe Card Styles ---
   recipeCardWrapper: {
-      marginBottom: 15, // Space below each recipe card
+      marginBottom: 20, // Space below each recipe card
   },
   });
 
