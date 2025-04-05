@@ -15,15 +15,21 @@ export type RecipeData = {
   instructions: string[];
 };
 
+export type HomeTabsParamList = {
+  Home: undefined;
+  Recipes: undefined;
+  Inventory: undefined;
+  Congrats: {
+    recipeData: RecipeData;
+  };
+};
+
 export type RootStackParamList = {
-  HomeTabs: undefined;
+  HomeTabs: { screen?: keyof HomeTabsParamList; params?: any };
   RecipeDetail: {
     recipeData: RecipeData;
   };
   RecipeAdjust: {
-    recipeData: RecipeData;
-  };
-  Congrats: {
     recipeData: RecipeData;
   };
 }; 

@@ -67,6 +67,14 @@ const HomeTabs = createBottomTabNavigator({
         ),
       },
     },
+    Congrats: {
+      screen: RecipeCompletionScreen,
+      options: {
+        tabBarButton: () => null,  // no icon for this screen on nav bar
+        tabBarItemStyle: { display: 'none' },  // maintains the same tab layout
+        headerShown: false,
+      },
+    },
   },
 });
 
@@ -87,12 +95,6 @@ const RootStack = createNativeStackNavigator<RootStackParamList>({
     },
     RecipeAdjust: {
       screen: RecipeAdjust,
-      options: {
-        headerShown: false,
-      },
-    },
-    Congrats: {
-      screen: RecipeCompletionScreen,
       options: {
         headerShown: false,
       },

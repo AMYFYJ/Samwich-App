@@ -27,7 +27,10 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
 
   const handleFinishRecipe = () => {
     console.log(`Finish making "${recipeData.name}" `);
-    navigation.navigate('Congrats', { recipeData });
+    navigation.navigate('HomeTabs', { 
+      screen: 'Congrats', 
+      params: { recipeData } 
+    });
   };
 
   const handleGoBack = () => {

@@ -9,8 +9,8 @@ interface MacrosCardProps {
   protein: number;
   fat: number;
   fiber: number;
-  style?: ViewStyle;
-  titleStyle?: TextStyle;
+  style?: ViewStyle; // not required
+  titleStyle?: TextStyle; // not required
 }
 
 // --- Component ---
