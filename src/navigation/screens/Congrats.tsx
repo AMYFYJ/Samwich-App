@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#355E3B', // Dark greenish color from image
     paddingHorizontal: screenPadding,
-    paddingTop: Platform.OS === 'ios' ? 100 : 40, // Adjust top padding for status bar
+    paddingTop: Platform.OS === 'ios' ? 90 : 40, // Adjust top padding for status bar
     paddingBottom: 8, // Space below text
   },
   headerTitle: {

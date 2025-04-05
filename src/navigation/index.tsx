@@ -19,6 +19,10 @@ import { RootStackParamList } from '../types/navigation';
 
 // bottom navigation bar: Home, Recipes, Inventory
 const HomeTabs = createBottomTabNavigator({
+  screenOptions: {
+    tabBarActiveTintColor: '#114641', // theme dark green
+    tabBarInactiveTintColor: '#A8BBB9', 
+  },
   screens: {
     Home: {
       screen: Home,
