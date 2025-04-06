@@ -58,10 +58,13 @@ const ingredientsSampleData = [
 
 // Sample Suggested Recipes Data
 const sampleRecipeData: RecipeData = {
+    id: 2,
     name: 'Pumpkin Soup',
     image: pumpkinSoup,
     serves: 4,
-    ingredients: ['Pumpkin', 'Chicken broth', 'Garlic', 'Onion', 'Salt', 'Pepper'],
+    consume: 'Consume within 5 days',
+    uses: 'Pumpkin, Chicken broth, Garlic, Onion, Salt, Pepper',
+    ingredients: ['1 Pumpkin', '1 Cup Chicken broth', '1 Garlic clove', '1 Onion', '1 Salt', '1 Pepper'],
     macronutrients: {
         calories: '120',
         protein: '2',
@@ -96,7 +99,7 @@ const RecipeCompletionScreen = ({ route }: Props) => {
   const handleUseNowPress = (recipe: typeof sampleRecipeData) => {
     console.log(`Use now pressed for: ${recipe.name}`);
     // Add navigation to RecipeDetail screen
-    navigation.navigate('RecipeDetail', { recipeData: recipe });
+    navigation.navigate('RecipeDetails', { recipeData: recipe });
   };
 
   return (
@@ -155,10 +158,13 @@ const RecipeCompletionScreen = ({ route }: Props) => {
         <Text style={styles.sectionTitle}>View More Recipes</Text>
         <View style={styles.recipeCardWrapper}>
           <RecipeCard
+            id={sampleRecipeData.id}
             imageSource={sampleRecipeData.image}
             name={sampleRecipeData.name}
+            consume={sampleRecipeData.consume}
             uses={`Uses: ${sampleRecipeData.ingredients.join(', ')}`}
-            consume="Consume within 5 days"
+            macronutrients={sampleRecipeData.macronutrients}
+            instructions={sampleRecipeData.instructions}
             onUseNow={() => handleUseNowPress(sampleRecipeData)}
           />
         </View>

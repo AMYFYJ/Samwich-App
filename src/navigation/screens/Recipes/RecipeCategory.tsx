@@ -19,13 +19,22 @@ const RecipeCategory = () => {
   const handleCategoryPress = (category: string) => {
     if (category === 'SavedRecipes') {
       console.log('Going to Saved Recipes');
-      navigation.navigate('HomeTabs', { screen: 'SavedRecipes' });
+      navigation.navigate('HomeTabs', { 
+        screen: 'Recipes',
+        params: { screen: 'SavedRecipes' }
+      });
     } else if (category === 'SuggestedRecipes') {
       console.log('Going to Suggested Recipes');
-      navigation.navigate('HomeTabs', { screen: 'SuggestedRecipes' });
+      navigation.navigate('HomeTabs', { 
+        screen: 'Recipes',
+        params: { screen: 'SuggestedRecipes' }
+      });
     } else if (category === 'CompletedRecipes') {
       console.log('Going to Completed Recipes');
-      navigation.navigate('HomeTabs', { screen: 'CompletedRecipes' });
+      navigation.navigate('HomeTabs', { 
+        screen: 'Recipes',
+        params: { screen: 'CompletedRecipes' }
+      });
     } else {
       console.warn(`Unknown category: ${category}`);
     }

@@ -3,10 +3,19 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
 
 interface RecipeCardProps {
+  id: number;
   name: string;
   uses: string;
   consume: string;
   imageSource: ImageSourcePropType;
+  macronutrients: {
+    calories: string;
+    protein: string;
+    carbohydrates: string;
+    fats: string;
+    fiber: string;
+  };
+  instructions: string[];
   onUseNow: () => void;
 }
 

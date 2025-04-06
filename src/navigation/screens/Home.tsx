@@ -71,11 +71,25 @@ const expiringItemsData: ExpiringItem[] = [
 
 // Quick Recipes Data
 const quickRecipeData = {
-    id: '1',
+    id: 1,
     name: 'Avocado Egg Sandwich',
+    serves: 1,
     uses: 'Avocados, Eggs, White bread, Fresh thyme',
     consume: 'Consume within 2 days',
     image: avocadoEggSandwich,
+    macronutrients: {
+      calories: '452 cal',
+      protein: '9.5 g',
+      carbohydrates: '43 g',
+      fats: '29 g',
+      fiber: '7 g',
+    },
+    ingredients: ['2 Avocados', '2 Eggs', '2 White bread', '1 Fresh thyme'],
+    instructions: [
+      'Lightly toast the bread until golden and crisp.',
+      'Prepare the avocado by cutting it in half, removing the pit, and scooping the flesh into a bowl. Mash with a fork and season with salt and pepper.',
+      'Assemble the sandwich with the mashed avocado and fresh thyme.',
+    ],
 };
 
 
@@ -128,29 +142,25 @@ export function Home() {
         {/* === Quick Recipes Section === */}
         <Text style={styles.sectionTitle}>Quick Recipes</Text>
         <RecipeCard
+          id={quickRecipeData.id}
           name={quickRecipeData.name}
           uses={quickRecipeData.uses}
           consume={quickRecipeData.consume}
           imageSource={quickRecipeData.image}
+          macronutrients={quickRecipeData.macronutrients}
+          instructions={quickRecipeData.instructions}
           onUseNow={() => {
-            navigation.navigate('RecipeDetail', {
+            navigation.navigate('RecipeDetails', {
               recipeData: {
+                id: quickRecipeData.id,
                 name: quickRecipeData.name,
                 image: quickRecipeData.image,
-                serves: 1,
+                serves: quickRecipeData.serves,
+                consume: quickRecipeData.consume,
+                uses: quickRecipeData.uses,
                 ingredients: quickRecipeData.uses.split(', '),
-                macronutrients: {
-                  calories: '452 cal',
-                  protein: '9.5 g',
-                  carbohydrates: '43 g',
-                  fats: '29 g',
-                  fiber: '7 g',
-                },
-                instructions: [
-                  'Lightly toast the bread until golden and crisp.',
-                  'Prepare the avocado by cutting it in half, removing the pit, and scooping the flesh into a bowl. Mash with a fork and season with salt and pepper.',
-                  'Assemble the sandwich with the mashed avocado and fresh thyme.',
-                ],
+                macronutrients: quickRecipeData.macronutrients,
+                instructions: quickRecipeData.instructions,
               }
             });
           }}
@@ -177,7 +187,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333', // Dark text color
+    color: '#114641', // Dark text color
     marginBottom: 15,
   },
   

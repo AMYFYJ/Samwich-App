@@ -1,9 +1,12 @@
 import { ImageSourcePropType } from 'react-native';
 
 export type RecipeData = {
+  id: number;
   name: string;
   image: ImageSourcePropType;
+  uses: string;
   serves: number;
+  consume: string;
   ingredients: string[];
   macronutrients: {
     calories: string;
@@ -29,7 +32,7 @@ export type HomeTabsParamList = {
 
 export type RootStackParamList = {
   HomeTabs: { screen?: keyof HomeTabsParamList; params?: any };
-  RecipeDetail: {
+  RecipeDetails: {
     recipeData: RecipeData;
   };
   RecipeAdjust: {

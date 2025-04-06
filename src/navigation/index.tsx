@@ -17,8 +17,24 @@ import RecipeAdjust from './screens/RecipeAdjust';
 import RecipeCompletionScreen from './screens/Congrats';
 import { RootStackParamList } from '../types/navigation';
 import SavedRecipes from './screens/Recipes/SavedRecipes';
-import SuggestedRecipes from './screens/Recipes/SuggestedRecipes';
-import CompletedRecipes from './screens/Recipes/CompletedRecipes';
+// import SuggestedRecipes from './screens/Recipes/SuggestedRecipes';
+// import CompletedRecipes from './screens/Recipes/CompletedRecipes';
+
+const RecipesStack = createNativeStackNavigator({
+  screenOptions: {
+    headerShown: false, // Hide header for all screens in this stack
+  },
+  screens: {
+    RecipeCategory: {
+      screen: RecipeCategory,
+    },
+    SavedRecipes: {
+      screen: SavedRecipes,
+    },
+    // SuggestedRecipes: SuggestedRecipes,
+    
+  }
+});
 
 // bottom navigation bar: Home, Recipes, Inventory
 const HomeTabs = createBottomTabNavigator({
@@ -45,9 +61,8 @@ const HomeTabs = createBottomTabNavigator({
       },
     },
     Recipes: {
-      screen: RecipeCategory,
+      screen: RecipesStack,
       options: {
-        title: 'Recipes',
         headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <Image
@@ -85,24 +100,18 @@ const HomeTabs = createBottomTabNavigator({
         headerShown: false,
       },
     },
-    SavedRecipes: {
-      screen: SavedRecipes,
-      options: {
-        headerShown: false,
-      },
-    },
-    SuggestedRecipes: {
-      screen: SuggestedRecipes,
-      options: {
-        headerShown: false,
-      },
-    },
-    CompletedRecipes: {
-      screen: CompletedRecipes,
-      options: {
-        headerShown: false,
-      },
-    },
+    // SuggestedRecipes: {
+    //   screen: SuggestedRecipes,
+    //   options: {
+    //     headerShown: false,
+    //   },
+    // },
+    // CompletedRecipes: {
+    //   screen: CompletedRecipes,
+    //   options: {
+    //     headerShown: false,
+    //   },
+    // },
     
     
     
@@ -118,7 +127,7 @@ const RootStack = createNativeStackNavigator<RootStackParamList>({
         headerShown: false,
       },
     },
-    RecipeDetail: {
+    RecipeDetails: {
       screen: RecipeDetail,
       options: {
         headerShown: false,
