@@ -22,6 +22,9 @@ export type HomeTabsParamList = {
   Congrats: {
     recipeData: RecipeData;
   };
+  SavedRecipes: undefined;
+  SuggestedRecipes: undefined;
+  CompletedRecipes: undefined;
 };
 
 export type RootStackParamList = {

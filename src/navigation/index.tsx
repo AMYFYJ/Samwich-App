@@ -10,12 +10,15 @@ import homeIcon from '../assets/NavBar/donut.png';
 import forkIcon from '../assets/NavBar/fork.png';
 import inventoryIcon from '../assets/NavBar/fridge.png';
 import { Home } from './screens/Home';
-import { Recipes } from './screens/Recipes';
+import { RecipeCategory } from './screens/Recipes/RecipeCategory';
 import { Inventory } from './screens/Inventory';
 import RecipeDetail from './screens/RecipeView';
 import RecipeAdjust from './screens/RecipeAdjust';
 import RecipeCompletionScreen from './screens/Congrats';
 import { RootStackParamList } from '../types/navigation';
+import SavedRecipes from './screens/Recipes/SavedRecipes';
+import SuggestedRecipes from './screens/Recipes/SuggestedRecipes';
+import CompletedRecipes from './screens/Recipes/CompletedRecipes';
 
 // bottom navigation bar: Home, Recipes, Inventory
 const HomeTabs = createBottomTabNavigator({
@@ -28,6 +31,7 @@ const HomeTabs = createBottomTabNavigator({
       screen: Home,
       options: {
         title: 'Home',
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <Image
             source={homeIcon}
@@ -41,9 +45,10 @@ const HomeTabs = createBottomTabNavigator({
       },
     },
     Recipes: {
-      screen: Recipes,
+      screen: RecipeCategory,
       options: {
         title: 'Recipes',
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <Image
             source={forkIcon}
@@ -59,6 +64,7 @@ const HomeTabs = createBottomTabNavigator({
     Inventory: {
       screen: Inventory,
       options: {
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <Image
             source={inventoryIcon}
@@ -79,6 +85,27 @@ const HomeTabs = createBottomTabNavigator({
         headerShown: false,
       },
     },
+    SavedRecipes: {
+      screen: SavedRecipes,
+      options: {
+        headerShown: false,
+      },
+    },
+    SuggestedRecipes: {
+      screen: SuggestedRecipes,
+      options: {
+        headerShown: false,
+      },
+    },
+    CompletedRecipes: {
+      screen: CompletedRecipes,
+      options: {
+        headerShown: false,
+      },
+    },
+    
+    
+    
   },
 });
 
