@@ -1,0 +1,83 @@
+[
+  {
+    "name": "slices of white bread",
+    "calories": 66.5,
+    "carbs": 12.65,
+    "fat": 0.82,
+    "fiber": 0.6,
+    "protein": 1.91,
+    "num_in_inventory": 10
+  },
+  {
+    "name": "medium avocado",
+    "calories": 240,
+    "carbs": 13,
+    "fat": 22,
+    "fiber": 10,
+    "protein": 3,
+    "num_in_inventory": 3
+  },
+  {
+    "name": "roma tomato",
+    "calories": 11,
+    "carbs": 2.4,
+    "fat": 0.1,
+    "fiber": 0.7,
+    "protein": 0.6,
+    "num_in_inventory": 2
+  },
+  {
+    "name": "tbsp olive oil",
+    "calories": 119,
+    "carbs": 0,
+    "fat": 14,
+    "fiber": 0,
+    "protein": 0,
+    "num_in_inventory": 50
+  },
+  {
+    "name": "tsp fresh thyme",
+    "calories": 1,
+    "carbs": 0.2,
+    "fat": 0,
+    "fiber": 0.1,
+    "protein": 0,
+    "num_in_inventory": 5
+  },
+  {
+    "name": "salt & pepper",
+    "calories": 0,
+    "carbs": 0,
+    "fat": 0,
+    "fiber": 0,
+    "protein": 0,
+    "num_in_inventory": 100
+  },
+  {
+    "name": "oz spaghetti",
+    "calories": 105,
+    "carbs": 21,
+    "fat": 0.4,
+    "fiber": 0.9,
+    "protein": 3.7,
+    "num_in_inventory": 16
+  },
+  {
+    "name": "garlic clove",
+    "calories": 4.5,
+    "carbs": 1,
+    "fat": 0,
+    "fiber": 0,
+    "protein": 0.2,
+    "num_in_inventory": 7
+  },
+  {
+    "name": "oz Pecorino Romano cheese",
+    "calories": 110,
+    "carbs": 1,
+    "fat": 7.6,
+    "fiber": 0,
+    "protein": 9,
+    "num_in_inventory": 10
+  }
+]
