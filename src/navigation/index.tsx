@@ -18,11 +18,11 @@ import RecipeCompletionScreen from './screens/Congrats';
 import { RootStackParamList } from '../types/navigation';
 import SavedRecipes from './screens/Recipes/SavedRecipes';
 // import SuggestedRecipes from './screens/Recipes/SuggestedRecipes';
-// import CompletedRecipes from './screens/Recipes/CompletedRecipes';
+import CompletedRecipes from './screens/Recipes/CompletedRecipes';
 
 const RecipesStack = createNativeStackNavigator({
   screenOptions: {
-    headerShown: false, // Hide header for all screens in this stack
+    headerShown: false, 
   },
   screens: {
     RecipeCategory: {
@@ -31,6 +31,9 @@ const RecipesStack = createNativeStackNavigator({
     SavedRecipes: {
       screen: SavedRecipes,
     },
+    CompletedRecipes: {
+      screen: CompletedRecipes,
+      },
     // SuggestedRecipes: SuggestedRecipes,
     
   }
@@ -106,13 +109,6 @@ const HomeTabs = createBottomTabNavigator({
     //     headerShown: false,
     //   },
     // },
-    // CompletedRecipes: {
-    //   screen: CompletedRecipes,
-    //   options: {
-    //     headerShown: false,
-    //   },
-    // },
-    
     
     
   },

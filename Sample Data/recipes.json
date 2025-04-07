@@ -1,38 +1,45 @@
-[
-  {
-    "name": "avocado tomato toast",
-    "serving_size": 1,
-    "ingredients": {
-      "slices of white bread": 2,
-      "medium avocado": 1,
-      "roma tomato": 1,
-      "tbsp olive oil": 1,
-      "tsp fresh thyme": 1,
-      "salt & pepper": -1
+{
+  "recipeData": [{
+    "id": 1,
+    "name": "Avocado Egg Sandwich",
+    "serves": 1,
+    "uses": "Avocados, Eggs, White bread, Fresh thyme",
+    "consume": "Consume within 2 days",
+    "image": "avocadoEggSandwich",
+    "macronutrients": {
+      "calories": "452 cal",
+      "protein": "9.5 g",
+      "carbohydrates": "43 g",
+      "fats": "29 g",
+      "fiber": "7 g"
     },
+    "ingredients": ["2 Avocados", "2 Eggs", "2 White bread", "1 Fresh thyme"],
     "instructions": [
-      "Lightly toast the 2 slices of white bread until golden and crisp",
-      "Prepare the avocado by cutting the avocado in half, removing the pit, and scooping the flesh into a bowl. Mash the avocado with a fork and season with salt and pepper.",
-      "Cut the Roma tomato into thin slices.",
-      "Assemble the toast. Spread the mashed avocado evenly over the toasted bread. Top with sliced tomatoes.",
-      "Finish off your toast with a drizzle with olive oil and sprinkle fresh thyme on top. Add more salt and pepper if desired."
+      "Lightly toast the bread until golden and crisp.",
+      "Prepare the avocado by cutting it in half, removing the pit, and scooping the flesh into a bowl. Mash with a fork and season with salt and pepper.",
+      "Assemble the sandwich with the mashed avocado and fresh thyme."
     ]
   },
   {
-    "name": "cacio e pepe",
-    "serving_size": 2,
-    "ingredients": {
-      "oz spaghetti": 8,
-      "tbsp olive oil": 3,
-      "garlic clove": 2,
-      "oz Pecorino Romano cheese": 12,
-      "salt & pepper": -1
+    "id": 2,
+    "name": "Pumpkin Soup",
+    "serves": 4,
+    "uses": "Pumpkin, Onion, Garlic, Carrots, Chicken Stock, Salt, Pepper, Nutmeg",
+    "consume": "Consume within 2 days",
+    "image": "pumpkinSoup",
+    "macronutrients": {
+      "calories": "452 cal",
+      "protein": "9.5 g",
+      "carbohydrates": "43 g",
+      "fats": "29 g",
+      "fiber": "7 g"
     },
+    "ingredients": ["1 Pumpkin", "1 Onion", "2 Cloves Garlic", "2 Carrots", "1 Chicken Stock", "Salt"],
     "instructions": [
-      "Bring a large pot of lightly salted water to a boil.",
-      "Cook spaghetti in boiling water, stirring occasionally, until tender yet firm to the bite, about 12 minutes. Reserve 1 cup cooking water, then drain spaghetti.",
-      "Heat olive oil in a large skillet over medium heat. Cook and stir garlic and pepper in hot oil until fragrant, 1 to 2 minutes.",
-      "Add cooked spaghetti and Pecorino Romano cheese. Ladle in 1/2 cup reserved cooking water; stir until cheese is melted, about 1 minute. Stir in more cooking water as needed, 1 tablespoon at a time, until sauce coats spaghetti, about 1 minute more."
+      "In a large pot, sauté the onion and garlic until fragrant.",
+      "Add the pumpkin, carrots, and chicken stock. Cook until the vegetables are tender.",
+      "Blend the soup until smooth and serve hot."
     ]
   }
 ]
+}

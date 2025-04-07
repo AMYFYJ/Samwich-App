@@ -1,83 +1,16 @@
-[
-  {
-    "name": "slices of white bread",
-    "calories": 66.5,
-    "carbs": 12.65,
-    "fat": 0.82,
-    "fiber": 0.6,
-    "protein": 1.91,
-    "num_in_inventory": 10
-  },
-  {
-    "name": "medium avocado",
-    "calories": 240,
-    "carbs": 13,
-    "fat": 22,
-    "fiber": 10,
-    "protein": 3,
-    "num_in_inventory": 3
-  },
-  {
-    "name": "roma tomato",
-    "calories": 11,
-    "carbs": 2.4,
-    "fat": 0.1,
-    "fiber": 0.7,
-    "protein": 0.6,
-    "num_in_inventory": 2
-  },
-  {
-    "name": "tbsp olive oil",
-    "calories": 119,
-    "carbs": 0,
-    "fat": 14,
-    "fiber": 0,
-    "protein": 0,
-    "num_in_inventory": 50
-  },
-  {
-    "name": "tsp fresh thyme",
-    "calories": 1,
-    "carbs": 0.2,
-    "fat": 0,
-    "fiber": 0.1,
-    "protein": 0,
-    "num_in_inventory": 5
-  },
-  {
-    "name": "salt & pepper",
-    "calories": 0,
-    "carbs": 0,
-    "fat": 0,
-    "fiber": 0,
-    "protein": 0,
-    "num_in_inventory": 100
-  },
-  {
-    "name": "oz spaghetti",
-    "calories": 105,
-    "carbs": 21,
-    "fat": 0.4,
-    "fiber": 0.9,
-    "protein": 3.7,
-    "num_in_inventory": 16
-  },
-  {
-    "name": "garlic clove",
-    "calories": 4.5,
-    "carbs": 1,
-    "fat": 0,
-    "fiber": 0,
-    "protein": 0.2,
-    "num_in_inventory": 7
-  },
-  {
-    "name": "oz Pecorino Romano cheese",
-    "calories": 110,
-    "carbs": 1,
-    "fat": 7.6,
-    "fiber": 0,
-    "protein": 9,
-    "num_in_inventory": 10
-  }
-]
+{
+  "foodItemsData": [
+    { "id": "1", "name": "Pumpkin", "quantity": "2 left", "expiry": 3, "imageName": "pumpkin" },
+    { "id": "2", "name": "Eggs", "quantity": "6 left", "expiry": 1, "imageName": "egg" },
+    { "id": "3", "name": "Greek Yoghurt", "quantity": "1 left", "expiry": 7, "imageName": "yogurt" },
+    { "id": "4", "name": "Shrimp", "quantity": "6 left", "expiry": 1, "imageName": "shrimp" },
+    { "id": "5", "name": "Salmon", "quantity": "1 left", "expiry": 2, "imageName": "salmon" },
+    { "id": "6", "name": "Yellow Pepper", "quantity": "1 left", "expiry": -2, "imageName": "bellPepper" },
+    { "id": "7", "name": "Bokchoy", "quantity": "3 left", "expiry": 5, "imageName": "bokchoy" },
+    { "id": "8", "name": "Broccoli", "quantity": "2 left", "expiry": 7, "imageName": "broccoli" },
+    { "id": "9", "name": "Cucumber", "quantity": "3 left", "expiry": 2, "imageName": "cucumber" },
+    { "id": "10", "name": "Milk", "quantity": "1 left", "expiry": 2, "imageName": "milk" },
+    { "id": "11", "name": "Tomato", "quantity": "1 left", "expiry": -1, "imageName": "tomato" },
+    { "id": "12", "name": "Avocado", "quantity": "1 left", "expiry": 3, "imageName": "avocado" }
+  ]
+}

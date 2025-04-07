@@ -18,31 +18,12 @@ import { FoodItemCard } from '../../components/FoodItemCard';
 import { MacrosCard } from '../../components/MacroCard';
 import {RecipeCard } from '../../components/RecipeCard';
 
-// images
-import bellPepper from '../../assets/Food/bellpepper.png';
-import egg from '../../assets/Food/egg.png';
-import shrimp from '../../assets/Food/shrimp.png';
-import salmon from '../../assets/Food/salmon.png';
-import bokchoy from '../../assets/Food/bokchoy.png';
-import broccoli from '../../assets/Food/broccoli.png';
-import cucumber from '../../assets/Food/cucumber.png';
-import milk from '../../assets/Food/milk.png';
-import pumpkin from '../../assets/Food/pumpkin.png';
-import tomato from '../../assets/Food/tomato.png';
-import yogurt from '../../assets/Food/yogurt.png';
-import avocado from '../../assets/Food/avocado.png';
-import avocadoEggSandwich from '../../assets/Recipe/avocado sandwich.png';
+// import sample data
+import foodItemsJson from '../../../sample data/foods.json';
+import recipesJson from '../../../sample data/recipes.json';
+import macrosJson from '../../../sample data/Macros.json';
+import imageMapping from '../../utils/imageMapping';
 
-
-// --- Sample Data ---
-// Sample Macro Data
-const currentMacros = {
-  totalCalories: 1440,
-  carbs: 136,
-  protein: 48,
-  fat:30,
-  fiber: 36,
-};
 
 // Expiring Items Data
 type ExpiringItem = {
@@ -53,45 +34,21 @@ type ExpiringItem = {
   image: any;
 };
 
-const expiringItemsData: ExpiringItem[] = [
-  { id: '1', name: 'Pumpkin', quantity: '2 left', expiry: 3, image: pumpkin },
-  { id: '2', name: 'Eggs', quantity: '6 left', expiry: 1, image: egg },
-  { id: '3', name: 'Greek Yoghurt', quantity: '1 left', expiry: 7, image: yogurt },
-  { id: '4', name: 'Shrimp', quantity: '6 left', expiry: 1, image: shrimp },
-  { id: '5', name: 'Salmon', quantity: '1 left', expiry: 2, image: salmon },
-  { id: '6', name: 'Yellow Pepper', quantity: '1 left', expiry: -2, image: bellPepper },
-  { id: '7', name: 'Bokchoy', quantity: '3 left', expiry: 5, image: bokchoy },
-  { id: '8', name: 'Broccoli', quantity: '2 left', expiry: 7, image: broccoli },
-  { id: '9', name: 'Cucumber', quantity: '3 left', expiry: 2, image: cucumber },
-  { id: '10', name: 'Milk', quantity: '1 left', expiry: 2, image: milk },
-  { id: '11', name: 'Tomato', quantity: '1 left', expiry: -1, image: tomato },
-  { id: '12', name: 'Avocado', quantity: '1 left', expiry: 3, image: avocado },
-];
+// Transform the data to include actual image references
+const expiringItemsData: ExpiringItem[] = foodItemsJson.foodItemsData.map(item => ({
+  ...item,
+  image: imageMapping[item.imageName]
+}));
 
 
-// Quick Recipes Data
-const quickRecipeData = {
-    id: 1,
-    name: 'Avocado Egg Sandwich',
-    serves: 1,
-    uses: 'Avocados, Eggs, White bread, Fresh thyme',
-    consume: 'Consume within 2 days',
-    image: avocadoEggSandwich,
-    macronutrients: {
-      calories: '452 cal',
-      protein: '9.5 g',
-      carbohydrates: '43 g',
-      fats: '29 g',
-      fiber: '7 g',
-    },
-    ingredients: ['2 Avocados', '2 Eggs', '2 White bread', '1 Fresh thyme'],
-    instructions: [
-      'Lightly toast the bread until golden and crisp.',
-      'Prepare the avocado by cutting it in half, removing the pit, and scooping the flesh into a bowl. Mash with a fork and season with salt and pepper.',
-      'Assemble the sandwich with the mashed avocado and fresh thyme.',
-    ],
-};
+// Transform all recipes with proper image references
+const allRecipes = recipesJson.recipeData.map(recipe => ({
+  ...recipe,
+  image: imageMapping[recipe.image]
+}));
 
+// Get the first two recipes for Quick Recipes section
+const quickRecipes = allRecipes.slice(0, 2);
 
 // --- End Sample Data ---
 
@@ -117,11 +74,11 @@ export function Home() {
 
         {/* === Today's Macros Section === */}
         <MacrosCard
-            totalCalories={currentMacros.totalCalories}
-            carbs={currentMacros.carbs}
-            protein={currentMacros.protein}
-            fat={currentMacros.fat}
-            fiber={currentMacros.fiber}
+            totalCalories={macrosJson.currentMacros.totalCalories}
+            carbs={macrosJson.currentMacros.carbs}
+            protein={macrosJson.currentMacros.protein}
+            fat={macrosJson.currentMacros.fat}
+            fiber={macrosJson.currentMacros.fiber}
         />
 
         {/* === Items Expiring Soon Section === */}
@@ -141,30 +98,33 @@ export function Home() {
 
         {/* === Quick Recipes Section === */}
         <Text style={styles.sectionTitle}>Quick Recipes</Text>
-        <RecipeCard
-          id={quickRecipeData.id}
-          name={quickRecipeData.name}
-          uses={quickRecipeData.uses}
-          consume={quickRecipeData.consume}
-          imageSource={quickRecipeData.image}
-          macronutrients={quickRecipeData.macronutrients}
-          instructions={quickRecipeData.instructions}
-          onUseNow={() => {
-            navigation.navigate('RecipeDetails', {
-              recipeData: {
-                id: quickRecipeData.id,
-                name: quickRecipeData.name,
-                image: quickRecipeData.image,
-                serves: quickRecipeData.serves,
-                consume: quickRecipeData.consume,
-                uses: quickRecipeData.uses,
-                ingredients: quickRecipeData.uses.split(', '),
-                macronutrients: quickRecipeData.macronutrients,
-                instructions: quickRecipeData.instructions,
-              }
-            });
-          }}
-        />
+        {quickRecipes.map(recipe => (
+          <RecipeCard
+            key={recipe.id}
+            id={recipe.id}
+            name={recipe.name}
+            uses={recipe.uses}
+            consume={recipe.consume}
+            imageSource={recipe.image}
+            macronutrients={recipe.macronutrients}
+            instructions={recipe.instructions}
+            onUseNow={() => {
+              navigation.navigate('RecipeDetails', {
+                recipeData: {
+                  id: recipe.id,
+                  name: recipe.name,
+                  image: recipe.image,
+                  serves: recipe.serves,
+                  consume: recipe.consume,
+                  uses: recipe.uses,
+                  ingredients: recipe.uses.split(', '),
+                  macronutrients: recipe.macronutrients,
+                  instructions: recipe.instructions,
+                }
+              });
+            }}
+          />
+        ))}
 
       </ScrollView>
     </SafeAreaView>
