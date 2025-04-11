@@ -19,9 +19,9 @@ import { MacrosCard } from '../../components/MacroCard';
 import { RecipeCard } from '../../components/RecipeCard';
 
 // import sample data
-import foodItemsJson from '../../../sample data/foods.json';
-import recipesJson from '../../../sample data/recipes.json';
-import macrosJson from '../../../sample data/Macros.json';
+import foodItemsJson from '../../../sample_data/foods.json';
+import recipesJson from '../../../sample_data/recipes.json';
+import macrosJson from '../../../sample_data/Macros.json';
 import imageMapping from '../../utils/imageMapping';
 
 
@@ -109,7 +109,7 @@ export function Home() {
             macronutrients={recipe.macronutrients}
             instructions={recipe.instructions}
             onUseNow={() => {
-              navigation.navigate('RecipeDetails', {
+              navigation.navigate('RecipeView', {
                 recipeData: {
                   id: recipe.id,
                   name: recipe.name,

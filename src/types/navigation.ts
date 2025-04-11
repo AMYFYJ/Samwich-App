@@ -32,7 +32,7 @@ export type HomeTabsParamList = {
 
 export type RootStackParamList = {
   HomeTabs: { screen?: keyof HomeTabsParamList; params?: any };
-  RecipeDetails: {
+  RecipeView: {
     recipeData: RecipeData;
   };
   RecipeAdjust: {

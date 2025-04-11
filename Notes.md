@@ -2,7 +2,7 @@
 - Dynamically change the inventory quantity remaining? --> need to handel logic
 - Read data from a json file --> generate sample data in json
     - Home page completed
-    - Congrats page (macro, items used, more recipes)
+    - Congrats page (macro, items used, more recipes) completed
     - Saved and completed recipes
 - Make MacroCard in Recipe Detail page
 - Make MacroCard dynamic based on the current Macro data stored

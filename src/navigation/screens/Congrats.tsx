@@ -26,9 +26,9 @@ import bread from '../../assets/Food/bread.png';
 import pumpkinSoup from '../../assets/Recipe/pumpkin soup.png';
 
 // import sample data
-import foodItemsJson from '../../../sample data/foods.json';
-import recipesJson from '../../../sample data/recipes.json';
-import macrosJson from '../../../sample data/Macros.json';
+import foodItemsJson from '../../../sample_data/foods.json';
+import recipesJson from '../../../sample_data/recipes.json';
+import macrosJson from '../../../sample_data/Macros.json';
 import imageMapping from '../../utils/imageMapping';
 
 
@@ -51,7 +51,7 @@ const RecipeCompletionScreen = ({ route }: Props) => {
   const handleUseNowPress = (recipe: RecipeData) => {
     console.log(`Use now pressed for: ${recipe.name}`);
     // Add navigation to RecipeDetail screen
-    navigation.navigate('RecipeDetails', { recipeData: recipe });
+    navigation.navigate('RecipeView', { recipeData: recipe });
   };
 
   // Transform all recipes with proper image references

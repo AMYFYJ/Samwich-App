@@ -12,12 +12,12 @@ import inventoryIcon from '../assets/NavBar/fridge.png';
 import { Home } from './screens/Home';
 import { RecipeCategory } from './screens/Recipes/RecipeCategory';
 import { Inventory } from './screens/Inventory';
-import RecipeDetail from './screens/RecipeView';
+import RecipeView from './screens/RecipeView';
 import RecipeAdjust from './screens/RecipeAdjust';
 import RecipeCompletionScreen from './screens/Congrats';
 import { RootStackParamList } from '../types/navigation';
 import SavedRecipes from './screens/Recipes/SavedRecipes';
-// import SuggestedRecipes from './screens/Recipes/SuggestedRecipes';
+import SuggestedRecipes from './screens/Recipes/SuggestedRecipes';
 import CompletedRecipes from './screens/Recipes/CompletedRecipes';
 
 const RecipesStack = createNativeStackNavigator({
@@ -34,8 +34,9 @@ const RecipesStack = createNativeStackNavigator({
     CompletedRecipes: {
       screen: CompletedRecipes,
       },
-    // SuggestedRecipes: SuggestedRecipes,
-    
+    SuggestedRecipes: {
+      screen: SuggestedRecipes,
+    },
   }
 });
 
@@ -123,8 +124,8 @@ const RootStack = createNativeStackNavigator<RootStackParamList>({
         headerShown: false,
       },
     },
-    RecipeDetails: {
-      screen: RecipeDetail,
+    RecipeView: {
+      screen: RecipeView,
       options: {
         headerShown: false,
       },
