@@ -11,6 +11,7 @@
     { "id": "9", "name": "Cucumber", "quantity": "3 left", "expiry": 2, "imageName": "cucumber" },
     { "id": "10", "name": "Milk", "quantity": "1 left", "expiry": 2, "imageName": "milk" },
     { "id": "11", "name": "Tomato", "quantity": "1 left", "expiry": -1, "imageName": "tomato" },
-    { "id": "12", "name": "Avocado", "quantity": "1 left", "expiry": 3, "imageName": "avocado" }
+    { "id": "12", "name": "Avocado", "quantity": "1 left", "expiry": 3, "imageName": "avocado" },
+    { "id": "13", "name": "Bread", "quantity": "5 left", "expiry": 7, "imageName": "bread" }
   ]
 }

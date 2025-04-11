@@ -11,6 +11,7 @@ import pumpkin from '../assets/Food/pumpkin.png';
 import tomato from '../assets/Food/tomato.png';
 import yogurt from '../assets/Food/yogurt.png';
 import avocado from '../assets/Food/avocado.png';
+import bread from '../assets/Food/bread.png';
 import avocadoEggSandwich from '../assets/Recipe/avocado sandwich.png';
 import avocadoTomatoToast from '../assets/Recipe/avocado and tomato.png';
 import salmonRiceBowl from '../assets/Recipe/salmon rice bowl.png';
@@ -30,6 +31,7 @@ const imageMapping: {[key: string]: any} = {
   tomato,
   yogurt,
   avocado,
+  bread,
   avocadoEggSandwich,
   avocadoTomatoToast,
   salmonRiceBowl,

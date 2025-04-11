@@ -16,7 +16,7 @@ import { RootStackParamList } from '../../types/navigation';
 // import components
 import { FoodItemCard } from '../../components/FoodItemCard';
 import { MacrosCard } from '../../components/MacroCard';
-import {RecipeCard } from '../../components/RecipeCard';
+import { RecipeCard } from '../../components/RecipeCard';
 
 // import sample data
 import foodItemsJson from '../../../sample data/foods.json';
@@ -34,7 +34,7 @@ type ExpiringItem = {
   image: any;
 };
 
-// Transform the data to include actual image references
+// Transform the food items data to include actual image references
 const expiringItemsData: ExpiringItem[] = foodItemsJson.foodItemsData.map(item => ({
   ...item,
   image: imageMapping[item.imageName]
@@ -57,7 +57,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export function Home() {
   const navigation = useNavigation<NavigationProp>();
 
-  // --- Render Function for Grid Item ---
+  // --- Render Function for Grid Item of Food Items ---
   const renderExpiringItem = ({ item }: { item: ExpiringItem }) => (
     <FoodItemCard
         name={item.name}

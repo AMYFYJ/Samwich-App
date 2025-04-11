@@ -25,61 +25,13 @@ import avocado from '../../assets/Food/avocado.png';
 import bread from '../../assets/Food/bread.png';
 import pumpkinSoup from '../../assets/Recipe/pumpkin soup.png';
 
-// Sample Macro Data
-const currentMacros = {
-    totalCalories: 1440,
-    carbs: 136,
-    protein: 48,
-    fat:30,
-    fiber: 36,
-};
+// import sample data
+import foodItemsJson from '../../../sample data/foods.json';
+import recipesJson from '../../../sample data/recipes.json';
+import macrosJson from '../../../sample data/Macros.json';
+import imageMapping from '../../utils/imageMapping';
 
-// Sample Ingredients Data
-const ingredientsSampleData = [
-  {
-    name: "Avocado",
-    image: avocado,
-    quantity: "1 whole",
-    expiry: 3
-  },
-  {
-    name: "White Bread",
-    image: bread,
-    quantity: "2 slices",
-    expiry: 5
-  },
-  {
-    name: "Cherry Tomatoes",
-    image: tomato,
-    quantity: "6 pieces",
-    expiry: 7
-  }
-];
 
-// Sample Suggested Recipes Data
-const sampleRecipeData: RecipeData = {
-    id: 2,
-    name: 'Pumpkin Soup',
-    image: pumpkinSoup,
-    serves: 4,
-    consume: 'Consume within 5 days',
-    uses: 'Pumpkin, Chicken broth, Garlic, Onion, Salt, Pepper',
-    ingredients: ['1 Pumpkin', '1 Cup Chicken broth', '1 Garlic clove', '1 Onion', '1 Salt', '1 Pepper'],
-    macronutrients: {
-        calories: '120',
-        protein: '2',
-        carbohydrates: '20',
-        fats: '4',
-        fiber: '3'
-    },
-    instructions: [
-        'Chop pumpkin into cubes',
-        'Sauté garlic and onion',
-        'Add pumpkin and broth',
-        'Simmer until pumpkin is tender',
-        'Blend until smooth'
-    ]
-};
 
 type Props = {
   route: {
@@ -96,11 +48,32 @@ const RecipeCompletionScreen = ({ route }: Props) => {
   const { recipeData } = route.params;
 
   // --- Handlers ---
-  const handleUseNowPress = (recipe: typeof sampleRecipeData) => {
+  const handleUseNowPress = (recipe: RecipeData) => {
     console.log(`Use now pressed for: ${recipe.name}`);
     // Add navigation to RecipeDetail screen
     navigation.navigate('RecipeDetails', { recipeData: recipe });
   };
+
+  // Transform all recipes with proper image references
+  const allRecipes = recipesJson.recipeData.map(recipe => ({
+    ...recipe,
+    image: imageMapping[recipe.image]
+  }));
+
+  // Get two different recipes, excluding the current one
+  const moreRecipes = allRecipes
+    .filter(recipe => recipe.id !== route.params.recipeData.id)
+    .slice(0, 2);
+
+  // Transform recipe ingredients into the required format
+  const ingredientsData = route.params.recipeData.uses.split(', ').map(ingredient => {
+    return {
+      name: ingredient,
+      image: imageMapping[ingredient.toLowerCase()],
+      quantity: "1", // Default quantity since uses string doesn't include quantities
+      expiry: 0
+    };
+  });
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.scrollContainer}>
@@ -114,11 +87,11 @@ const RecipeCompletionScreen = ({ route }: Props) => {
 
       {/* Macronutrient Chart Section */}
       <MacrosCard
-          totalCalories={currentMacros.totalCalories}
-          carbs={currentMacros.carbs}
-          protein={currentMacros.protein}
-          fat={currentMacros.fat}
-          fiber={currentMacros.fiber}
+          totalCalories={macrosJson.currentMacros.totalCalories}
+          carbs={macrosJson.currentMacros.carbs}
+          protein={macrosJson.currentMacros.protein}
+          fat={macrosJson.currentMacros.fat}
+          fiber={macrosJson.currentMacros.fiber}
           style={{
               borderRadius: 0,
               backgroundColor: '#355E3B' 
@@ -139,8 +112,8 @@ const RecipeCompletionScreen = ({ route }: Props) => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.horizontalScroll}
         >
-          {/* {recipeData.ingredients.map((ingredient, index) => ( */}
-          {ingredientsSampleData.map((item, index) => (
+
+          {ingredientsData.map((item, index) => (
             <View key={index} style={styles.foodItemCardWrapper}>
               <FoodItemCard
                 image={item.image}
@@ -157,16 +130,19 @@ const RecipeCompletionScreen = ({ route }: Props) => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>View More Recipes</Text>
         <View style={styles.recipeCardWrapper}>
-          <RecipeCard
-            id={sampleRecipeData.id}
-            imageSource={sampleRecipeData.image}
-            name={sampleRecipeData.name}
-            consume={sampleRecipeData.consume}
-            uses={`Uses: ${sampleRecipeData.ingredients.join(', ')}`}
-            macronutrients={sampleRecipeData.macronutrients}
-            instructions={sampleRecipeData.instructions}
-            onUseNow={() => handleUseNowPress(sampleRecipeData)}
-          />
+          {moreRecipes.map(recipe => (
+            <RecipeCard
+              key={recipe.id}
+              id={recipe.id}
+              imageSource={recipe.image}
+              name={recipe.name}
+              consume={recipe.consume}
+              uses={recipe.uses}
+              macronutrients={recipe.macronutrients}
+              instructions={recipe.instructions}
+              onUseNow={() => handleUseNowPress(recipe)}
+            />
+          ))}
         </View>
       </View>
     </ScrollView>

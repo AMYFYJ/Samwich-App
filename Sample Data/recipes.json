@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Avocado Egg Sandwich",
     "serves": 1,
-    "uses": "Avocados, Eggs, White bread, Fresh thyme",
+    "uses": "Avocado, Egg, Bread",
     "consume": "Consume within 2 days",
     "image": "avocadoEggSandwich",
     "macronutrients": {
@@ -13,7 +13,7 @@
       "fats": "29 g",
       "fiber": "7 g"
     },
-    "ingredients": ["2 Avocados", "2 Eggs", "2 White bread", "1 Fresh thyme"],
+    "ingredients": ["2 Avocados", "2 Eggs", "2 Bread"],
     "instructions": [
       "Lightly toast the bread until golden and crisp.",
       "Prepare the avocado by cutting it in half, removing the pit, and scooping the flesh into a bowl. Mash with a fork and season with salt and pepper.",
@@ -24,7 +24,7 @@
     "id": 2,
     "name": "Pumpkin Soup",
     "serves": 4,
-    "uses": "Pumpkin, Onion, Garlic, Carrots, Chicken Stock, Salt, Pepper, Nutmeg",
+    "uses": "Pumpkin, Onion, Garlic, Carrot, Chicken Stock, Salt, Pepper",
     "consume": "Consume within 2 days",
     "image": "pumpkinSoup",
     "macronutrients": {
@@ -40,6 +40,27 @@
       "Add the pumpkin, carrots, and chicken stock. Cook until the vegetables are tender.",
       "Blend the soup until smooth and serve hot."
     ]
+  },
+  {
+    "id": 3,
+    "name": "Salmon Rice Bowl",
+    "serves": 2,
+    "uses": "Salmon, Rice, Vegetables, Olive oil, Salt, Pepper",
+    "consume": "Consume within 2 days",
+    "image": "salmonRiceBowl",
+    "macronutrients": {
+      "calories": "452 cal",
+      "protein": "9.5 g",
+      "carbohydrates": "43 g",
+      "fats": "29 g",
+      "fiber": "7 g"
+    },
+    "ingredients": ["1 Salmon", "1 cup of Rice", "Vegetables", "1 Olive oil", "Salt", "Pepper"],
+    "instructions": [
+      "In a large pot, sauté the onion and garlic until fragrant.",
+      "Add the pumpkin, carrots, and chicken stock. Cook until the vegetables are tender.",
+      "Blend the soup until smooth and serve hot."
+    ]
   }
-]
+  ]
 }
