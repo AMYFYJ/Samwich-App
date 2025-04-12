@@ -19,7 +19,7 @@ interface RecipeCardProps {
   onSwipeRight: () => void; // View recipe details
   onSwipeDown: () => void;  // Save recipe
   isTopCard?: boolean;
-  style?: object;  // Add style prop
+  style?: object;
 }
 
 const RecipeSwipe: React.FC<RecipeCardProps> = ({ 
@@ -42,6 +42,7 @@ const RecipeSwipe: React.FC<RecipeCardProps> = ({
     opacity.value = withSpring(isTopCard ? 1 : 0.2);
   }, [isTopCard, scale, opacity]);
 
+  // Transforms position values into visual styles (rotation, etc.)
   const handleGestureEvent = useAnimatedStyle(() => {
     rotation.value = (translateX.value / width) * 15; // Rotate based on swipe distance
     return {
@@ -55,6 +56,7 @@ const RecipeSwipe: React.FC<RecipeCardProps> = ({
     };
   });
 
+  // Tracks finger movement and updates position values in real-time
   const onGestureEvent = ({ nativeEvent }: any) => {
     'worklet';
     const { translationX, translationY } = nativeEvent;
@@ -62,6 +64,7 @@ const RecipeSwipe: React.FC<RecipeCardProps> = ({
     translateY.value = translationY;
   };
 
+  // Determines what should happen when the gesture completes
   const onGestureEnd = ({ nativeEvent }: any) => {
     'worklet';
     const { translationX, translationY } = nativeEvent;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, ViewStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import RecipeSwipe from '../../../components/RecipeSwipe';
 import { useNavigation } from '@react-navigation/native';
@@ -10,7 +10,9 @@ const SuggestedRecipes2: React.FC = () => {
   const [recipes, setRecipes] = useState<RecipeData[]>([]);
   const [totalRecipes, setTotalRecipes] = useState(0);
   const [previousRecipes, setPreviousRecipes] = useState<RecipeData[]>([]);
-  
+  const [isTutorialVisible, setIsTutorialVisible] = useState(false);
+  const [tutorialStep, setTutorialStep] = useState(0);
+
   useEffect(() => {
     // Load recipes from JSON file
     const recipesData = require('../../../../sample_data/recipes.json');
@@ -32,6 +34,10 @@ const SuggestedRecipes2: React.FC = () => {
         console.log("New first recipe:", newRecipes.length > 0 ? newRecipes[0].name : "No more recipes");
         return newRecipes;
       });
+      // Advance tutorial if relevant
+      if (isTutorialVisible && tutorialStep === 1) {
+        advanceTutorialStep();
+      }
     }
   };
 
@@ -47,6 +53,10 @@ const SuggestedRecipes2: React.FC = () => {
         console.log("New first recipe:", newRecipes.length > 0 ? newRecipes[0].name : "No more recipes");
         return newRecipes;
       });
+      // Advance tutorial if relevant
+      if (isTutorialVisible && tutorialStep === 4) {
+        advanceTutorialStep();
+      }
     }
   };
 
@@ -61,6 +71,10 @@ const SuggestedRecipes2: React.FC = () => {
         console.log("New first recipe:", newRecipes.length > 0 ? newRecipes[0].name : "No more recipes");
         return newRecipes;
       });
+      // Advance tutorial if relevant
+      if (isTutorialVisible && tutorialStep === 3) {
+        advanceTutorialStep();
+      }
     }
   };
 
@@ -81,8 +95,113 @@ const SuggestedRecipes2: React.FC = () => {
   };
 
   const handleInfoPress = () => {
-    // Show info about suggested recipes
-    console.log('Info button pressed');
+    // Show tutorial when info button is pressed
+    setIsTutorialVisible(true);
+    setTutorialStep(0);
+  };
+
+  const handleCloseTutorial = () => {
+    setIsTutorialVisible(false);
+    setTutorialStep(0);
+  };
+
+  const advanceTutorialStep = () => {
+    if (tutorialStep < 4) {
+      setTutorialStep(prevStep => prevStep + 1);
+      console.log('going to step:', tutorialStep);
+    } else {
+      handleCloseTutorial(); // Close tutorial after the last step
+    }
+  };
+
+  // Helper function to render the appropriate tutorial content for each step
+  const renderTutorialContent = () => {
+    // Define position and size for the highlight area
+    const getHighlightPosition = (step: number): ViewStyle => {
+      const highlightSize = 80;
+      const highlightRadius = highlightSize / 2;
+      const bottomPosition = 60;
+      
+      const baseStyle = {
+        width: highlightSize,
+        height: highlightSize,
+        borderRadius: highlightRadius,
+        bottom: bottomPosition,
+      };
+
+      // Step 0 is intro step - no highlight position needed
+      if (step === 0) {
+        return {}; // Empty position for intro step
+      }
+
+      switch (step) {
+        case 1: // Dismiss Button (X)
+          return {
+            ...baseStyle,
+            left: '31%',
+            marginLeft: -highlightRadius,
+          };
+        case 2: // Undo Button
+          return {
+            ...baseStyle,
+            left: '8%',
+            marginLeft: -highlightRadius,
+          };
+        case 3: // Save Button (download)
+          return {
+            ...baseStyle,
+            left: '56%',
+            marginLeft: -highlightRadius,
+          };
+        case 4: // View Button (eye)
+          return {
+            ...baseStyle,
+            right: '6%',
+            marginRight: -highlightRadius,
+          };
+        default: 
+          return {};
+      }
+    };
+    
+    const highlightPosStyle = getHighlightPosition(tutorialStep);
+
+    return (
+      <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+        {/* Dimmer View */}
+        <View style={styles.tutorialDimmer} pointerEvents="auto" />
+
+        {/* For steps 1-4, show highlight area around buttons */}
+        {tutorialStep > 0 && (
+          <View
+            style={[styles.highlightTouchableArea, { position: 'absolute', ...highlightPosStyle }]}
+            pointerEvents="box-none" // Allow touches to pass through if needed
+          />
+        )}
+
+        {/* For intro step (step 0), show centered intro content */}
+        {tutorialStep === 0 && (
+          <View style={styles.introContainer}>
+            <Text style={styles.introTitle}>Walkthrough Guide for{'\n'}Exploring Suggested Recipes</Text>
+            <Text style={styles.introSubtitle}>Tap anywhere to continue</Text>
+            <Ionicons name="arrow-forward" size={24} color="#FFFFFF" style={{ marginTop: 10 }} />
+          </View>
+        )}
+      </View>
+    );
+  };
+
+  // Separate function to render the overlay button for the intro step
+  const renderTutorialOverlayButton = () => {
+    if (tutorialStep !== 0) return null;
+    
+    return (
+      <TouchableOpacity 
+        style={[StyleSheet.absoluteFill, { zIndex: 2000 }]}
+        onPress={advanceTutorialStep}
+        activeOpacity={0.7}
+      />
+    );
   };
 
   const handleRefresh = () => {
@@ -104,7 +223,6 @@ const SuggestedRecipes2: React.FC = () => {
           <Ionicons name="information-circle" size={28} color="#1A3B34" />
         </TouchableOpacity>
       </View>
-      
       
       <View style={styles.cardContainer}>
         {recipes.slice(0, 3).map((recipeData, index) => (
@@ -135,32 +253,79 @@ const SuggestedRecipes2: React.FC = () => {
         )}
       </View>
 
-      
       <View style={styles.actionsContainer}>
         <TouchableOpacity 
-          style={[styles.actionButton, !previousRecipes.length && styles.actionButtonDisabled]} 
-          onPress={handleRevertSwipe}
+          style={[
+            styles.actionButton, 
+            !previousRecipes.length && styles.actionButtonDisabled,
+            isTutorialVisible && tutorialStep === 2 && { position: 'relative', zIndex: 1002 }
+          ]} 
+          onPress={() => {
+            handleRevertSwipe();
+            if (isTutorialVisible && tutorialStep === 2) advanceTutorialStep();
+          }}
           disabled={!previousRecipes.length}
         >
           <Ionicons name="arrow-undo" size={42} color="#FAD759" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton} onPress={handleSwipeLeft}>
+        <TouchableOpacity 
+          style={[
+            styles.actionButton, 
+            isTutorialVisible && tutorialStep === 1 && { position: 'relative', zIndex: 1002 }
+          ]} 
+          onPress={() => {
+            handleSwipeLeft();
+            if (isTutorialVisible && tutorialStep === 1) advanceTutorialStep();
+          }}
+        >
           <Ionicons name="close-circle" size={48} color="#F24C5F" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton} onPress={handleSwipeDown}>
+        <TouchableOpacity 
+          style={[
+            styles.actionButton, 
+            isTutorialVisible && tutorialStep === 3 && { position: 'relative', zIndex: 1002 }
+          ]} 
+          onPress={() => {
+            handleSwipeDown();
+            if (isTutorialVisible && tutorialStep === 3) advanceTutorialStep();
+          }}
+        >
           <Ionicons name="download" size={48} color="#FB9702" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton} onPress={handleSwipeRight}>
+        <TouchableOpacity 
+          style={[
+            styles.actionButton, 
+            isTutorialVisible && tutorialStep === 4 && { position: 'relative', zIndex: 1002 }
+          ]} 
+          onPress={() => {
+            handleSwipeRight();
+            if (isTutorialVisible && tutorialStep === 4) advanceTutorialStep();
+          }}
+        >
           <Ionicons name="eye" size={48} color="#20A77B" />
         </TouchableOpacity>
       </View>
 
-        {/* Progress bar */}
-        <View style={styles.progressBarContainer}>
-            <View style={styles.progressBar}>
-            <View style={[styles.progressFill, { width: `${progress * 100}%` }]} />
-            </View>
+      {/* Progress bar */}
+      <View style={styles.progressBarContainer}>
+        <View style={styles.progressBar}>
+          <View style={[styles.progressFill, { width: `${progress * 100}%` }]} />
         </View>
+      </View>
+
+      {/* Tutorial overlay */}
+      {isTutorialVisible && (
+        <>
+          {renderTutorialContent()}
+          {renderTutorialOverlayButton()}
+          <TouchableOpacity 
+            style={styles.closeTutorialButton}
+            onPress={handleCloseTutorial}
+          >
+            <Ionicons name="close" size={28} color="#FFFFFF" />
+          </TouchableOpacity>
+        </>
+      )}
     </SafeAreaView>
   );
 };
@@ -261,6 +426,59 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: '#4CAF50',
     borderRadius: 4,
+  },
+
+  // Tutorial styles
+  tutorialDimmer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  closeTutorialButton: {
+    position: 'absolute',
+    top: 65,
+    right: 20,
+    zIndex: 1001,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  highlightTouchableArea: {
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  introContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 40,
+    zIndex: 1003,
+    backgroundColor: 'rgba(0, 0, 0, 0.64)',
+  },
+  introTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginBottom: 20,
+    textAlign: 'center',
+    lineHeight: 36,
+  },
+  introSubtitle: {
+    fontSize: 18,
+    color: '#FFFFFF',
+    textAlign: 'center',
+    marginBottom: 15,
   },
 });
 
