@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   rootContainer: {
     position: 'absolute',
     width: '100%',
-    height: width * 1.3,
+    height: width * 1.2,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: width * 1.3,
+    height: width * 1.2,
     resizeMode: 'cover',
   },
   overlay: {

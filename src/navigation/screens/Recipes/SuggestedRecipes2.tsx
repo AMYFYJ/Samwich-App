@@ -5,10 +5,11 @@ import RecipeSwipe from '../../../components/RecipeSwipe';
 import { useNavigation } from '@react-navigation/native';
 import { RecipeData } from '../../../types/navigation';
 
-const SuggestedRecipes: React.FC = () => {
+const SuggestedRecipes2: React.FC = () => {
   const navigation = useNavigation();
   const [recipes, setRecipes] = useState<RecipeData[]>([]);
   const [totalRecipes, setTotalRecipes] = useState(0);
+  const [previousRecipes, setPreviousRecipes] = useState<RecipeData[]>([]);
   
   useEffect(() => {
     // Load recipes from JSON file
@@ -24,6 +25,8 @@ const SuggestedRecipes: React.FC = () => {
     // Skip this recipe
     if (recipes.length > 0) {
       setRecipes(prevRecipes => {
+        // Add current recipe to previousRecipes stack
+        setPreviousRecipes(prev => [prevRecipes[0], ...prev]);
         const newRecipes = prevRecipes.slice(1);
         console.log('swiped left: dismissed');
         console.log("New first recipe:", newRecipes.length > 0 ? newRecipes[0].name : "No more recipes");
@@ -37,6 +40,8 @@ const SuggestedRecipes: React.FC = () => {
     if (recipes.length > 0) {
       navigation.navigate('RecipeView', { recipeData: recipes[0] });
       setRecipes(prevRecipes => {
+        // Add current recipe to previousRecipes stack
+        setPreviousRecipes(prev => [prevRecipes[0], ...prev]);
         const newRecipes = prevRecipes.slice(1);
         console.log('swiped right: view');
         console.log("New first recipe:", newRecipes.length > 0 ? newRecipes[0].name : "No more recipes");
@@ -59,6 +64,18 @@ const SuggestedRecipes: React.FC = () => {
     }
   };
 
+  const handleRevertSwipe = () => {
+    // Bring back the previously swiped recipe
+    if (previousRecipes.length > 0) {
+      const lastRecipe = previousRecipes[0];
+      setPreviousRecipes(prev => prev.slice(1));
+      setRecipes(prev => [lastRecipe, ...prev]);
+      console.log(`Reverted: ${lastRecipe.name} is back on top`);
+    } else {
+      console.log('No recipes to revert');
+    }
+  };
+
   const handleGoBack = () => {
     navigation.goBack();
   };
@@ -73,6 +90,7 @@ const SuggestedRecipes: React.FC = () => {
     const recipesData = require('../../../../sample_data/recipes.json');
     setRecipes(recipesData.recipeData);
     setTotalRecipes(recipesData.recipeData.length);
+    setPreviousRecipes([]);
   };
 
   return (
@@ -87,12 +105,6 @@ const SuggestedRecipes: React.FC = () => {
         </TouchableOpacity>
       </View>
       
-      {/* Progress bar */}
-      <View style={styles.progressBarContainer}>
-        <View style={styles.progressBar}>
-          <View style={[styles.progressFill, { width: `${progress * 100}%` }]} />
-        </View>
-      </View>
       
       <View style={styles.cardContainer}>
         {recipes.slice(0, 3).map((recipeData, index) => (
@@ -122,8 +134,16 @@ const SuggestedRecipes: React.FC = () => {
           </View>
         )}
       </View>
+
       
       <View style={styles.actionsContainer}>
+        <TouchableOpacity 
+          style={[styles.actionButton, !previousRecipes.length && styles.actionButtonDisabled]} 
+          onPress={handleRevertSwipe}
+          disabled={!previousRecipes.length}
+        >
+          <Ionicons name="arrow-undo" size={42} color="#FAD759" />
+        </TouchableOpacity>
         <TouchableOpacity style={styles.actionButton} onPress={handleSwipeLeft}>
           <Ionicons name="close-circle" size={48} color="#F24C5F" />
         </TouchableOpacity>
@@ -134,6 +154,13 @@ const SuggestedRecipes: React.FC = () => {
           <Ionicons name="eye" size={48} color="#20A77B" />
         </TouchableOpacity>
       </View>
+
+        {/* Progress bar */}
+        <View style={styles.progressBarContainer}>
+            <View style={styles.progressBar}>
+            <View style={[styles.progressFill, { width: `${progress * 100}%` }]} />
+            </View>
+        </View>
     </SafeAreaView>
   );
 };
@@ -215,6 +242,10 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
     elevation: 2,
   },
+  actionButtonDisabled: {
+    backgroundColor: '#F0F0F0',
+  },
+
   progressBarContainer: {
     marginHorizontal: 50,
     marginBottom: 25,
@@ -233,4 +264,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SuggestedRecipes;
+export default SuggestedRecipes2;
