@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, Image, Dimensions } from 'react-native';
 import Animated, { 
   useAnimatedStyle, 
@@ -8,6 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { RecipeData } from '../types/navigation';
+import { getRecipeSwipeImage } from '../utils/recipeSwipeImage';
 
 const { width } = Dimensions.get('window');
 const SWIPE_THRESHOLD = width * 0.3;
@@ -18,6 +19,7 @@ interface RecipeCardProps {
   onSwipeRight: () => void; // View recipe details
   onSwipeDown: () => void;  // Save recipe
   isTopCard?: boolean;
+  style?: object;  // Add style prop
 }
 
 const RecipeSwipe: React.FC<RecipeCardProps> = ({ 
@@ -25,13 +27,20 @@ const RecipeSwipe: React.FC<RecipeCardProps> = ({
   onSwipeLeft, 
   onSwipeRight, 
   onSwipeDown,
-  isTopCard = true
+  isTopCard = true,
+  style = {}
 }) => {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const rotation = useSharedValue(0);
   const scale = useSharedValue(isTopCard ? 1 : 0.95);
-  const opacity = useSharedValue(isTopCard ? 1 : 0.5);
+  const opacity = useSharedValue(isTopCard ? 1 : 0.2);
+
+  // Update scale and opacity when isTopCard changes
+  useEffect(() => {
+    scale.value = withSpring(isTopCard ? 1 : 0.95);
+    opacity.value = withSpring(isTopCard ? 1 : 0.2);
+  }, [isTopCard, scale, opacity]);
 
   const handleGestureEvent = useAnimatedStyle(() => {
     rotation.value = (translateX.value / width) * 15; // Rotate based on swipe distance
@@ -77,7 +86,7 @@ const RecipeSwipe: React.FC<RecipeCardProps> = ({
   };
 
   return (
-    <GestureHandlerRootView style={styles.rootContainer}>
+    <GestureHandlerRootView style={[styles.rootContainer, style]}>
       <View style={styles.container}>
         <PanGestureHandler
           onGestureEvent={onGestureEvent}
@@ -85,13 +94,16 @@ const RecipeSwipe: React.FC<RecipeCardProps> = ({
           enabled={isTopCard}
         >
           <Animated.View style={[styles.card, handleGestureEvent]}>
-            <Image source={recipe.image} style={styles.image} />
+            <View style={styles.imageContainer}>
+              <Image source={getRecipeSwipeImage(recipe.image)} style={styles.image} />
+              <View style={styles.overlay} />
+            </View>
             <View style={styles.infoContainer}>
               <Text style={styles.title}>{recipe.name}</Text>
               <Text style={styles.nutritionInfo}>
                 Calories: {recipe.macronutrients.calories}, Protein: {recipe.macronutrients.protein}, Fats: {recipe.macronutrients.fats}
               </Text>
-              <Text style={styles.consumeInfo}>Consume within {recipe.consume}</Text>
+              <Text style={styles.consumeInfo}>{recipe.consume}</Text>
             </View>
           </Animated.View>
         </PanGestureHandler>
@@ -102,16 +114,21 @@ const RecipeSwipe: React.FC<RecipeCardProps> = ({
 
 const styles = StyleSheet.create({
   rootContainer: {
-    flex: 1,
+    position: 'absolute',
+    width: '100%',
+    height: width * 1.3,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   container: {
     width: '100%',
+    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute',
   },
   card: {
     width: width * 0.9,
+    height: '100%',
     borderRadius: 15,
     backgroundColor: 'white',
     shadowColor: '#000',
@@ -121,30 +138,42 @@ const styles = StyleSheet.create({
     elevation: 5,
     overflow: 'hidden',
   },
+  imageContainer: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+  },
   image: {
     width: '100%',
-    height: width * 0.9, // Square image
+    height: width * 1.3,
     resizeMode: 'cover',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0)',
   },
   infoContainer: {
     padding: 16,
-    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0
   },
   title: {
-    fontSize: 24,
+    fontSize: 25,
     fontWeight: 'bold',
-    marginBottom: 8,
-    color: '#1A3B34', // Dark green to match the header in your screenshot
+    marginBottom: 10,
+    color: 'white',
   },
   nutritionInfo: {
     fontSize: 16,
-    marginBottom: 4,
-    color: '#4A4A4A',
+    marginBottom: 5,
+    color: 'white',
   },
   consumeInfo: {
     fontSize: 16,
     fontStyle: 'italic',
-    color: '#4A4A4A',
+    color: 'white',
   },
 });
 

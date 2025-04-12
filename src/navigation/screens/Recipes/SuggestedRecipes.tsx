@@ -18,9 +18,12 @@ const SuggestedRecipes: React.FC = () => {
   const handleSwipeLeft = () => {
     // Skip this recipe
     if (recipes.length > 0) {
-      setRecipes(prevRecipes => prevRecipes.slice(1));
-      console.log('swiped left');
-      console.log("New first recipe:", recipes.length > 0 ? recipes[0].name : "No more recipes");
+      setRecipes(prevRecipes => {
+        const newRecipes = prevRecipes.slice(1);
+        console.log('swiped left: dismissed');
+        console.log("New first recipe:", newRecipes.length > 0 ? newRecipes[0].name : "No more recipes");
+        return newRecipes;
+      });
     }
   };
 
@@ -28,9 +31,12 @@ const SuggestedRecipes: React.FC = () => {
     // View recipe details
     if (recipes.length > 0) {
       navigation.navigate('RecipeView', { recipeData: recipes[0] });
-      setRecipes(prevRecipes => prevRecipes.slice(1));
-      console.log('swiped right');
-      console.log("New first recipe:", recipes.length > 0 ? recipes[0].name : "No more recipes");
+      setRecipes(prevRecipes => {
+        const newRecipes = prevRecipes.slice(1);
+        console.log('swiped right: view');
+        console.log("New first recipe:", newRecipes.length > 0 ? newRecipes[0].name : "No more recipes");
+        return newRecipes;
+      });
     }
   };
 
@@ -39,9 +45,12 @@ const SuggestedRecipes: React.FC = () => {
     if (recipes.length > 0) {
       // Logic to save recipe
       console.log(`Saved recipe: ${recipes[0].name}`);
-      setRecipes(prevRecipes => prevRecipes.slice(1));
-      console.log('swiped down');
-      console.log("New first recipe:", recipes.length > 0 ? recipes[0].name : "No more recipes");
+      setRecipes(prevRecipes => {
+        const newRecipes = prevRecipes.slice(1);
+        console.log('swiped down: saved');
+        console.log("New first recipe:", newRecipes.length > 0 ? newRecipes[0].name : "No more recipes");
+        return newRecipes;
+      });
     }
   };
 
@@ -81,6 +90,10 @@ const SuggestedRecipes: React.FC = () => {
             onSwipeRight={handleSwipeRight}
             onSwipeDown={handleSwipeDown}
             isTopCard={index === 0}
+            style={{
+              zIndex: recipes.length - index,
+              top: index * 10,
+            }}
           />
         ))}
         
@@ -137,6 +150,15 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    width: '100%',
+  },
+  cardsWrapper: {
+    position: 'absolute',
+    width: '100%',
+    height: '80%',
     alignItems: 'center',
     justifyContent: 'center',
   },
