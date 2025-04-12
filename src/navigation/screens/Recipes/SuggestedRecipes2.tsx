@@ -116,75 +116,16 @@ const SuggestedRecipes2: React.FC = () => {
 
   // Helper function to render the appropriate tutorial content for each step
   const renderTutorialContent = () => {
-    // Define position and size for the highlight area
-    const getHighlightPosition = (step: number): ViewStyle => {
-      const highlightSize = 80;
-      const highlightRadius = highlightSize / 2;
-      const bottomPosition = 60;
-      
-      const baseStyle = {
-        width: highlightSize,
-        height: highlightSize,
-        borderRadius: highlightRadius,
-        bottom: bottomPosition,
-      };
-
-      // Step 0 is intro step - no highlight position needed
-      if (step === 0) {
-        return {}; // Empty position for intro step
-      }
-
-      switch (step) {
-        case 1: // Dismiss Button (X)
-          return {
-            ...baseStyle,
-            left: '31%',
-            marginLeft: -highlightRadius,
-          };
-        case 2: // Undo Button
-          return {
-            ...baseStyle,
-            left: '8%',
-            marginLeft: -highlightRadius,
-          };
-        case 3: // Save Button (download)
-          return {
-            ...baseStyle,
-            left: '56%',
-            marginLeft: -highlightRadius,
-          };
-        case 4: // View Button (eye)
-          return {
-            ...baseStyle,
-            right: '6%',
-            marginRight: -highlightRadius,
-          };
-        default: 
-          return {};
-      }
-    };
-    
-    const highlightPosStyle = getHighlightPosition(tutorialStep);
-
     return (
       <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
         {/* Dimmer View */}
         <View style={styles.tutorialDimmer} pointerEvents="auto" />
-
-        {/* For steps 1-4, show highlight area around buttons */}
-        {tutorialStep > 0 && (
-          <View
-            style={[styles.highlightTouchableArea, { position: 'absolute', ...highlightPosStyle }]}
-            pointerEvents="box-none" // Allow touches to pass through if needed
-          />
-        )}
 
         {/* For intro step (step 0), show centered intro content */}
         {tutorialStep === 0 && (
           <View style={styles.introContainer}>
             <Text style={styles.introTitle}>Walkthrough Guide for{'\n'}Exploring Suggested Recipes</Text>
             <Text style={styles.introSubtitle}>Tap anywhere to continue</Text>
-            <Ionicons name="arrow-forward" size={24} color="#FFFFFF" style={{ marginTop: 10 }} />
           </View>
         )}
       </View>
@@ -210,6 +151,52 @@ const SuggestedRecipes2: React.FC = () => {
     setRecipes(recipesData.recipeData);
     setTotalRecipes(recipesData.recipeData.length);
     setPreviousRecipes([]);
+  };
+
+  // Helper function to render tooltip cards for each tutorial step
+  const renderTutorialTooltip = () => {
+    // Don't show tooltips for intro step
+    if (tutorialStep === 0) return null;
+    
+    // Define tooltip content and position for each step
+    const getTooltipConfig = () => {
+      switch (tutorialStep) {
+        case 1: // Dismiss Button (X)
+          return {
+            text: "Swipe left or press 'X' to skip a recipe",
+            position: { bottom: 150, left: '20%', marginLeft: -20 } as ViewStyle,
+          };
+        case 2: // Undo Button
+          return {
+            text: "Press Undo to bring back the previous recipe",
+            position: { bottom: 150, left: '5%' } as ViewStyle,
+          };
+        case 3: // Save Button (download)
+          return {
+            text: "Swipe down or press download to save a recipe",
+            position: { bottom: 150, right: '25%' } as ViewStyle,
+          };
+        case 4: // View Button (eye)
+          return {
+            text: "Swipe right or press eye to view recipe details",
+            position: { bottom: 150, right: '5%' } as ViewStyle,
+          };
+        default:
+          return null;
+      }
+    };
+    
+    const tooltipConfig = getTooltipConfig();
+    if (!tooltipConfig) return null;
+    
+    return (
+      <View style={[styles.tooltipCard, tooltipConfig.position]}>
+        <View style={styles.tooltipTextContainer}>
+          <Text style={styles.tooltipText}>{tooltipConfig.text}</Text>
+        </View>
+        <View style={styles.tooltipPointer} />
+      </View>
+    );
   };
 
   return (
@@ -254,11 +241,12 @@ const SuggestedRecipes2: React.FC = () => {
       </View>
 
       <View style={styles.actionsContainer}>
+        {/* Undo Button */}
         <TouchableOpacity 
           style={[
             styles.actionButton, 
-            !previousRecipes.length && styles.actionButtonDisabled,
-            isTutorialVisible && tutorialStep === 2 && { position: 'relative', zIndex: 1002 }
+            !previousRecipes.length && styles.actionButtonDisabled, // disabled view if no recipes to revert
+            isTutorialVisible && tutorialStep === 2 && { position: 'relative', zIndex: 1002 } // tutorial view
           ]} 
           onPress={() => {
             handleRevertSwipe();
@@ -268,6 +256,8 @@ const SuggestedRecipes2: React.FC = () => {
         >
           <Ionicons name="arrow-undo" size={42} color="#FAD759" />
         </TouchableOpacity>
+
+        {/* Dismiss Button */}
         <TouchableOpacity 
           style={[
             styles.actionButton, 
@@ -280,6 +270,8 @@ const SuggestedRecipes2: React.FC = () => {
         >
           <Ionicons name="close-circle" size={48} color="#F24C5F" />
         </TouchableOpacity>
+
+        {/* Save Button */}
         <TouchableOpacity 
           style={[
             styles.actionButton, 
@@ -292,6 +284,8 @@ const SuggestedRecipes2: React.FC = () => {
         >
           <Ionicons name="download" size={48} color="#FB9702" />
         </TouchableOpacity>
+
+        {/* View Button */}
         <TouchableOpacity 
           style={[
             styles.actionButton, 
@@ -318,6 +312,7 @@ const SuggestedRecipes2: React.FC = () => {
         <>
           {renderTutorialContent()}
           {renderTutorialOverlayButton()}
+          {renderTutorialTooltip()}
           <TouchableOpacity 
             style={styles.closeTutorialButton}
             onPress={handleCloseTutorial}
@@ -449,11 +444,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  highlightTouchableArea: {
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   introContainer: {
     position: 'absolute',
     top: 0,
@@ -479,6 +469,51 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     textAlign: 'center',
     marginBottom: 15,
+  },
+  tooltipCard: {
+    position: 'absolute',
+    flexDirection: 'row',
+    padding: 12,
+    borderRadius: 12,
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    maxWidth: 250,
+    zIndex: 1003,
+  },
+  tooltipIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  tooltipTextContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  tooltipText: {
+    fontSize: 16,
+    color: '#000000',
+    fontWeight: '500',
+  },
+  tooltipPointer: {
+    position: 'absolute',
+    bottom: -10,
+    left: '50%',
+    marginLeft: -10,
+    width: 0,
+    height: 0,
+    borderLeftWidth: 10,
+    borderRightWidth: 10,
+    borderTopWidth: 10,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderTopColor: 'white',
   },
 });
 
