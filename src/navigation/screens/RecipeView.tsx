@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList, RecipeData } from '../../types/navigation';
 import { getRecipeSwipeImage } from '../../utils/recipeSwipeImage'; // Import the utility function
+import RecipeMacro from '../../components/RecipeMacro'; 
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -78,7 +79,7 @@ const RecipeViewScreen = ({ route }: Props) => {
 
         <View style={styles.detailsContainer}>
           {/* Ingredients Section */}
-          <View style={styles.section}>
+          <View style={[styles.section, { flex: 2 }]}>
             <Text style={styles.sectionTitle}>Ingredients</Text>
             <Text style={styles.servesText}>Serves {recipeData.serves}</Text>
             {recipeData.ingredients.map((item: string, index: number) => (
@@ -89,14 +90,9 @@ const RecipeViewScreen = ({ route }: Props) => {
           </View>
 
           {/* Macronutrients Section */}
-          <View style={styles.section}>
+          <View style={[styles.section, { flex: 2 }]}>
             <Text style={styles.sectionTitle}>Macronutrients</Text>
-            <Text style={styles.macroText}>Per serving:</Text>
-            {Object.entries(recipeData.macronutrients).map(([key, value]: [string, string]) => (
-              <Text key={key} style={styles.listItem}>
-                • {key.charAt(0).toUpperCase() + key.slice(1)}: {value}
-              </Text>
-            ))}
+            <RecipeMacro macronutrients={recipeData.macronutrients} />
           </View>
         </View>
 
@@ -167,7 +163,7 @@ const styles = StyleSheet.create({
   },
   section: {
     flex: 1, // Each section takes half the width
-    marginHorizontal: 5, // Add some space between sections
+    marginHorizontal: 5, // Add margin between sections
   },
   sectionTitle: {
     fontSize: 20,

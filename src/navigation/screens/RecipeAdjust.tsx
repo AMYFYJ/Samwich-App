@@ -15,6 +15,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList, RecipeData } from '../../types/navigation';
 import IngredientItemCard from '../../components/IngredientSelection';
 import { getRecipeSwipeImage } from '../../utils/recipeSwipeImage';
+import RecipeMacro from '../../components/RecipeMacro';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -97,12 +98,7 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
           {/* Macronutrients Section */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Macronutrients</Text>
-            <Text style={styles.macroText}>Per serving:</Text>
-            {Object.entries(recipeData.macronutrients).map(([key, value]: [string, string]) => (
-              <Text key={key} style={styles.listItem}>
-                • {key.charAt(0).toUpperCase() + key.slice(1)}: {value}
-              </Text>
-            ))}
+            <RecipeMacro macronutrients={recipeData.macronutrients} />
           </View>
         </View>
 

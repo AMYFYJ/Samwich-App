@@ -1,17 +1,10 @@
 {
   "foodItemsData": [
-    { "id": "1", "name": "Pumpkin", "quantity": "2 left", "expiry": 3, "imageName": "pumpkin" },
-    { "id": "2", "name": "Eggs", "quantity": "6 left", "expiry": 1, "imageName": "egg" },
-    { "id": "3", "name": "Greek Yoghurt", "quantity": "1 left", "expiry": 7, "imageName": "yogurt" },
-    { "id": "4", "name": "Shrimp", "quantity": "6 left", "expiry": 1, "imageName": "shrimp" },
-    { "id": "5", "name": "Salmon", "quantity": "1 left", "expiry": 2, "imageName": "salmon" },
-    { "id": "6", "name": "Yellow Pepper", "quantity": "1 left", "expiry": -2, "imageName": "bellPepper" },
-    { "id": "7", "name": "Bokchoy", "quantity": "3 left", "expiry": 5, "imageName": "bokchoy" },
-    { "id": "8", "name": "Broccoli", "quantity": "2 left", "expiry": 7, "imageName": "broccoli" },
-    { "id": "9", "name": "Cucumber", "quantity": "3 left", "expiry": 2, "imageName": "cucumber" },
-    { "id": "10", "name": "Milk", "quantity": "1 left", "expiry": 2, "imageName": "milk" },
-    { "id": "11", "name": "Tomato", "quantity": "1 left", "expiry": -1, "imageName": "tomato" },
-    { "id": "12", "name": "Avocado", "quantity": "1 left", "expiry": 3, "imageName": "avocado" },
-    { "id": "13", "name": "Bread", "quantity": "5 left", "expiry": 7, "imageName": "bread" }
+    { "id": "1", "name": "Shrimp", "quantity": "6 left", "expiry": 1, "imageName": "shrimp" },
+    { "id": "2", "name": "Salmon", "quantity": "1 left", "expiry": 2, "imageName": "salmon" },
+    { "id": "3", "name": "Yellow Pepper", "quantity": "1 left", "expiry": -2, "imageName": "bellPepper" },
+    { "id": "4", "name": "Cucumber", "quantity": "3 left", "expiry": 2, "imageName": "cucumber" },
+    { "id": "5", "name": "Milk", "quantity": "1 left", "expiry": 1, "imageName": "milk" },
+    { "id": "6", "name": "Tomato", "quantity": "1 left", "expiry": -1, "imageName": "tomato" }
   ]
 }

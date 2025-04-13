@@ -26,7 +26,7 @@
     "id": 2,
     "name": "Pumpkin Soup",
     "serves": 4,
-    "uses": "Pumpkin, Garlic, Carrot, Yogurt, Milk",
+    "uses": "Pumpkin, Garlic, Carrots, Yogurt, Milk",
     "consume": "Consume within 2 days",
     "image": "pumpkinSoup",
     "macronutrients": {

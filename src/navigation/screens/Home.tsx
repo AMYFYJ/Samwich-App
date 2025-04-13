@@ -35,6 +35,7 @@ type ExpiringItem = {
 };
 
 // Transform the food items data to include actual image references
+// Only take 6 items for the expiring items section
 const expiringItemsData: ExpiringItem[] = foodItemsJson.foodItemsData.map(item => ({
   ...item,
   image: imageMapping[item.imageName]
