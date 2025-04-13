@@ -164,22 +164,22 @@ const SuggestedRecipes2: React.FC = () => {
         case 1: // Dismiss Button (X)
           return {
             text: "Swipe left or press 'X' to skip a recipe",
-            position: { bottom: 150, left: '20%', marginLeft: -20 } as ViewStyle,
+            position: { bottom: 72, left: '57%', marginLeft: -20, width: 170} as ViewStyle,
           };
         case 2: // Undo Button
           return {
             text: "Press Undo to bring back the previous recipe",
-            position: { bottom: 150, left: '5%' } as ViewStyle,
+            position: { bottom: 72, left: '30%', width: 210 } as ViewStyle,
           };
         case 3: // Save Button (download)
           return {
-            text: "Swipe down or press download to save a recipe",
-            position: { bottom: 150, right: '25%' } as ViewStyle,
+            text: "Swipe down or press save to save a recipe",
+            position: { bottom: 72, left: '3%', width: 180 } as ViewStyle,
           };
         case 4: // View Button (eye)
           return {
-            text: "Swipe right or press eye to view recipe details",
-            position: { bottom: 150, right: '5%' } as ViewStyle,
+            text: "Swipe right or press view to see recipe details",
+            position: { bottom: 72, right: '30%', width: 213 } as ViewStyle,
           };
         default:
           return null;
@@ -194,7 +194,6 @@ const SuggestedRecipes2: React.FC = () => {
         <View style={styles.tooltipTextContainer}>
           <Text style={styles.tooltipText}>{tooltipConfig.text}</Text>
         </View>
-        <View style={styles.tooltipPointer} />
       </View>
     );
   };
@@ -460,7 +459,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     color: '#FFFFFF',
-    marginBottom: 20,
+    marginBottom: 40,
     textAlign: 'center',
     lineHeight: 36,
   },
@@ -468,6 +467,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#FFFFFF',
     textAlign: 'center',
+    fontStyle: 'italic',
     marginBottom: 15,
   },
   tooltipCard: {
@@ -500,20 +500,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#000000',
     fontWeight: '500',
-  },
-  tooltipPointer: {
-    position: 'absolute',
-    bottom: -10,
-    left: '50%',
-    marginLeft: -10,
-    width: 0,
-    height: 0,
-    borderLeftWidth: 10,
-    borderRightWidth: 10,
-    borderTopWidth: 10,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderTopColor: 'white',
   },
 });
 
