@@ -13,6 +13,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList, RecipeData } from '../../types/navigation';
+import { getRecipeSwipeImage } from '../../utils/recipeSwipeImage'; // Import the utility function
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -30,6 +31,16 @@ type Props = {
 const RecipeViewScreen = ({ route }: Props) => {
   const navigation = useNavigation<NavigationProp>();
   const { recipeData } = route.params;
+
+  // Helper function to determine the correct image source
+  const getImageSource = (image: any): ImageSourcePropType => {
+    // If image is a string, use the utility function
+    if (typeof image === 'string') {
+      return getRecipeSwipeImage(image);
+    }
+    // Otherwise, return the image directly (it's already an ImageSourcePropType)
+    return image;
+  };
 
   const handleMakeNow = () => {
     console.log(`Making "${recipeData.name}" now!`);
@@ -55,8 +66,12 @@ const RecipeViewScreen = ({ route }: Props) => {
       </TouchableOpacity>
 
       <ScrollView style={styles.container}>
-        {/* Recipe Image */}
-        <Image source={recipeData.image} style={styles.recipeImage} resizeMode="cover" />
+        {/* Recipe Image - supporting both string refs and direct image sources */}
+        <Image 
+          source={getImageSource(recipeData.image)} 
+          style={styles.recipeImage} 
+          resizeMode="cover" 
+        />
 
         {/* Recipe Title */}
         <Text style={styles.title}>{recipeData.name}</Text>

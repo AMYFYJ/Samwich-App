@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList, RecipeData } from '../../types/navigation';
 import IngredientItemCard from '../../components/IngredientSelection';
+import { getRecipeSwipeImage } from '../../utils/recipeSwipeImage';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -42,6 +43,16 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
     console.log(`Changed ${ingredientName} to ${newQuantity}`);
     // Add your logic here to update the recipe data
   };
+  
+  // Helper function to determine the correct image source
+  const getImageSource = (image: any): ImageSourcePropType => {
+    // If image is a string, use the utility function
+    if (typeof image === 'string') {
+      return getRecipeSwipeImage(image);
+    }
+    // Otherwise, return the image directly (it's already an ImageSourcePropType)
+    return image;
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -58,7 +69,11 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
 
       <ScrollView style={styles.container}>
         {/* Recipe Image */}
-        <Image source={recipeData.image} style={styles.recipeImage} resizeMode="cover" />
+        <Image 
+          source={getImageSource(recipeData.image)} 
+          style={styles.recipeImage} 
+          resizeMode="cover" 
+        />
 
         {/* Recipe Title */}
         <Text style={styles.title}>{recipeData.name}</Text>

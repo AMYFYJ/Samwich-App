@@ -16,6 +16,4 @@
     - "7 days" lacks content
     - how to find out the expiration date for each item --> try to reduce user input
 
-- Swiping features & Tutorials
-- Need more food item pictures for ingredients in recipes
 

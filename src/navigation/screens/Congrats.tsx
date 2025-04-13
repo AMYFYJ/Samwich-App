@@ -20,11 +20,6 @@ import { RecipeCard } from '../../components/RecipeCard';
 import { MacrosCard } from '../../components/MacroCard';
 import { RecipeData } from '../../types/navigation';
 
-import tomato from '../../assets/Food/tomato.png';
-import avocado from '../../assets/Food/avocado.png';
-import bread from '../../assets/Food/bread.png';
-import pumpkinSoup from '../../assets/Recipe/pumpkin soup.png';
-
 // import sample data
 import foodItemsJson from '../../../sample_data/foods.json';
 import recipesJson from '../../../sample_data/recipes.json';
@@ -67,9 +62,12 @@ const RecipeCompletionScreen = ({ route }: Props) => {
 
   // Transform recipe ingredients into the required format
   const ingredientsData = route.params.recipeData.uses.split(', ').map(ingredient => {
+    // Convert space-separated ingredient name to camelCase for image lookup
+    const camelCaseKey = ingredient.toLowerCase().replace(/\s(.)/g, match => match.toUpperCase().trim());
+    
     return {
       name: ingredient,
-      image: imageMapping[ingredient.toLowerCase()],
+      image: imageMapping[camelCaseKey] || null, // Fallback to null if image not found
       quantity: "1", // Default quantity since uses string doesn't include quantities
       expiry: 0
     };

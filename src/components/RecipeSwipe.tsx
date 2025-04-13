@@ -98,7 +98,10 @@ const RecipeSwipe: React.FC<RecipeCardProps> = ({
         >
           <Animated.View style={[styles.card, handleGestureEvent]}>
             <View style={styles.imageContainer}>
-              <Image source={getRecipeSwipeImage(recipe.image)} style={styles.image} />
+              <Image 
+                source={getRecipeSwipeImage(recipe.image)} 
+                style={styles.image} 
+              />
               <View style={styles.overlay} />
             </View>
             <View style={styles.infoContainer}>
