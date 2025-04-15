@@ -91,7 +91,7 @@ const CompletedRecipes = () => {
     
     if (selectedRecipe) {
       // Navigate to recipe details screen with properly formatted data
-      navigation.navigate('RecipeDetails', { 
+      navigation.navigate('RecipeView', { 
         recipeData: {
           id: selectedRecipe.id,
           name: selectedRecipe.name,

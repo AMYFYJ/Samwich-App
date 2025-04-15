@@ -3,7 +3,7 @@ import bellPepper from '../assets/Food/bellpepper.png';
 import egg from '../assets/Food/egg.png';
 import shrimp from '../assets/Food/shrimp.png';
 import salmon from '../assets/Food/salmon.png';
-import bokchoy from '../assets/Food/bokchoy.png';
+import bokChoy from '../assets/Food/bokchoy.png';
 import broccoli from '../assets/Food/broccoli.png';
 import cucumber from '../assets/Food/cucumber.png';
 import milk from '../assets/Food/milk.png';
@@ -33,7 +33,7 @@ const imageMapping: {[key: string]: any} = {
   egg,
   shrimp,
   salmon,
-  bokchoy,
+  bokChoy,
   broccoli,
   cucumber,
   milk,
@@ -51,8 +51,8 @@ const imageMapping: {[key: string]: any} = {
   parsley,
   dill,
   lemon,
-  avocadoEggSandwich,
   avocadoTomatoToast,
+  avocadoEggSandwich,
   salmonRiceBowl,
   pumpkinSoup
 };

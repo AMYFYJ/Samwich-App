@@ -90,7 +90,7 @@
     "id": 5,
     "name": "Shrimp Veggie Stir Fry",
     "serves": 1,
-    "uses": "Shrimp, Egg, Bok Choy, Bell Pepper, Rice, Brocolli, Soy Sauce, Garlic",
+    "uses": "Shrimp, Egg, Bok Choy, Bell Pepper, Rice, Broccoli, Soy Sauce, Garlic",
     "consume": "Consume within 2 days",
     "image": "shrimpVeggieStirFry",
     "macronutrients": {
@@ -100,7 +100,7 @@
       "fats": "18 g",
       "fiber": "7 g"
     },
-    "ingredients": ["100 g shrimp", "1 Egg", "4 brocolli florets", "2 boy choy", "1/2 bell pepper", "1 cup of rice", "1 tbsp soy sauce", "1/2 garlic"],
+    "ingredients": ["100 g shrimp", "1 Egg", "4 broccoli florets", "2 bok choy", "1/2 bell pepper", "1 cup of rice", "1 tbsp soy sauce", "1/2 garlic"],
     "instructions": [
       "In a nonstick skillet or wok, heat 1/2 tsp oil over medium heat. Add broccoli, yellow pepper, and bok choy. Stir fry for 3-4 minutes, adding a splash of water if needed to steam.",
       "Push the veggies to the side and add another 1/2 tsp oil, then add the shrimp. Cook until pink and firm.",
