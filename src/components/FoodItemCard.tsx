@@ -59,8 +59,8 @@ export function FoodItemCard({ name, quantity, expiry, image, style}: FoodItemCa
                     <Text style={styles.itemTagText}>
                     {/* condition ? valueIfTrue : valueIfFalse */}
                         {expiry < 0 ? 'Expired' : 
-                         expiry === 1 ? '1 day' : 
-                         `${expiry} days`}
+                         expiry === 1 ? 'Expires in 1 day' : 
+                         `Expires in ${expiry} days`}
                     </Text>
                 </View>
             </View>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFAF5',
         borderRadius: 20,
         paddingVertical: 10,
-        paddingHorizontal: 5,
+        paddingHorizontal: 3,
         alignItems: 'center',
         marginBottom: 10, // vertical spacing between rows
         shadowColor: '#000',
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 0,
+        padding: 0,
         flexWrap: 'wrap', // Allow tags to wrap on very narrow screens if needed
     },
     itemTagBase: {
@@ -123,14 +124,15 @@ const styles = StyleSheet.create({
         marginVertical: 2, // vertical margin for wrapping cases
     },
     itemTagQuantity: {
-        backgroundColor: '#D7FFF4',
+        backgroundColor: '#CBF1E2',
     },
     itemTagExpiry: {
         // Keep this for backward compatibility but we'll override it inline
         backgroundColor: '#FFF9C4',
+        padding: 0,
     },
     itemTagText: {
-        fontSize: 10,
+        fontSize: 9,
         color: '#333333',
         fontWeight: '500',
     },

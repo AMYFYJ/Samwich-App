@@ -106,10 +106,10 @@ const RecipeSwipe: React.FC<RecipeCardProps> = ({
             </View>
             <View style={styles.infoContainer}>
               <Text style={styles.title}>{recipe.name}</Text>
+              <Text style={styles.usesInfo}>Uses: {recipe.uses}</Text>
               <Text style={styles.nutritionInfo}>
-                Calories: {recipe.macronutrients.calories}, Protein: {recipe.macronutrients.protein}, Fats: {recipe.macronutrients.fats}
+                {recipe.macronutrients.calories}, {recipe.macronutrients.protein} protein, {recipe.macronutrients.fats} fats, {recipe.macronutrients.carbohydrates} carbs
               </Text>
-              <Text style={styles.consumeInfo}>{recipe.consume}</Text>
             </View>
           </Animated.View>
         </PanGestureHandler>
@@ -168,18 +168,34 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 15,
     color: 'white',
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.6,
+    shadowRadius: 4,
+    elevation: 10,
   },
   nutritionInfo: {
     fontSize: 16,
     marginBottom: 5,
     color: 'white',
-  },
-  consumeInfo: {
-    fontSize: 16,
     fontStyle: 'italic',
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.6,
+    shadowRadius: 4,
+    elevation: 10,
+  },
+  usesInfo: {
+    fontSize: 16,
     color: 'white',
+    marginBottom: 10,
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.6,
+    shadowRadius: 4,
+    elevation: 10,
   },
 });
 

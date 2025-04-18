@@ -4,12 +4,16 @@ import {
   Text, 
   StyleSheet, 
   TouchableOpacity, 
-  SafeAreaView 
+  SafeAreaView,
+  Image
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../types/navigation';
+import savedRecipesImage from '../../../assets/Recipe/avocado sandwich.png';
+import suggestedRecipesImage from '../../../assets/Recipe/salmon rice bowl.png';
+import completedRecipesImage from '../../../assets/Recipe/salad.png';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -51,6 +55,10 @@ const RecipeCategory = () => {
             style={styles.categoryCard}
             onPress={() => handleCategoryPress('SavedRecipes')}
           >
+            <Image 
+              source={savedRecipesImage}
+              style={styles.categoryImage}
+            />
             <View style={styles.categoryTextContainer}>
               <Text style={styles.categoryTitle}>Saved Recipes</Text>
               <Text style={styles.categorySubtitle}>View your saved recipe collection</Text>
@@ -62,6 +70,10 @@ const RecipeCategory = () => {
             style={styles.categoryCard}
             onPress={() => handleCategoryPress('SuggestedRecipes')}
           >
+            <Image 
+              source={suggestedRecipesImage}
+              style={styles.categoryImage}
+            />
             <View style={styles.categoryTextContainer}>
               <Text style={styles.categoryTitle}>Suggested Recipes</Text>
               <Text style={styles.categorySubtitle}>
@@ -75,6 +87,10 @@ const RecipeCategory = () => {
             style={styles.categoryCard}
             onPress={() => handleCategoryPress('CompletedRecipes')}
           >
+            <Image 
+              source={completedRecipesImage}
+              style={styles.categoryImage}
+            />
             <View style={styles.categoryTextContainer}>
               <Text style={styles.categoryTitle}>Completed Recipes</Text>
               <Text style={styles.categorySubtitle}>
@@ -106,6 +122,7 @@ const styles = StyleSheet.create({
     color: '#22543D',
     marginVertical: 24,
     textAlign: 'center',
+    marginBottom: 30,
   },
   categoryContainer: {
     gap: 16,
@@ -125,6 +142,7 @@ const styles = StyleSheet.create({
   },
   categoryTextContainer: {
     flex: 1,
+    marginRight: 8,
   },
   categoryTitle: {
     fontSize: 20,
@@ -150,6 +168,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  categoryImage: {
+    width:80,
+    height: 80,
+    borderRadius: 8,
+    marginRight: 12,
   },
 });
 

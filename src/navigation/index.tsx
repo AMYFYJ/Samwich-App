@@ -17,7 +17,7 @@ import RecipeAdjust from './screens/RecipeAdjust';
 import RecipeCompletionScreen from './screens/Congrats';
 import { RootStackParamList } from '../types/navigation';
 import SavedRecipes from './screens/Recipes/SavedRecipes';
-import SuggestedRecipes from './screens/Recipes/SuggestedRecipes2';  // change this to switch versions of suggested recipes screen
+import SuggestedRecipes from './screens/Recipes/SuggestedRecipes';  // change this to switch versions of suggested recipes screen
 import CompletedRecipes from './screens/Recipes/CompletedRecipes';
 
 const RecipesStack = createNativeStackNavigator({

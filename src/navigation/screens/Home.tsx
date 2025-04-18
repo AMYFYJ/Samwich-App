@@ -82,23 +82,8 @@ export function Home() {
             fiber={macrosJson.currentMacros.fiber}
         />
 
-        {/* === Items Expiring Soon Section === */}
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Items Expiring Soon</Text>
-          <FlatList
-              data={expiringItemsData}
-              renderItem={renderExpiringItem}
-              keyExtractor={(item) => item.id}
-              numColumns={3}
-              scrollEnabled={false}
-              // Add styles for layout:
-              contentContainerStyle={styles.gridContainer} // Padding around the whole grid
-              columnWrapperStyle={styles.gridRow} // Style for each row
-            />
-          </View>
-
         {/* === Quick Recipes Section === */}
-        <Text style={styles.sectionTitle}>Quick Recipes</Text>
+        <Text style={styles.sectionTitleQuickRecipes}>Quick Recipes</Text>
         {quickRecipes.map(recipe => (
           <RecipeCard
             key={recipe.id}
@@ -127,6 +112,21 @@ export function Home() {
           />
         ))}
 
+        {/* === Items Expiring Soon Section === */}
+        <View style={styles.sectionContainer}>
+          <Text style={styles.sectionTitleItemsExpiringSoon}>Items Expiring Soon</Text>
+          <FlatList
+              data={expiringItemsData}
+              renderItem={renderExpiringItem}
+              keyExtractor={(item) => item.id}
+              numColumns={3}
+              scrollEnabled={false}
+              // Add styles for layout:
+              contentContainerStyle={styles.gridContainer} // Padding around the whole grid
+              columnWrapperStyle={styles.gridRow} // Style for each row
+            />
+          </View>
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -144,16 +144,22 @@ const styles = StyleSheet.create({
   },
   sectionContainer: {
     marginBottom: 25,
+    marginTop: 25,
   },
-  sectionTitle: {
+  sectionTitleItemsExpiringSoon: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#114641', // Dark text color
-    marginBottom: 15,
+    marginBottom: 25,
+  },
+  sectionTitleQuickRecipes: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#114641', // Dark text color
+    marginBottom: 13,
   },
   
   // Items Expiring Soon Section  
-
   gridContainer: {
     paddingHorizontal: 5, // Padding on the left/right of the entire grid
   },
