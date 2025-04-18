@@ -5,7 +5,7 @@ import RecipeSwipe from '../../../components/RecipeSwipe';
 import { useNavigation } from '@react-navigation/native';
 import { RecipeData } from '../../../types/navigation';
 
-const SuggestedRecipes2: React.FC = () => {
+const SuggestedRecipes: React.FC = () => {
   const navigation = useNavigation();
   const [recipes, setRecipes] = useState<RecipeData[]>([]);
   const [totalRecipes, setTotalRecipes] = useState(0);
@@ -42,32 +42,15 @@ const SuggestedRecipes2: React.FC = () => {
   };
 
   const handleSwipeRight = () => {
-    // View recipe details
-    if (recipes.length > 0) {
-      navigation.navigate('RecipeView', { recipeData: recipes[0] });
-      setRecipes(prevRecipes => {
-        // Add current recipe to previousRecipes stack
-        setPreviousRecipes(prev => [prevRecipes[0], ...prev]);
-        const newRecipes = prevRecipes.slice(1);
-        console.log('swiped right: view');
-        console.log("New first recipe:", newRecipes.length > 0 ? newRecipes[0].name : "No more recipes");
-        return newRecipes;
-      });
-      // Advance tutorial if relevant
-      if (isTutorialVisible && tutorialStep === 4) {
-        advanceTutorialStep();
-      }
-    }
-  };
-
-  const handleSwipeDown = () => {
-    // Save recipe
+    // Save recipe (changed from view recipe details)
     if (recipes.length > 0) {
       // Logic to save recipe
       console.log(`Saved recipe: ${recipes[0].name}`);
       setRecipes(prevRecipes => {
+        // Add current recipe to previousRecipes stack
+        setPreviousRecipes(prev => [prevRecipes[0], ...prev]);
         const newRecipes = prevRecipes.slice(1);
-        console.log('swiped down: saved');
+        console.log('swiped right: saved');
         console.log("New first recipe:", newRecipes.length > 0 ? newRecipes[0].name : "No more recipes");
         return newRecipes;
       });
@@ -77,6 +60,7 @@ const SuggestedRecipes2: React.FC = () => {
       }
     }
   };
+
 
   const handleRevertSwipe = () => {
     // Bring back the previously swiped recipe
@@ -168,18 +152,18 @@ const SuggestedRecipes2: React.FC = () => {
           };
         case 2: // Undo Button
           return {
-            text: "Press Undo to bring back the previous recipe",
-            position: { bottom: 72, left: '30%', width: 210 } as ViewStyle,
+            text: "Press 'Undo' to bring back the previous recipe",
+            position: { top: 100, left: '30%', width: 210 } as ViewStyle,
           };
         case 3: // Save Button (download)
           return {
-            text: "Swipe down or press save to save a recipe",
-            position: { bottom: 72, left: '3%', width: 180 } as ViewStyle,
+            text: "Swipe right or press 'Save' to save a recipe",
+            position: { bottom: 82, left: '5%', width: 200 } as ViewStyle,
           };
-        case 4: // View Button (eye)
+        case 4: // card press
           return {
-            text: "Swipe right or press view to see recipe details",
-            position: { bottom: 72, right: '30%', width: 213 } as ViewStyle,
+            text: "Swipe up or tap the card to see recipe details",
+            position: { top: '23%', left: '24%', width: 208 } as ViewStyle,
           };
         default:
           return null;
@@ -198,6 +182,44 @@ const SuggestedRecipes2: React.FC = () => {
     );
   };
 
+  const handleSwipeUp = () => {
+    // View recipe details
+    if (recipes.length > 0) {
+      navigation.navigate('RecipeView', { recipeData: recipes[0] });
+      setRecipes(prevRecipes => {
+        // Add current recipe to previousRecipes stack
+        setPreviousRecipes(prev => [prevRecipes[0], ...prev]);
+        const newRecipes = prevRecipes.slice(1);
+        console.log('swiped up: view');
+        console.log("New first recipe:", newRecipes.length > 0 ? newRecipes[0].name : "No more recipes");
+        return newRecipes;
+      });
+      // Advance tutorial if relevant
+      if (isTutorialVisible && tutorialStep === 4) {
+        advanceTutorialStep();
+      }
+    }
+  };
+
+  const handleCardPress = () => {
+    // Same behavior as swipe up
+    if (recipes.length > 0) {
+      navigation.navigate('RecipeView', { recipeData: recipes[0] });
+      setRecipes(prevRecipes => {
+        // Add current recipe to previousRecipes stack
+        setPreviousRecipes(prev => [prevRecipes[0], ...prev]);
+        const newRecipes = prevRecipes.slice(1);
+        console.log('card pressed: view');
+        console.log("New first recipe:", newRecipes.length > 0 ? newRecipes[0].name : "No more recipes");
+        return newRecipes;
+      });
+      // Advance tutorial if relevant
+      if (isTutorialVisible && tutorialStep === 4) {
+        advanceTutorialStep();
+      }
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -205,9 +227,32 @@ const SuggestedRecipes2: React.FC = () => {
           <Ionicons name="chevron-back" size={28} color="#1A3B34" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Suggested Recipes</Text>
-        <TouchableOpacity onPress={handleInfoPress} style={styles.infoButton}>
-          <Ionicons name="information-circle" size={28} color="#1A3B34" />
+        
+        {/* Undo Button] */}
+        <TouchableOpacity 
+          style={[
+            styles.undoButton,
+            !previousRecipes.length && styles.undoButtonDisabled,
+            isTutorialVisible && tutorialStep === 2 && { 
+              position: 'relative', 
+              zIndex: 1002,
+              backgroundColor: '#FFF9F0',
+              borderRadius: 30,
+              shadowColor: '#FFFFFF',
+              shadowOffset: { width: 0, height: 0 },
+              shadowOpacity: 0.6,
+              shadowRadius: 4,
+            }
+          ]}
+          onPress={() => {
+            handleRevertSwipe();
+            if (isTutorialVisible && tutorialStep === 2) advanceTutorialStep();
+          }}
+          disabled={!previousRecipes.length}
+        >
+          <Ionicons name="refresh-circle" size={37} color={previousRecipes.length ? "#1A3B34" : "#CCCCCC"} />
         </TouchableOpacity>
+        
       </View>
       
       <View style={styles.cardContainer}>
@@ -217,7 +262,8 @@ const SuggestedRecipes2: React.FC = () => {
             recipe={recipeData}
             onSwipeLeft={handleSwipeLeft}
             onSwipeRight={handleSwipeRight}
-            onSwipeDown={handleSwipeDown}
+            onSwipeUp={handleSwipeUp}
+            onPress={handleCardPress}
             isTopCard={index === 0}
             style={{
               zIndex: recipes.length - index,
@@ -240,22 +286,7 @@ const SuggestedRecipes2: React.FC = () => {
       </View>
 
       <View style={styles.actionsContainer}>
-        {/* Undo Button */}
-        <TouchableOpacity 
-          style={[
-            styles.actionButton, 
-            !previousRecipes.length && styles.actionButtonDisabled, // disabled view if no recipes to revert
-            isTutorialVisible && tutorialStep === 2 && { position: 'relative', zIndex: 1002 } // tutorial view
-          ]} 
-          onPress={() => {
-            handleRevertSwipe();
-            if (isTutorialVisible && tutorialStep === 2) advanceTutorialStep();
-          }}
-          disabled={!previousRecipes.length}
-        >
-          <Ionicons name="arrow-undo" size={42} color="#FAD759" />
-        </TouchableOpacity>
-
+      
         {/* Dismiss Button */}
         <TouchableOpacity 
           style={[
@@ -277,34 +308,20 @@ const SuggestedRecipes2: React.FC = () => {
             isTutorialVisible && tutorialStep === 3 && { position: 'relative', zIndex: 1002 }
           ]} 
           onPress={() => {
-            handleSwipeDown();
+            handleSwipeRight();
             if (isTutorialVisible && tutorialStep === 3) advanceTutorialStep();
           }}
         >
           <Ionicons name="download" size={48} color="#FB9702" />
         </TouchableOpacity>
-
-        {/* View Button */}
-        <TouchableOpacity 
-          style={[
-            styles.actionButton, 
-            isTutorialVisible && tutorialStep === 4 && { position: 'relative', zIndex: 1002 }
-          ]} 
-          onPress={() => {
-            handleSwipeRight();
-            if (isTutorialVisible && tutorialStep === 4) advanceTutorialStep();
-          }}
-        >
-          <Ionicons name="eye" size={48} color="#20A77B" />
-        </TouchableOpacity>
       </View>
 
-      {/* Progress bar */}
-      <View style={styles.progressBarContainer}>
-        <View style={styles.progressBar}>
-          <View style={[styles.progressFill, { width: `${progress * 100}%` }]} />
-        </View>
-      </View>
+  
+      {/* Tutorial Info Button - Updated to be a box instead of just an icon */}
+      <TouchableOpacity onPress={handleInfoPress} style={styles.infoButtonBox}>
+        <Ionicons name="information-circle" size={24} color="#FFFFFF" />
+        <Text style={styles.infoButtonText}>  View Tutorial</Text>
+      </TouchableOpacity>
 
       {/* Tutorial overlay */}
       {isTutorialVisible && (
@@ -386,7 +403,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     padding: 16,
-    marginBottom: 20,
+    marginBottom: 62,
   },
   actionButton: {
     width: 70,
@@ -405,23 +422,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F0F0',
   },
 
-  progressBarContainer: {
-    marginHorizontal: 50,
-    marginBottom: 25,
-  },
-  progressBar: {
-    height: 8,
-    width: '100%',
-    backgroundColor: '#E5E5E5',
-    borderRadius: 4,
-    overflow: 'hidden',
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: '#4CAF50',
-    borderRadius: 4,
-  },
-
+  
   // Tutorial styles
   tutorialDimmer: {
     position: 'absolute',
@@ -434,7 +435,7 @@ const styles = StyleSheet.create({
   closeTutorialButton: {
     position: 'absolute',
     top: 65,
-    right: 20,
+    left: 20,
     zIndex: 1001,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     width: 40,
@@ -501,6 +502,31 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontWeight: '500',
   },
+  undoButton: {
+    padding: 4,
+    marginRight: 5,
+  },
+  undoButtonDisabled: {
+    opacity: 0.5,
+  },
+  infoButtonBox: {
+    position: 'absolute',
+    backgroundColor: '#20A77B',
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 150,
+    height: 35, 
+    flexDirection: 'row',
+    bottom: 15,
+    alignSelf: 'center', //center horizontally
+    marginHorizontal: 'auto', // Additional centering for some layouts
+  },
+  infoButtonText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: 'bold',
+  },
 });
 
-export default SuggestedRecipes2;
+export default SuggestedRecipes;

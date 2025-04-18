@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Text, Image, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, Image, Dimensions, TouchableWithoutFeedback } from 'react-native';
 import Animated, { 
   useAnimatedStyle, 
   useSharedValue, 
@@ -16,8 +16,9 @@ const SWIPE_THRESHOLD = width * 0.3;
 interface RecipeCardProps {
   recipe: RecipeData;
   onSwipeLeft: () => void;  // Skip recipe
-  onSwipeRight: () => void; // View recipe details
-  onSwipeDown: () => void;  // Save recipe
+  onSwipeRight: () => void; // Save recipe
+  onSwipeUp?: () => void;   // View recipe details 
+  onPress?: () => void;     // View recipe details
   isTopCard?: boolean;
   style?: object;
 }
@@ -25,8 +26,9 @@ interface RecipeCardProps {
 const RecipeSwipe: React.FC<RecipeCardProps> = ({ 
   recipe, 
   onSwipeLeft, 
-  onSwipeRight, 
-  onSwipeDown,
+  onSwipeRight,
+  onSwipeUp,
+  onPress,
   isTopCard = true,
   style = {}
 }) => {
@@ -70,17 +72,17 @@ const RecipeSwipe: React.FC<RecipeCardProps> = ({
     const { translationX, translationY } = nativeEvent;
     
     if (translationX > SWIPE_THRESHOLD) {
-      // Swipe right - view recipe
+      // Swipe right - save recipe
       translateX.value = withSpring(width * 1.5);
       runOnJS(onSwipeRight)();
     } else if (translationX < -SWIPE_THRESHOLD) {
       // Swipe left - skip recipe
       translateX.value = withSpring(-width * 1.5);
       runOnJS(onSwipeLeft)();
-    } else if (translationY > SWIPE_THRESHOLD) {
-      // Swipe down - save recipe
-      translateY.value = withSpring(width);
-      runOnJS(onSwipeDown)();
+    } else if (translationY < -SWIPE_THRESHOLD && onSwipeUp) {
+      // Swipe up - view recipe
+      translateY.value = withSpring(-width);
+      runOnJS(onSwipeUp)();
     } else {
       // Reset position if swipe doesn't meet threshold
       translateX.value = withSpring(0);
@@ -97,20 +99,24 @@ const RecipeSwipe: React.FC<RecipeCardProps> = ({
           enabled={isTopCard}
         >
           <Animated.View style={[styles.card, handleGestureEvent]}>
-            <View style={styles.imageContainer}>
-              <Image 
-                source={getRecipeSwipeImage(recipe.image)} 
-                style={styles.image} 
-              />
-              <View style={styles.overlay} />
-            </View>
-            <View style={styles.infoContainer}>
-              <Text style={styles.title}>{recipe.name}</Text>
-              <Text style={styles.usesInfo}>Uses: {recipe.uses}</Text>
-              <Text style={styles.nutritionInfo}>
-                {recipe.macronutrients.calories}, {recipe.macronutrients.protein} protein, {recipe.macronutrients.fats} fats, {recipe.macronutrients.carbohydrates} carbs
-              </Text>
-            </View>
+            <TouchableWithoutFeedback onPress={isTopCard && onPress ? onPress : undefined}>
+              <View style={styles.cardContent}>
+                <View style={styles.imageContainer}>
+                  <Image 
+                    source={getRecipeSwipeImage(recipe.image)} 
+                    style={styles.image} 
+                  />
+                  <View style={styles.overlay} />
+                </View>
+                <View style={styles.infoContainer}>
+                  <Text style={styles.title}>{recipe.name}</Text>
+                  <Text style={styles.usesInfo}>Uses: {recipe.uses}</Text>
+                  <Text style={styles.nutritionInfo}>
+                    {recipe.macronutrients.calories}, {recipe.macronutrients.protein} protein, {recipe.macronutrients.fats} fats, {recipe.macronutrients.carbohydrates} carbs
+                  </Text>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
           </Animated.View>
         </PanGestureHandler>
       </View>
@@ -143,6 +149,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     overflow: 'hidden',
+  },
+  cardContent: {
+    width: '100%',
+    height: '100%',
   },
   imageContainer: {
     width: '100%',
