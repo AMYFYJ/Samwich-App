@@ -1,6 +1,8 @@
 // src/components/MacrosCard.tsx
 import React from 'react';
-import { StyleSheet, View, Text, ViewStyle, TextStyle } from 'react-native';
+import { StyleSheet, View, Text, ViewStyle, TextStyle, Dimensions } from 'react-native';
+// import Pie from 'react-native-pie'; // REMOVED
+import { PieChart } from "react-native-chart-kit"; // Import PieChart
 
 // --- Prop Types ---
 interface MacrosCardProps {
@@ -13,6 +15,9 @@ interface MacrosCardProps {
   titleStyle?: TextStyle; // not required
 }
 
+// Arc component to draw each pie slice via two half-circle borders and a mask - REMOVED
+// const Arc: React.FC<{ startAngle: number; sweepAngle: number; color: string }> = ({ startAngle, sweepAngle, color }) => { ... }; // REMOVED
+
 // --- Component ---
 export const MacrosCard: React.FC<MacrosCardProps> = ({
   totalCalories,
@@ -23,37 +28,83 @@ export const MacrosCard: React.FC<MacrosCardProps> = ({
   style,
   titleStyle,
 }) => {
+  // Calculate total grams of all macros
+  const totalGrams = carbs + protein + fat + fiber;
+  
+  // Handle case where totalGrams is 0 to avoid division by zero
+  const safeTotalGrams = totalGrams > 0 ? totalGrams : 1;
+  
+  // Calculate percentages for each macro
+  const carbsPercentage = (carbs / safeTotalGrams) * 100;
+  const proteinPercentage = (protein / safeTotalGrams) * 100;
+  const fatPercentage = (fat / safeTotalGrams) * 100;
+  const fiberPercentage = (fiber / safeTotalGrams) * 100;
+  
+  // Data for react-native-chart-kit PieChart
+  // Requires name, population (value), color, and legendFontColor/legendFontSize
+  const chartData = [
+    { name: 'Carbs', population: carbs, color: '#FAD759', legendFontColor: "#FFFFFF", legendFontSize: 10 },
+    { name: 'Protein', population: protein, color: '#FB9702', legendFontColor: "#FFFFFF", legendFontSize: 10 },
+    { name: 'Fat', population: fat, color: '#F24C5F', legendFontColor: "#FFFFFF", legendFontSize: 10 },
+    { name: 'Fiber', population: fiber, color: '#372E3D', legendFontColor: "#FFFFFF", legendFontSize: 10 },
+  ].filter(item => item.population > 0);
+
+  // Chart configuration
+  const screenWidth = Dimensions.get("window").width;
+  const chartConfig = {
+    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    // labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+  };
+
+  // Compute dynamic label positions for each slice
+  let cumulativeAngle = 0;
+  const labelElements = chartData.map((item, index) => {
+    const arcAngle = (item.population / safeTotalGrams) * 360;
+    const midAngle = cumulativeAngle + arcAngle / 2;
+    cumulativeAngle += arcAngle;
+    
+    const centerX = 72;
+    const centerY = 110;
+    const labelRadius = 140;
+    const verticalScale = 0.9;
+    const angleRad = (midAngle - 90) * (Math.PI / 180);
+    const x = centerX + labelRadius * Math.cos(angleRad);
+    const y = centerY + (labelRadius * verticalScale) * Math.sin(angleRad);
+    
+    return (
+      <Text key={index} style={[styles.dynamicLabel, { position: 'absolute', left: x, top: y }]}> 
+        {item.name}: {item.population}g 
+      </Text>
+    );
+  });
+
   return (
     <View style={[styles.cardContainer, style]}>
       <Text style={[styles.title, titleStyle]}>Today's Macros</Text>
       <View style={styles.chartArea}>
+        {/* Donut Container with dynamic labels */}
         <View style={styles.donutContainer}>
-          {/* Simulated donut arcs */}
-          <View style={[styles.halfCircle, styles.carbsArc]} />
-          <View style={[styles.halfCircle, styles.proteinArc]} />
-          <View style={[styles.halfCircle, styles.fatArc]} />
-          <View style={[styles.halfCircle, styles.fiberArc]} />
-
-          {/* Center circle for donut hole */}
-          <View style={styles.innerCircle}>
+          {/* PieChart component */}
+          <PieChart
+            data={chartData}
+            width={250} // Width of the chart
+            height={250} // Height of the chart
+            chartConfig={chartConfig}
+            accessor={"population"} // Key to extract values from data
+            backgroundColor={"transparent"} // Make background transparent
+            paddingLeft={"0"} 
+            absolute // Use absolute values instead of percentages
+            center={[63, 8]} // center the chart
+            hasLegend={false} 
+          />
+          {labelElements}
+          {/* Center circle content */}
+          <View style={styles.innerCircleContent}>
             <Text style={styles.centerText}>{totalCalories}</Text>
             <Text style={styles.totalText}>Total Calories</Text>
           </View>
         </View>
-
-        {/* Labels */}
-        <Text style={[styles.label, styles.labelCarbs]}>
-          Carbohydrates: {carbs}g
-        </Text>
-        <Text style={[styles.label, styles.labelProtein]}>
-          Protein: {protein}g
-        </Text>
-        <Text style={[styles.label, styles.labelFat]}>
-          Fat: {fat}g
-        </Text>
-        <Text style={[styles.label, styles.labelFiber]}>
-          Fiber: {fiber}g
-        </Text>
+        {/* Removed static labels that were previously here */}
       </View>
     </View>
   );
@@ -89,53 +140,20 @@ const styles = StyleSheet.create({
     height: 200,
     justifyContent: 'center',
     alignItems: 'center',
+    // No specific background needed here now
   },
-
-  // Base style for each arc (halfCircle)
-  halfCircle: {
-    width: 200, 
-    height: 200,
-    borderRadius: 100,
+  innerCircleContent: {
     position: 'absolute',
-    borderWidth: 28, // arc width
-    borderColor: 'transparent',
-  },
-  // Each arc style – adjust these rotations and colors as needed:
-  carbsArc: {
-    borderRightColor: '#FAD759', // Orange for Carbs
-    transform: [{ rotate: '0deg' }],
-  },
-  proteinArc: {
-    borderRightColor: '#F9A825', // Yellow for Protein
-    transform: [{ rotate: '90deg' }],
-  },
-  fatArc: {
-    borderRightColor: '#A1887F', // Brownish for Fat
-    transform: [{ rotate: '180deg' }],
-  },
-  fiberArc: {
-    borderRightColor: '#E57373', // Red for Fiber
-    transform: [{ rotate: '270deg' }],
-  },
-
-  // Inner circle styling for the donut hole
-  innerCircle: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    borderRadius: 60,
-    backgroundColor: '#355E3B',
+    width: 140, // fixed width for the inner circle
+    height: 140, // fixed height for the inner circle
+    borderRadius: 100, // half of width/height for a perfect circle
+    backgroundColor: '#355E3B', // same as background
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  centerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-  },
-  totalText: {
-    fontSize: 13,
-    color: '#FFFFFF',
+    zIndex: 5, // ensure it overlays the PieChart
+    top: '49.5%',
+    left: '45.5%',
+    transform: [{ translateX: -60 }, { translateY: -60 }],
   },
 
   // Labels around the donut
@@ -144,21 +162,27 @@ const styles = StyleSheet.create({
     fontSize: 12,
     position: 'absolute',
   },
-  labelCarbs: {
-    top: 0,
-    right: -65,
+  labelCarbs: { top: 45, right: -55 },
+  labelProtein: { bottom: 10, left: -10 },
+  labelFat: { top: 60, left: -45 },
+  labelFiber: { top: -5, left: 0 },
+
+  centerText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    bottom: 3,
+
   },
-  labelProtein: {
-    bottom: 60,
-    right: -60,
+  totalText: {
+    fontSize: 13,
+    color: '#FFFFFF',
   },
-  labelFat: {
-    bottom: 0,
-    left: 50,
-  },
-  labelFiber: {
-    top: '40%',
-    left: -55,
+
+  dynamicLabel: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontStyle: 'italic'
   },
 });
 
