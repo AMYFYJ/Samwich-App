@@ -1,11 +1,9 @@
 # Todo:
 - Dynamically change the inventory quantity remaining
 
-- Read data from a json file --> generate sample data in json
-    - Saved and completed recipes
+- Pop up card for changing quantity in recipe details
 
-- Make MacroCard dynamic based on the current Macro data stored
-
-- Congrats Screen: need dynamic macro board, update ingredients card
+- Update macro data when using a recipe --> congrats page macro change
+- Congrats Screen: update ingredients card (quantity and expiry)
 
 

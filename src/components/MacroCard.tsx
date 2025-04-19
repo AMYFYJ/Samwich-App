@@ -64,7 +64,7 @@ export const MacrosCard: React.FC<MacrosCardProps> = ({
     cumulativeAngle += arcAngle;
     
     const centerX = 72;
-    const centerY = 110;
+    const centerY = 108;
     const labelRadius = 140;
     const verticalScale = 0.9;
     const angleRad = (midAngle - 90) * (Math.PI / 180);
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FFFFFF',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 30,
   },
 
   // Chart area styling

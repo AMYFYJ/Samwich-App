@@ -92,12 +92,13 @@ const RecipeCompletionScreen = ({ route }: Props) => {
           fiber={macrosJson.currentMacros.fiber}
           style={{
               borderRadius: 0,
-              backgroundColor: '#355E3B' 
+              backgroundColor: '#355E3B',
           }}
           titleStyle={{
               fontSize: 20,
               color: '#355E3B',  // no title shown here
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              marginBottom: 10,
           }}
       />
 
@@ -161,14 +162,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#355E3B', // Dark greenish color from image
     paddingHorizontal: screenPadding,
     paddingTop: Platform.OS === 'ios' ? 80 : 40, // Adjust top padding for status bar
-    paddingBottom: 8, // Space below text
   },
   headerTitle: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#FFFFFF',
     textAlign: 'center',
-    marginBottom: 5,
+    marginBottom: 8,
   },
   headerSubtitle: {
     fontSize: 16,
