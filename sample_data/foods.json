@@ -2,9 +2,25 @@
   "foodItemsData": [
     { "id": "1", "name": "Shrimp", "quantity": "6 left", "expiry": 1, "imageName": "shrimp" },
     { "id": "2", "name": "Salmon", "quantity": "1 left", "expiry": 2, "imageName": "salmon" },
-    { "id": "3", "name": "Yellow Pepper", "quantity": "1 left", "expiry": -2, "imageName": "bellPepper" },
+    { "id": "3", "name": "Bell Pepper", "quantity": "1 left", "expiry": -2, "imageName": "bellPepper" },
     { "id": "4", "name": "Cucumber", "quantity": "3 left", "expiry": 2, "imageName": "cucumber" },
     { "id": "5", "name": "Milk", "quantity": "1 left", "expiry": 1, "imageName": "milk" },
-    { "id": "6", "name": "Tomato", "quantity": "1 left", "expiry": -1, "imageName": "tomato" }
+    { "id": "6", "name": "Tomato", "quantity": "1 left", "expiry": -1, "imageName": "tomato" },
+    { "id": "7", "name": "Avocado", "quantity": "2 left", "expiry": 2, "imageName": "avocado" },
+    { "id": "8", "name": "Egg", "quantity": "5 left", "expiry": 6, "imageName": "egg" },
+    { "id": "9", "name": "Bok Choy", "quantity": "5 left", "expiry": 4, "imageName": "bokChoy" },
+    { "id": "10", "name": "Broccoli", "quantity": "2 left", "expiry": 3, "imageName": "broccoli" },
+    { "id": "11", "name": "Pumpkin", "quantity": "1 left", "expiry": 1, "imageName": "pumpkin" },
+    { "id": "12", "name": "Yogurt", "quantity": "3 left", "expiry": 5, "imageName": "yogurt" },
+    { "id": "13", "name": "Bread", "quantity": "4 left", "expiry": 7, "imageName": "bread" },
+    { "id": "14", "name": "Rice", "quantity": "2 left", "expiry": 3, "imageName": "rice" },
+    { "id": "15", "name": "Garlic", "quantity": "3 left", "expiry": 9, "imageName": "garlic" },
+    { "id": "16", "name": "Thyme", "quantity": "5 left", "expiry": 9, "imageName": "thyme" },
+    { "id": "17", "name": "Soy Sauce", "quantity": "1 left", "expiry": 120, "imageName": "soySauce" },
+    { "id": "18", "name": "Honey", "quantity": "1 left", "expiry": 150, "imageName": "honey" },
+    { "id": "19", "name": "Carrots", "quantity": "2 left", "expiry": 3, "imageName": "carrots" },
+    { "id": "20", "name": "Parsley", "quantity": "2 left", "expiry": 3, "imageName": "parsley" },
+    { "id": "21", "name": "Dill", "quantity": "2 left", "expiry": 3, "imageName": "dill" },
+    { "id": "22", "name": "Lemon", "quantity": "3 left", "expiry": 2, "imageName": "lemon" }
   ]
 }

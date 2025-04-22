@@ -15,6 +15,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList, RecipeData } from '../../types/navigation';
 import { getRecipeSwipeImage } from '../../utils/recipeSwipeImage'; // Import the utility function
 import RecipeMacro from '../../components/RecipeMacro'; 
+import RecipeIngredient from '../../components/RecipeIngredient'; // Import component
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -32,7 +33,7 @@ type Props = {
 const RecipeViewScreen = ({ route }: Props) => {
   const navigation = useNavigation<NavigationProp>();
   const { recipeData } = route.params;
-
+  
   // Helper function to determine the correct image source
   const getImageSource = (image: any): ImageSourcePropType => {
     // If image is a string, use the utility function
@@ -79,20 +80,22 @@ const RecipeViewScreen = ({ route }: Props) => {
 
         <View style={styles.detailsContainer}>
           {/* Ingredients Section */}
-          <View style={[styles.section, { flex: 2 }]}>
+          <View style={[styles.section, { flex: 1 }]}>
             <Text style={styles.sectionTitle}>Ingredients</Text>
-            <Text style={styles.servesText}>Serves {recipeData.serves}</Text>
-            {recipeData.ingredients.map((item: string, index: number) => (
-              <Text key={index} style={styles.listItem}>
-                • {item}
-              </Text>
-            ))}
+            <View style={styles.cardContainer}>
+              <RecipeIngredient 
+                ingredients={recipeData.ingredients}
+                serves={recipeData.serves}
+              />
+            </View>
           </View>
 
           {/* Macronutrients Section */}
-          <View style={[styles.section, { flex: 2 }]}>
+          <View style={[styles.section, { flex: 1 }]}>
             <Text style={styles.sectionTitle}>Macronutrients</Text>
-            <RecipeMacro macronutrients={recipeData.macronutrients} />
+            <View style={styles.cardContainer}>
+              <RecipeMacro macronutrients={recipeData.macronutrients} />
+            </View>
           </View>
         </View>
 
@@ -160,10 +163,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     marginBottom: 20,
+    alignItems: 'stretch',
   },
   section: {
     flex: 1, // Each section takes half the width
     marginHorizontal: 5, // Add margin between sections
+    alignSelf: 'stretch',
   },
   sectionTitle: {
     fontSize: 20,
@@ -217,6 +222,10 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  cardContainer: {
+    flex: 1, // Take up all available height
+    display: 'flex',
   },
 });
 

@@ -55,21 +55,26 @@ const RecipeCompletionScreen = ({ route }: Props) => {
     image: imageMapping[recipe.image]
   }));
 
-  // Get two different recipes, excluding the current one
+  // Randomly select two different recipes, excluding the current one
   const moreRecipes = allRecipes
     .filter(recipe => recipe.id !== route.params.recipeData.id)
-    .slice(0, 2);
+    .sort(() => Math.random() - 0.5).slice(0, 2);
 
   // Transform recipe ingredients into the required format
   const ingredientsData = route.params.recipeData.uses.split(', ').map(ingredient => {
     // Convert space-separated ingredient name to camelCase for image lookup
     const camelCaseKey = ingredient.toLowerCase().replace(/\s(.)/g, match => match.toUpperCase().trim());
     
+    // Look up the ingredient in foodItemsData
+    const foodItem = foodItemsJson.foodItemsData.find(item => 
+      item.name.toLowerCase() === ingredient.toLowerCase()
+    );
+    
     return {
       name: ingredient,
-      image: imageMapping[camelCaseKey] || null, // Fallback to null if image not found
-      quantity: "1", // Default quantity since uses string doesn't include quantities
-      expiry: 0
+      image: imageMapping[camelCaseKey] || null,
+      quantity: foodItem ? foodItem.quantity : "1",
+      expiry: foodItem ? foodItem.expiry : 0
     };
   });
 

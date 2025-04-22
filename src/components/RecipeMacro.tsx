@@ -98,11 +98,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 12,
     marginTop: 5,
+    marginBottom: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
-    elevation: 2
+    elevation: 3
   },
   calorieCircle: {
     alignSelf: 'center',

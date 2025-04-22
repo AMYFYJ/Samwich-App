@@ -36,10 +36,13 @@ type ExpiringItem = {
 
 // Transform the food items data to include actual image references
 // Only take 6 items for the expiring items section
-const expiringItemsData: ExpiringItem[] = foodItemsJson.foodItemsData.map(item => ({
-  ...item,
-  image: imageMapping[item.imageName]
-}));
+const expiringItemsData: ExpiringItem[] = foodItemsJson.foodItemsData
+  .filter(item => item.expiry <= 2)
+  .sort((a, b) => a.expiry - b.expiry)
+  .map(item => ({
+    ...item,
+    image: imageMapping[item.imageName]
+  }));
 
 
 // Transform all recipes with proper image references
@@ -50,8 +53,6 @@ const allRecipes = recipesJson.recipeData.map(recipe => ({
 
 // Get the first two recipes for Quick Recipes section
 const quickRecipes = allRecipes.slice(0, 2);
-
-// --- End Sample Data ---
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -103,7 +104,7 @@ export function Home() {
                   serves: recipe.serves,
                   consume: recipe.consume,
                   uses: recipe.uses,
-                  ingredients: recipe.uses.split(', '),
+                  ingredients: recipe.ingredients,
                   macronutrients: recipe.macronutrients,
                   instructions: recipe.instructions,
                 }

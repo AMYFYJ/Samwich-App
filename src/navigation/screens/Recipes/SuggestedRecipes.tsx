@@ -148,7 +148,7 @@ const SuggestedRecipes: React.FC = () => {
         case 1: // Dismiss Button (X)
           return {
             text: "Swipe left or press 'X' to skip a recipe",
-            position: { bottom: 72, left: '57%', marginLeft: -20, width: 170} as ViewStyle,
+            position: { bottom: 80, left: '57%', marginLeft: -40, width: 170} as ViewStyle,
           };
         case 2: // Undo Button
           return {
@@ -158,7 +158,7 @@ const SuggestedRecipes: React.FC = () => {
         case 3: // Save Button (download)
           return {
             text: "Swipe right or press 'Save' to save a recipe",
-            position: { bottom: 82, left: '5%', width: 200 } as ViewStyle,
+            position: { bottom: 82, left: '5%', width: 190 } as ViewStyle,
           };
         case 4: // card press
           return {

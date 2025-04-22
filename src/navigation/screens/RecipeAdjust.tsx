@@ -13,9 +13,10 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList, RecipeData } from '../../types/navigation';
-import IngredientItemCard from '../../components/IngredientSelection';
+import IngredientSelectionCard from '../../components/RecipeIngreSelection';
 import { getRecipeSwipeImage } from '../../utils/recipeSwipeImage';
 import RecipeMacro from '../../components/RecipeMacro';
+import RecipeIngredient from '../../components/RecipeIngredient';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -81,24 +82,22 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
 
         <View style={styles.detailsContainer}>
           {/* Ingredients Section */}
-          <View style={styles.section}>
+          <View style={[styles.section, { flex: 1 }]}>
             <Text style={styles.sectionTitle}>Ingredients</Text>
-            <Text style={styles.servesText}>Serves {recipeData.serves}</Text>
-            {recipeData.ingredients.map((ingredient, index) => (
-              <IngredientItemCard
-                key={index}
-                initialQuantity="1" // You might want to get this from your recipe data
-                ingredientName={ingredient}
-                quantityOptions={["1", "2", "3", "4", "5"]} // Customize these options
-                onQuantityChange={(newQuantity) => handleQuantityChange(ingredient, newQuantity)}
+            <View style={styles.cardContainer}>
+              <IngredientSelectionCard 
+                ingredients={recipeData.ingredients}
+                serves={recipeData.serves}
               />
-            ))}
+            </View>
           </View>
 
           {/* Macronutrients Section */}
-          <View style={styles.section}>
+          <View style={[styles.section, { flex: 1 }]}>
             <Text style={styles.sectionTitle}>Macronutrients</Text>
-            <RecipeMacro macronutrients={recipeData.macronutrients} />
+            <View style={styles.cardContainer}>
+              <RecipeMacro macronutrients={recipeData.macronutrients} />
+            </View>
           </View>
         </View>
 
@@ -223,6 +222,10 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  cardContainer: {
+    flex: 1, // Take up all available height
+    display: 'flex',
   },
 });
 
