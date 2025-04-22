@@ -20,21 +20,27 @@ const RecipeIngreSelection = ({ ingredients, serves, onIngredientsChange }: Reci
     return name.replace(/^\d+\s*/, '').trim();
   };
 
+  // Add a function to extract quantity from ingredient string
+  const extractQuantityFromIngredient = (ingredient: string): string => {
+    const match = ingredient.match(/^(\d+(\.\d+)?)\s*/);
+    return match ? match[1] : '1'; // Return the found quantity or default to '1'
+  };
+
+  // Update the initial state
   const [ingredientsList, setIngredientsList] = useState<Ingredient[]>(
     ingredients.map(ing => ({
       name: cleanIngredientName(ing),
-      quantity: '1',
+      quantity: extractQuantityFromIngredient(ing),
     }))
   );
   const [modalVisible, setModalVisible] = useState(false);
 
-
-  // Update ingredients list if props change
+  // Update the useEffect for when ingredients change
   useEffect(() => {
     setIngredientsList(
       ingredients.map(ing => ({
         name: cleanIngredientName(ing),
-        quantity: '1',
+        quantity: extractQuantityFromIngredient(ing),
       }))
     );
   }, [ingredients]);
@@ -105,8 +111,6 @@ const RecipeIngreSelection = ({ ingredients, serves, onIngredientsChange }: Reci
               removeClippedSubviews={false}
               renderItem={({ item, index }) => (
                 <View style={styles.modalItem}>
-                  <Text style={styles.bulletPoint}>•</Text>
-                  
                   <View style={styles.quantityContainer}>
                     <TouchableOpacity 
                       style={styles.quantityButton}
@@ -234,7 +238,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   closeX: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
     color: '#333',
   },
@@ -273,15 +277,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#e8f5e9',
     borderRadius: 8,
     padding: 8,
-    paddingHorizontal: 15,
+    paddingHorizontal: 3,
     marginRight: 10,
-    minWidth: 120,
+    minWidth: 150,
     justifyContent: 'space-between',
   },
   quantityButton: {
     backgroundColor: '#2E7D32',
-    height: 36,
-    width: 36,
+    height: 30,
+    width: 30,
     borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
