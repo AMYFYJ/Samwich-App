@@ -1,10 +1,9 @@
 # Todo:
+- RecipeAdjust macro card change based on quantity used
+
+- Congrats page macro change based on recipe used
+
+- Congrats page update ingredients card quantity remaining
 - Dynamically change the inventory quantity remaining
-
-- Pop up card for changing quantity in recipe details
-
-- Update macro data when using a recipe --> congrats page macro change
-
-- Congrats Screen: update ingredients card (quantity and expiry)
 
 

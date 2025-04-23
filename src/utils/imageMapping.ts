@@ -26,6 +26,8 @@ import avocadoEggSandwich from '../assets/Recipe/avocado sandwich.png';
 import avocadoTomatoToast from '../assets/Recipe/avocado and tomato.png';
 import salmonRiceBowl from '../assets/Recipe/salmon rice bowl.png';
 import pumpkinSoup from '../assets/Recipe/pumpkin soup.png';
+import greekYogurtDip from '../assets/Recipe/greek yogurt dip.png';
+import shrimpVeggieStirFry from '../assets/Recipe/shrimp veggie stir fry.png';
 
 // Create image mapping object
 const imageMapping: {[key: string]: any} = {
@@ -54,7 +56,9 @@ const imageMapping: {[key: string]: any} = {
   avocadoTomatoToast,
   avocadoEggSandwich,
   salmonRiceBowl,
-  pumpkinSoup
+  pumpkinSoup,
+  greekYogurtDip,
+  shrimpVeggieStirFry
 };
 
 export default imageMapping; 

@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     height: 90,
     alignSelf: 'center',
     left: 8,
+    borderRadius: 10,
   },
   recipeDetails: {
     flex: 1,

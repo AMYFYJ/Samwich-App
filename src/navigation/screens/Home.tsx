@@ -12,6 +12,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/navigation';
+import { useFoodInventory } from '../../context/FoodContext';
 
 // import components
 import { FoodItemCard } from '../../components/FoodItemCard';
@@ -19,11 +20,10 @@ import { MacrosCard } from '../../components/MacroCard';
 import { RecipeCard } from '../../components/RecipeCard';
 
 // import sample data
-import foodItemsJson from '../../../sample_data/foods.json';
+// import foodItemsJson from '../../../sample_data/foods.json';
 import recipesJson from '../../../sample_data/recipes.json';
 import macrosJson from '../../../sample_data/Macros.json';
 import imageMapping from '../../utils/imageMapping';
-
 
 // Expiring Items Data
 type ExpiringItem = {
@@ -34,30 +34,31 @@ type ExpiringItem = {
   image: any;
 };
 
-// Transform the food items data to include actual image references
-// Only take 6 items for the expiring items section
-const expiringItemsData: ExpiringItem[] = foodItemsJson.foodItemsData
-  .filter(item => item.expiry <= 2)
-  .sort((a, b) => a.expiry - b.expiry)
-  .map(item => ({
-    ...item,
-    image: imageMapping[item.imageName]
-  }));
-
-
-// Transform all recipes with proper image references
-const allRecipes = recipesJson.recipeData.map(recipe => ({
-  ...recipe,
-  image: imageMapping[recipe.image]
-}));
-
-// Get the first two recipes for Quick Recipes section
-const quickRecipes = allRecipes.slice(0, 2);
-
+// Move this type definition here, before the component
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export function Home() {
   const navigation = useNavigation<NavigationProp>();
+  const { foodInventory } = useFoodInventory();
+  
+  // Move this inside the component
+  const expiringItemsData: ExpiringItem[] = foodInventory
+    .filter(item => item.quantity !== '0 left')
+    .sort((a, b) => a.expiry - b.expiry)
+    .slice(0, 6)  // Limit to first 6 items
+    .map(item => ({
+      ...item,
+      image: imageMapping[item.imageName]
+    }));
+
+  // Transform all recipes with proper image references
+  const allRecipes = recipesJson.recipeData.map(recipe => ({
+    ...recipe,
+    image: imageMapping[recipe.image]
+  }));
+
+  // Get the first two recipes for Quick Recipes section
+  const quickRecipes = allRecipes.slice(0, 2);
 
   // --- Render Function for Grid Item of Food Items ---
   const renderExpiringItem = ({ item }: { item: ExpiringItem }) => (

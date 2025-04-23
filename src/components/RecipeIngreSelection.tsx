@@ -12,9 +12,17 @@ type RecipeIngreSelectionProps = {
   ingredients: string[];
   serves: number;
   onIngredientsChange?: (ingredients: Ingredient[]) => void;
+  foodInventory?: Array<{id: string, name: string, quantity: string, expiry: number, imageName: string}>;
+  updateFoodInventory?: (updatedInventory: Array<{id: string, name: string, quantity: string, expiry: number, imageName: string}>) => void;
 };
 
-const RecipeIngreSelection = ({ ingredients, serves, onIngredientsChange }: RecipeIngreSelectionProps) => {
+const RecipeIngreSelection = ({ 
+  ingredients, 
+  serves, 
+  onIngredientsChange,
+  foodInventory = [],
+  updateFoodInventory
+}: RecipeIngreSelectionProps) => {
   // Helper function to clean ingredient names (remove leading numbers)
   const cleanIngredientName = (name: string) => {
     return name.replace(/^\d+\s*/, '').trim();
@@ -34,6 +42,7 @@ const RecipeIngreSelection = ({ ingredients, serves, onIngredientsChange }: Reci
     }))
   );
   const [modalVisible, setModalVisible] = useState(false);
+  const [tempIngredientsList, setTempIngredientsList] = useState<Ingredient[]>([]);
 
   // Update the useEffect for when ingredients change
   useEffect(() => {
@@ -46,20 +55,53 @@ const RecipeIngreSelection = ({ ingredients, serves, onIngredientsChange }: Reci
   }, [ingredients]);
 
   const updateQuantity = (index: number, quantity: string) => {
-    const updatedIngredients = [...ingredientsList];
+    const updatedIngredients = [...tempIngredientsList];
     updatedIngredients[index].quantity = quantity;
-    setIngredientsList(updatedIngredients);
-    
-    if (onIngredientsChange) {
-      onIngredientsChange(updatedIngredients);
-    }
+    setTempIngredientsList(updatedIngredients);
   };
 
   const handleConfirmEdits = () => {
     setModalVisible(false);
+    setIngredientsList(tempIngredientsList);
     if (onIngredientsChange) {
-      onIngredientsChange(ingredientsList);
+      onIngredientsChange(tempIngredientsList);
     }
+    
+    // Deduct quantities from food inventory
+    if (foodInventory.length > 0 && updateFoodInventory) {
+      const updatedInventory = [...foodInventory];
+      
+      tempIngredientsList.forEach(ingredient => {
+        // Find matching item in inventory
+        const inventoryItem = updatedInventory.find(
+          item => item.name.toLowerCase() === ingredient.name.toLowerCase()
+        );
+        
+        if (inventoryItem) {
+          // Parse quantities
+          const currentQuantity = parseInt(inventoryItem.quantity.split(' ')[0]);
+          const selectedQuantity = parseFloat(ingredient.quantity);
+          
+          // Calculate new quantity
+          const newQuantity = Math.max(0, currentQuantity - selectedQuantity);
+          
+          // Update inventory item
+          inventoryItem.quantity = `${newQuantity} left`;
+        }
+      });
+      
+      // Update the inventory
+      updateFoodInventory(updatedInventory);
+    }
+  };
+
+  const handleOpenModal = () => {
+    setTempIngredientsList(JSON.parse(JSON.stringify(ingredientsList)));
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
   };
 
   return (
@@ -68,7 +110,7 @@ const RecipeIngreSelection = ({ ingredients, serves, onIngredientsChange }: Reci
         <Text style={styles.servesText}>Serves {serves}</Text>
         <TouchableOpacity 
           style={styles.editButton} 
-          onPress={() => setModalVisible(true)}
+          onPress={handleOpenModal}
         >
           <Feather name="edit" size={24} color="#2E7D32" />
         </TouchableOpacity>
@@ -87,17 +129,13 @@ const RecipeIngreSelection = ({ ingredients, serves, onIngredientsChange }: Reci
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(false);
-        }}
+        onRequestClose={handleCloseModal}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Ingredients Used</Text>
-              <TouchableOpacity onPress={() => {
-                setModalVisible(false);
-              }}>
+              <TouchableOpacity onPress={handleCloseModal}>
                 <Text style={styles.closeX}>X</Text>
               </TouchableOpacity>
             </View>
@@ -105,7 +143,7 @@ const RecipeIngreSelection = ({ ingredients, serves, onIngredientsChange }: Reci
             <Text style={styles.modalServesText}>Serves {serves}</Text>
             
             <FlatList
-              data={ingredientsList}
+              data={tempIngredientsList}
               keyExtractor={(_, index) => index.toString()}
               style={styles.modalScroll}
               removeClippedSubviews={false}

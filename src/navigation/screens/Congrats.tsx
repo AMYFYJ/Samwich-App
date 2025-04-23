@@ -12,6 +12,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/navigation';
+import { useFoodInventory } from '../../context/FoodContext';
 
 // --- Import Reusable Components ---
 // Adjust paths as needed
@@ -21,7 +22,6 @@ import { MacrosCard } from '../../components/MacroCard';
 import { RecipeData } from '../../types/navigation';
 
 // import sample data
-import foodItemsJson from '../../../sample_data/foods.json';
 import recipesJson from '../../../sample_data/recipes.json';
 import macrosJson from '../../../sample_data/Macros.json';
 import imageMapping from '../../utils/imageMapping';
@@ -41,7 +41,10 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const RecipeCompletionScreen = ({ route }: Props) => {
   const navigation = useNavigation<NavigationProp>();
   const { recipeData } = route.params;
-
+  
+  // Get the updated food inventory from context
+  const { foodInventory } = useFoodInventory();
+  
   // --- Handlers ---
   const handleUseNowPress = (recipe: RecipeData) => {
     console.log(`Use now pressed for: ${recipe.name}`);
@@ -60,13 +63,13 @@ const RecipeCompletionScreen = ({ route }: Props) => {
     .filter(recipe => recipe.id !== route.params.recipeData.id)
     .sort(() => Math.random() - 0.5).slice(0, 2);
 
-  // Transform recipe ingredients into the required format
+  // Transform recipe ingredients using foodInventory from context
   const ingredientsData = route.params.recipeData.uses.split(', ').map(ingredient => {
     // Convert space-separated ingredient name to camelCase for image lookup
     const camelCaseKey = ingredient.toLowerCase().replace(/\s(.)/g, match => match.toUpperCase().trim());
     
-    // Look up the ingredient in foodItemsData
-    const foodItem = foodItemsJson.foodItemsData.find(item => 
+    // Look up the ingredient in foodInventory instead of foodItemsJson
+    const foodItem = foodInventory.find(item => 
       item.name.toLowerCase() === ingredient.toLowerCase()
     );
     

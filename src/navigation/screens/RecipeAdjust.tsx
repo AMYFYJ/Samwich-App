@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,8 @@ import IngredientSelectionCard from '../../components/RecipeIngreSelection';
 import { getRecipeSwipeImage } from '../../utils/recipeSwipeImage';
 import RecipeMacro from '../../components/RecipeMacro';
 import RecipeIngredient from '../../components/RecipeIngredient';
+import foodData from '../../../sample_data/foods.json';
+import { useFoodInventory } from '../../context/FoodContext';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -28,7 +30,66 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
   const navigation = useNavigation<NavigationProp>();
   const { recipeData } = route.params;
 
+  // Get context values
+  const { foodInventory, updateFoodInventory, saveChanges } = useFoodInventory();
+
+  // Process ingredients similar to RecipeIngreSelection component
+  const cleanIngredientName = (name: string) => {
+    return name.replace(/^\d+\s*/, '').trim();
+  };
+
+  const extractQuantityFromIngredient = (ingredient: string): string => {
+    const match = ingredient.match(/^(\d+(\.\d+)?)\s*/);
+    return match ? match[1] : '1';
+  };
+
+  // Create a processed ingredients list
+  const ingredientsList = recipeData.ingredients.map(ing => ({
+    name: cleanIngredientName(ing),
+    quantity: extractQuantityFromIngredient(ing),
+  }));
+
+  // Add state to track if ingredients were edited via popup
+  const [ingredientsEditedViaPopup, setIngredientsEditedViaPopup] = useState(false);
+  
+  // Function to be called when ingredients change via popup
+  const handleIngredientChange = () => {
+    setIngredientsEditedViaPopup(true);
+    console.log('Ingredients Edited Via Popup: ', ingredientsEditedViaPopup);
+  };
+
   const handleFinishRecipe = () => {
+    // Only deduct quantities if they weren't already deducted via popup
+    if (!ingredientsEditedViaPopup && foodInventory.length > 0) {
+      const updatedInventory = [...foodInventory];
+      
+      ingredientsList.forEach(ingredient => {
+        // Find matching item in inventory
+        const inventoryItem = updatedInventory.find(
+          item => item.name.toLowerCase() === ingredient.name.toLowerCase()
+        );
+        
+        if (inventoryItem) {
+          // Parse quantities
+          const currentQuantity = parseInt(inventoryItem.quantity.split(' ')[0]);
+          const selectedQuantity = parseFloat(ingredient.quantity);
+          
+          // Calculate new quantity
+          const newQuantity = Math.max(0, currentQuantity - selectedQuantity);
+          
+          // Update inventory item
+          inventoryItem.quantity = `${newQuantity} left`;
+        }
+      });
+      
+      // Update the inventory in context
+      updateFoodInventory(updatedInventory);
+      
+      // Save changes to storage
+      saveChanges();
+    }
+    
+    // Continue with navigation
     console.log(`Finish making "${recipeData.name}" `);
     navigation.navigate('HomeTabs', { 
       screen: 'Congrats', 
@@ -38,12 +99,6 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
 
   const handleGoBack = () => {
     navigation.goBack();
-  };
-
-  // Function to handle quantity changes
-  const handleQuantityChange = (ingredientName: string, newQuantity: string) => {
-    console.log(`Changed ${ingredientName} to ${newQuantity}`);
-    // Add your logic here to update the recipe data
   };
   
   // Helper function to determine the correct image source
@@ -88,6 +143,9 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
               <IngredientSelectionCard 
                 ingredients={recipeData.ingredients}
                 serves={recipeData.serves}
+                foodInventory={foodInventory}
+                updateFoodInventory={updateFoodInventory}
+                onIngredientsChange={handleIngredientChange}
               />
             </View>
           </View>
@@ -116,15 +174,10 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
 
       </ScrollView>
 
-       {/* Make this now Button */}
+       {/* Finish Recipe Button */}
        <TouchableOpacity style={styles.finishRecipeButton} onPress={handleFinishRecipe}>
           <Text style={styles.finishRecipeText}> ✓ Finish recipe </Text>
         </TouchableOpacity>
-
-       {/* Note: The Bottom Navigation (Home, Recipes, Inventory) is typically
-            part of a Tab Navigator setup in your main App navigator file
-            (e.g., App.js or navigation/AppNavigator.js) and not rendered
-            inside individual screens like this one. */}
     </SafeAreaView>
   );
 };
