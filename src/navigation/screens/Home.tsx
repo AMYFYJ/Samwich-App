@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/navigation';
 import { useFoodInventory } from '../../context/FoodContext';
+import { useMacros } from '../../context/MacrosContext';
 
 // import components
 import { FoodItemCard } from '../../components/FoodItemCard';
@@ -40,7 +41,8 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export function Home() {
   const navigation = useNavigation<NavigationProp>();
   const { foodInventory } = useFoodInventory();
-  
+  const { macros } = useMacros();
+
   // Move this inside the component
   const expiringItemsData: ExpiringItem[] = foodInventory
     .filter(item => item.quantity !== '0 left')
@@ -77,11 +79,11 @@ export function Home() {
 
         {/* === Today's Macros Section === */}
         <MacrosCard
-            totalCalories={macrosJson.currentMacros.totalCalories}
-            carbs={macrosJson.currentMacros.carbs}
-            protein={macrosJson.currentMacros.protein}
-            fat={macrosJson.currentMacros.fat}
-            fiber={macrosJson.currentMacros.fiber}
+            totalCalories={macros.totalCalories}
+            carbs={macros.carbs}
+            protein={macros.protein}
+            fat={macros.fat}
+            fiber={macros.fiber}
         />
 
         {/* === Quick Recipes Section === */}

@@ -17,7 +17,7 @@ import garlic from '../assets/Food/garlic.png';
 import thyme from '../assets/Food/thyme.png';
 import soySauce from '../assets/Food/soysauce.png';
 import honey from '../assets/Food/honey.png';
-import carrots from '../assets/Food/carrots.png';
+import carrot from '../assets/Food/carrots.png';
 import parsley from '../assets/Food/parsley.png';
 import dill from '../assets/Food/dill.png';
 import lemon from '../assets/Food/lemon.png';
@@ -49,7 +49,7 @@ const imageMapping: {[key: string]: any} = {
   thyme,
   soySauce,
   honey,
-  carrots,
+  carrot,
   parsley,
   dill,
   lemon,

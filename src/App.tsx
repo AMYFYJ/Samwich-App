@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Navigation } from './navigation';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { FoodProvider } from './context/FoodContext';
-
+import { MacrosProvider } from './context/MacrosContext';
 
 Asset.loadAsync([
   ...NavigationAssets,
@@ -19,6 +19,7 @@ SplashScreen.preventAutoHideAsync();
 export function App() {
   return (
     <FoodProvider>
+      <MacrosProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Navigation
           linking={{
@@ -33,6 +34,7 @@ export function App() {
           }}
         />
       </GestureHandlerRootView>
+      </MacrosProvider>
     </FoodProvider>
   );
 }

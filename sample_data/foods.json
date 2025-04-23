@@ -18,7 +18,7 @@
     { "id": "16", "name": "Thyme", "quantity": "5 left", "expiry": 9, "imageName": "thyme" },
     { "id": "17", "name": "Soy Sauce", "quantity": "1 left", "expiry": 120, "imageName": "soySauce" },
     { "id": "18", "name": "Honey", "quantity": "1 left", "expiry": 150, "imageName": "honey" },
-    { "id": "19", "name": "Carrots", "quantity": "2 left", "expiry": 3, "imageName": "carrots" },
+    { "id": "19", "name": "Carrot", "quantity": "2 left", "expiry": 3, "imageName": "carrot" },
     { "id": "20", "name": "Parsley", "quantity": "2 left", "expiry": 3, "imageName": "parsley" },
     { "id": "21", "name": "Dill", "quantity": "2 left", "expiry": 3, "imageName": "dill" },
     { "id": "22", "name": "Lemon", "quantity": "3 left", "expiry": 2, "imageName": "lemon" }

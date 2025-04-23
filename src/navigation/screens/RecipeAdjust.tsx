@@ -19,6 +19,7 @@ import RecipeMacro from '../../components/RecipeMacro';
 import RecipeIngredient from '../../components/RecipeIngredient';
 import foodData from '../../../sample_data/foods.json';
 import { useFoodInventory } from '../../context/FoodContext';
+import { useMacros } from '../../context/MacrosContext';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -32,6 +33,7 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
 
   // Get context values
   const { foodInventory, updateFoodInventory, saveChanges } = useFoodInventory();
+  const { updateMacros } = useMacros();
 
   // Process ingredients similar to RecipeIngreSelection component
   const cleanIngredientName = (name: string) => {
@@ -59,38 +61,25 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
   };
 
   const handleFinishRecipe = () => {
-    // Only deduct quantities if they weren't already deducted via popup
-    if (!ingredientsEditedViaPopup && foodInventory.length > 0) {
-      const updatedInventory = [...foodInventory];
-      
-      ingredientsList.forEach(ingredient => {
-        // Find matching item in inventory
-        const inventoryItem = updatedInventory.find(
-          item => item.name.toLowerCase() === ingredient.name.toLowerCase()
-        );
-        
-        if (inventoryItem) {
-          // Parse quantities
-          const currentQuantity = parseInt(inventoryItem.quantity.split(' ')[0]);
-          const selectedQuantity = parseFloat(ingredient.quantity);
-          
-          // Calculate new quantity
-          const newQuantity = Math.max(0, currentQuantity - selectedQuantity);
-          
-          // Update inventory item
-          inventoryItem.quantity = `${newQuantity} left`;
-        }
-      });
-      
-      // Update the inventory in context
-      updateFoodInventory(updatedInventory);
-      
-      // Save changes to storage
-      saveChanges();
-    }
+    // Convert macronutrients to match MacrosData structure
+    const macrosToUpdate = {
+      totalCalories: Number(recipeData.macronutrients.calories),
+      carbs: Number(recipeData.macronutrients.carbohydrates),
+      protein: Number(recipeData.macronutrients.protein),
+      fat: Number(recipeData.macronutrients.fats),
+      fiber: Number(recipeData.macronutrients.fiber)
+    };
     
-    // Continue with navigation
+    // Debug: log the macros data
+    console.log('Recipe macros to update:', macrosToUpdate);
+    
+    // Update macros with converted data
+    updateMacros(macrosToUpdate);
+    
+    // Then navigate to congrats screen
     console.log(`Finish making "${recipeData.name}" `);
+    
+    // Fix navigation: use direct navigation to Congrats instead of nested
     navigation.navigate('HomeTabs', { 
       screen: 'Congrats', 
       params: { recipeData } 

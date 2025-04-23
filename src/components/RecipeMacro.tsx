@@ -3,40 +3,40 @@ import { View, Text, StyleSheet } from 'react-native';
 
 type MacronutrientsProps = {
   macronutrients: {
-    calories?: string;
-    carbohydrates?: string;
-    protein?: string;
-    fiber?: string;
-    [key: string]: string | undefined; // handle any other macronutrients
+    calories: number;
+    carbohydrates: number;
+    protein: number;
+    fiber: number;
+    [key: string]: number | undefined; // handle any other macronutrients
   };
 };
 
 const RecipeMacro = ({ macronutrients }: MacronutrientsProps) => {
   // Extract values and convert to numbers where needed
-  const calories = macronutrients.calories?.replace(/\D/g, '') || '0';
+  const calories = macronutrients.calories;
   
-  // Extract numeric values and units from strings like "25g"
-  const extractValueAndUnit = (value: string | undefined) => {
-    if (!value) return { value: 0, unit: 'g' };
-    const match = value.match(/(\d+)(\w+)?/);
-    return { 
-      value: match ? parseInt(match[1], 10) : 0, 
-      unit: match && match[2] ? match[2] : 'g'
-    };
-  };
+  // // Extract numeric values and units from strings like "25g"
+  // const extractValueAndUnit = (value: string | undefined) => {
+  //   if (!value) return { value: 0, unit: 'g' };
+  //   const match = value.match(/(\d+)(\w+)?/);
+  //   return { 
+  //     value: match ? parseInt(match[1], 10) : 0, 
+  //     unit: match && match[2] ? match[2] : 'g'
+  //   };
+  // };
 
-  const carbs = extractValueAndUnit(macronutrients.carbohydrates);
-  const protein = extractValueAndUnit(macronutrients.protein);
-  const fiber = extractValueAndUnit(macronutrients.fiber);
+  const carbs = macronutrients.carbohydrates;
+  const protein = macronutrients.protein;
+  const fiber = macronutrients.fiber;
 
   // Calculate percentages (example calculations - you may need to adjust based on your app's requirements)
   const dailyCalories = 2000;
   const dailyCarbs = 200;
   const dailyProtein = 80;
   const dailyFiber = 30;
-  const carbsPercent = Math.round((carbs.value/dailyCarbs) * 100); 
-  const proteinPercent = Math.round((protein.value/dailyProtein) * 100);
-  const fiberPercent = Math.round((fiber.value/dailyFiber) * 100);
+  const carbsPercent = Math.round((carbs/dailyCarbs) * 100); 
+  const proteinPercent = Math.round((protein/dailyProtein) * 100);
+  const fiberPercent = Math.round((fiber/dailyFiber) * 100);
 
   return (
     <View style={styles.container}>
@@ -55,7 +55,7 @@ const RecipeMacro = ({ macronutrients }: MacronutrientsProps) => {
         <View style={styles.macroTextRow}>
           <Text style={styles.macroLabel}>Carbs</Text>
           <View style={styles.macroValueContainer}>
-            <Text style={styles.macroValue}>{carbs.value}{carbs.unit}</Text>
+            <Text style={styles.macroValue}>{carbs} g</Text>
             <Text style={styles.percentValue}>{carbsPercent}%</Text>
           </View>
         </View>
@@ -69,7 +69,7 @@ const RecipeMacro = ({ macronutrients }: MacronutrientsProps) => {
         <View style={styles.macroTextRow}>
           <Text style={styles.macroLabel}>Protein</Text>
           <View style={styles.macroValueContainer}>
-            <Text style={styles.macroValue}>{protein.value}{protein.unit}</Text>
+            <Text style={styles.macroValue}>{protein} g</Text>
             <Text style={styles.percentValue}>{proteinPercent}%</Text>
           </View>
         </View>
@@ -83,7 +83,7 @@ const RecipeMacro = ({ macronutrients }: MacronutrientsProps) => {
         <View style={styles.macroTextRow}>
           <Text style={styles.macroLabel}>Fiber</Text>
           <View style={styles.macroValueContainer}>
-            <Text style={styles.macroValue}>{fiber.value}{fiber.unit}</Text>
+            <Text style={styles.macroValue}>{fiber} g</Text>
             <Text style={styles.percentValue}>{fiberPercent}%</Text>
           </View>
         </View>

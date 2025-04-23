@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/navigation';
 import { useFoodInventory } from '../../context/FoodContext';
+import { useMacros } from '../../context/MacrosContext';
 
 // --- Import Reusable Components ---
 // Adjust paths as needed
@@ -23,8 +24,9 @@ import { RecipeData } from '../../types/navigation';
 
 // import sample data
 import recipesJson from '../../../sample_data/recipes.json';
-import macrosJson from '../../../sample_data/Macros.json';
+// import macrosJson from '../../../sample_data/Macros.json';
 import imageMapping from '../../utils/imageMapping';
+
 
 
 
@@ -44,6 +46,11 @@ const RecipeCompletionScreen = ({ route }: Props) => {
   
   // Get the updated food inventory from context
   const { foodInventory } = useFoodInventory();
+  const { macros } = useMacros();
+  
+  // Debug logs
+  console.log('Congrats Screen - Route params:', route.params);
+  console.log('Congrats Screen - Current macros:', macros);
   
   // --- Handlers ---
   const handleUseNowPress = (recipe: RecipeData) => {
@@ -93,11 +100,11 @@ const RecipeCompletionScreen = ({ route }: Props) => {
 
       {/* Macronutrient Chart Section */}
       <MacrosCard
-          totalCalories={macrosJson.currentMacros.totalCalories}
-          carbs={macrosJson.currentMacros.carbs}
-          protein={macrosJson.currentMacros.protein}
-          fat={macrosJson.currentMacros.fat}
-          fiber={macrosJson.currentMacros.fiber}
+          totalCalories={macros.totalCalories}
+          carbs={macros.carbs}
+          protein={macros.protein}
+          fat={macros.fat}
+          fiber={macros.fiber}
           style={{
               borderRadius: 0,
               backgroundColor: '#355E3B',

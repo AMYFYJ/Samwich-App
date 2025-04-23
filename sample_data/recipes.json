@@ -7,11 +7,11 @@
     "consume": "Consume within 2 days",
     "image": "avocadoTomatoToast",
     "macronutrients": {
-      "calories": "290 cal",
-      "protein": "7 g",
-      "carbohydrates": "25 g",
-      "fats": "12 g",
-      "fiber": "7 g"
+      "calories": 290,
+      "protein": 7,
+      "carbohydrates": 25,
+      "fats": 12,
+      "fiber": 7
     },
     "ingredients": ["1 avocado", "1 tomato", "2 bread", "1 thyme", "salt and pepper"],
     "instructions": [
@@ -26,15 +26,15 @@
     "id": 2,
     "name": "Pumpkin Soup",
     "serves": 4,
-    "uses": "Pumpkin, Garlic, Carrots, Yogurt, Milk",
+    "uses": "Pumpkin, Garlic, Carrot, Yogurt, Milk",
     "consume": "Consume within 2 days",
     "image": "pumpkinSoup",
     "macronutrients": {
-      "calories": "452 cal",
-      "protein": "9.5 g",
-      "carbohydrates": "43 g",
-      "fats": "29 g",
-      "fiber": "7 g"
+      "calories": 452,
+      "protein": 10,
+      "carbohydrates": 43,
+      "fats": 29,
+      "fiber": 7
     },
     "ingredients": ["120 g pumpkin", "2 garlic", "2 carrots", "1 cup yogurt", "2 tsp milk"],
     "instructions": [
@@ -51,11 +51,11 @@
     "consume": "Consume within 2 days",
     "image": "salmonRiceBowl",
     "macronutrients": {
-      "calories": "470 cal",
-      "protein": "28 g",
-      "carbohydrates": "30 g",
-      "fats": "29 g",
-      "fiber": "5 g"
+      "calories": 470,
+      "protein": 28,
+      "carbohydrates": 30,
+      "fats": 29,
+      "fiber": 5
     },
     "ingredients": ["1 salmon fillet", "1 cup of rice", "4 broccoli florets", "1 cucumber", "1 tbsp soy sauce", "1 tbsp honey", "salt and pepper"],
     "instructions": [
@@ -69,17 +69,17 @@
     "id": 4,
     "name": "Greek Yogurt Dip",
     "serves": 4,
-    "uses": "Yogurt, Carrots, Cucumber, Parsley, Dill, Lemon",
+    "uses": "Yogurt, Carrot, Cucumber, Parsley, Dill, Lemon",
     "consume": "Consume within 2 days",
     "image": "greekYogurtDip",
     "macronutrients": {
-      "calories": "136 cal",
-      "protein": "20 g",
-      "carbohydrates": "12 g",
-      "fats": "5 g",
-      "fiber": "4 g"
+      "calories": 136,
+      "protein": 20,
+      "carbohydrates": 12,
+      "fats": 5,
+      "fiber": 4
     },
-    "ingredients": ["1 cup of yogurt", "1 carrot", "1 cucumber", "1 tbsp dill", "1 lemon"],
+    "ingredients": ["1 yogurt", "1 carrot", "1 cucumber", "1 tbsp dill", "1 lemon"],
     "instructions": [
       "Chop the cucumber and carrot into bite sized pieces.",
       "Measure the Greek yoghurt into a medium bowl. Stir in the parsley, dill, lemon juice, salt, pepper until well incorporated. Taste and adjust the seasonings, adding more salt if necessary.",
@@ -94,11 +94,11 @@
     "consume": "Consume within 2 days",
     "image": "shrimpVeggieStirFry",
     "macronutrients": {
-      "calories": "410 cal",
-      "protein": "30 g",
-      "carbohydrates": "30 g",
-      "fats": "18 g",
-      "fiber": "7 g"
+      "calories": 410,
+      "protein": 30,
+      "carbohydrates": 30,
+      "fats": 18,
+      "fiber": 7
     },
     "ingredients": ["100 g shrimp", "1 egg", "4 broccoli florets", "2 bok choy", "1/2 bell pepper", "1 cup of rice", "1 tbsp soy sauce", "1/2 garlic"],
     "instructions": [

@@ -9,11 +9,11 @@ export type RecipeData = {
   consume: string;
   ingredients: string[];
   macronutrients: {
-    calories: string;
-    protein: string;
-    carbohydrates: string;
-    fats: string;
-    fiber: string;
+    calories: number;
+    protein: number;
+    carbohydrates: number;
+    fats: number;
+    fiber: number;
   };
   instructions: string[];
 };

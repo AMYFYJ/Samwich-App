@@ -9,11 +9,11 @@ interface RecipeCardProps {
   consume: string;
   imageSource: ImageSourcePropType;
   macronutrients: {
-    calories: string;
-    protein: string;
-    carbohydrates: string;
-    fats: string;
-    fiber: string;
+    calories: number;
+    protein: number;
+    carbohydrates: number;
+    fats: number;
+    fiber: number;
   };
   instructions: string[];
   onUseNow: () => void;
