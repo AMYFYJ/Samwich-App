@@ -60,14 +60,40 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
     console.log('Ingredients Edited Via Popup: ', ingredientsEditedViaPopup);
   };
 
+  // Add original macros as a reference constant that doesn't change
+  const originalMacros = {
+    calories: recipeData.macronutrients.calories,
+    carbohydrates: recipeData.macronutrients.carbohydrates,
+    protein: recipeData.macronutrients.protein,
+    fiber: recipeData.macronutrients.fiber,
+    fat: recipeData.macronutrients.fats || 0
+  };
+
+  // State for current macros - initially set to original values
+  const [currentMacros, setCurrentMacros] = useState({...originalMacros});
+  
+  const handleMacroChange = (newMacros: {
+    calories: number;
+    carbohydrates: number;
+    protein: number;
+    fiber: number;
+    fat: number;
+  }) => {
+    console.log("Original macros:", originalMacros);
+    console.log("New calculated macros:", newMacros);
+    
+    // Update component state for the RecipeMacro component
+    setCurrentMacros(newMacros);
+  };
+
   const handleFinishRecipe = () => {
-    // Convert macronutrients to match MacrosData structure
+    // Convert current macros to match MacrosData structure
     const macrosToUpdate = {
-      totalCalories: Number(recipeData.macronutrients.calories),
-      carbs: Number(recipeData.macronutrients.carbohydrates),
-      protein: Number(recipeData.macronutrients.protein),
-      fat: Number(recipeData.macronutrients.fats),
-      fiber: Number(recipeData.macronutrients.fiber)
+      totalCalories: Number(currentMacros.calories),
+      carbs: Number(currentMacros.carbohydrates),
+      protein: Number(currentMacros.protein),
+      fat: Number(currentMacros.fat),
+      fiber: Number(currentMacros.fiber)
     };
     
     // Debug: log the macros data
@@ -132,9 +158,11 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
               <IngredientSelectionCard 
                 ingredients={recipeData.ingredients}
                 serves={recipeData.serves}
+                onMacroChange={handleMacroChange}
                 foodInventory={foodInventory}
                 updateFoodInventory={updateFoodInventory}
                 onIngredientsChange={handleIngredientChange}
+                initialMacros={originalMacros}
               />
             </View>
           </View>
@@ -143,7 +171,7 @@ const RecipeAdjustScreen = ({ route }: { route: { params: { recipeData: RecipeDa
           <View style={[styles.section, { flex: 1 }]}>
             <Text style={styles.sectionTitle}>Macronutrients</Text>
             <View style={styles.cardContainer}>
-              <RecipeMacro macronutrients={recipeData.macronutrients} />
+              <RecipeMacro macronutrients={currentMacros} />
             </View>
           </View>
         </View>

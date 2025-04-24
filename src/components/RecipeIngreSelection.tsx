@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, ScrollView, FlatList } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import foodMacros from '../../sample_data/FoodMacros.json';
+
+type FoodMacrosType = typeof foodMacros;
 
 type Ingredient = {
   name: string;
@@ -14,6 +17,20 @@ type RecipeIngreSelectionProps = {
   onIngredientsChange?: (ingredients: Ingredient[]) => void;
   foodInventory?: Array<{id: string, name: string, quantity: string, expiry: number, imageName: string}>;
   updateFoodInventory?: (updatedInventory: Array<{id: string, name: string, quantity: string, expiry: number, imageName: string}>) => void;
+  initialMacros: {
+    calories: number;
+    carbohydrates: number;
+    protein: number;
+    fiber: number;
+    fat: number;
+  };
+  onMacroChange?: (macros: {
+    calories: number;
+    carbohydrates: number;
+    protein: number;
+    fiber: number;
+    fat: number;
+  }) => void;
 };
 
 const RecipeIngreSelection = ({ 
@@ -21,7 +38,9 @@ const RecipeIngreSelection = ({
   serves, 
   onIngredientsChange,
   foodInventory = [],
-  updateFoodInventory
+  updateFoodInventory,
+  onMacroChange,
+  initialMacros
 }: RecipeIngreSelectionProps) => {
   // Helper function to clean ingredient names (remove leading numbers)
   const cleanIngredientName = (name: string) => {
@@ -35,23 +54,22 @@ const RecipeIngreSelection = ({
   };
 
   // Update the initial state
-  const [ingredientsList, setIngredientsList] = useState<Ingredient[]>(
-    ingredients.map(ing => ({
-      name: cleanIngredientName(ing),
-      quantity: extractQuantityFromIngredient(ing),
-    }))
-  );
+  const [ingredientsList, setIngredientsList] = useState<Ingredient[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [tempIngredientsList, setTempIngredientsList] = useState<Ingredient[]>([]);
 
-  // Update the useEffect for when ingredients change
+  // Add a ref to track original ingredient quantities
+  const originalIngredientsList = useRef<Ingredient[]>([]);
+
+  // Update useEffect to store original quantities when ingredients change
   useEffect(() => {
-    setIngredientsList(
-      ingredients.map(ing => ({
-        name: cleanIngredientName(ing),
-        quantity: extractQuantityFromIngredient(ing),
-      }))
-    );
+    const processedIngredients = ingredients.map(ing => ({
+      name: cleanIngredientName(ing),
+      quantity: extractQuantityFromIngredient(ing),
+    }));
+    
+    setIngredientsList(processedIngredients);
+    originalIngredientsList.current = JSON.parse(JSON.stringify(processedIngredients));
   }, [ingredients]);
 
   const updateQuantity = (index: number, quantity: string) => {
@@ -60,11 +78,70 @@ const RecipeIngreSelection = ({
     setTempIngredientsList(updatedIngredients);
   };
 
+  // Only calculate differences
+  const calculateUpdatedMacros = (newIngredients: Ingredient[], originalMacros: any) => {
+    // Start with original macros
+    const updatedMacros = { ...originalMacros };
+    
+    // Find ingredients that changed quantity
+    newIngredients.forEach((newIngredient, index) => {
+      const originalIngredient = originalIngredientsList.current[index];
+      
+      // Only process ingredients where quantity changed
+      if (newIngredient.quantity !== originalIngredient.quantity) {
+        const normalizedName = newIngredient.name.toLowerCase()
+          .replace(/\s+/g, '')
+          .replace(/[^a-z0-9]/g, '');
+        
+        const matchingIngredient = Object.keys(foodMacros).find(key => {
+          const keyNormalized = key.toLowerCase();
+          return keyNormalized === normalizedName || 
+                 normalizedName.includes(keyNormalized) || 
+                 keyNormalized.includes(normalizedName);
+        });
+        
+        if (matchingIngredient) {
+          const macroData = foodMacros[matchingIngredient as keyof FoodMacrosType];
+          const newQty = parseFloat(newIngredient.quantity) || 0;
+          const oldQty = parseFloat(originalIngredient.quantity) || 0;
+          const qtyDifference = newQty - oldQty;
+          
+          console.log(`${newIngredient.name}: changed from ${oldQty} to ${newQty}, diff=${qtyDifference}`);
+          
+          // Apply the difference
+          updatedMacros.calories += macroData.calories * qtyDifference;
+          updatedMacros.carbohydrates += macroData.carbohydrates * qtyDifference;
+          updatedMacros.protein += macroData.protein * qtyDifference;
+          updatedMacros.fiber += macroData.fiber * qtyDifference;
+          updatedMacros.fat += (macroData.fat || 0) * qtyDifference;
+          console.log('updatedMacros', updatedMacros);
+        }
+      }
+    });
+    
+    // Round values
+    return {
+      calories: Math.round(updatedMacros.calories),
+      carbohydrates: Math.round(updatedMacros.carbohydrates),
+      protein: Math.round(updatedMacros.protein),
+      fiber: Math.round(updatedMacros.fiber),
+      fat: Math.round(updatedMacros.fat)
+    };
+  };
+
   const handleConfirmEdits = () => {
     setModalVisible(false);
     setIngredientsList(tempIngredientsList);
+    
     if (onIngredientsChange) {
       onIngredientsChange(tempIngredientsList);
+    }
+    
+    // Only calculate and pass macros if we have a callback
+    if (onMacroChange) {
+      // Calculate updated macros based on current ingredient list
+      const updatedMacros = calculateUpdatedMacros(tempIngredientsList, initialMacros);
+      onMacroChange(updatedMacros);
     }
     
     // Deduct quantities from food inventory

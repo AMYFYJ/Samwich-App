@@ -48,10 +48,6 @@ const RecipeCompletionScreen = ({ route }: Props) => {
   const { foodInventory } = useFoodInventory();
   const { macros } = useMacros();
   
-  // Debug logs
-  console.log('Congrats Screen - Route params:', route.params);
-  console.log('Congrats Screen - Current macros:', macros);
-  
   // --- Handlers ---
   const handleUseNowPress = (recipe: RecipeData) => {
     console.log(`Use now pressed for: ${recipe.name}`);

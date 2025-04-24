@@ -1,0 +1,179 @@
+{
+    "bellPepper": {
+      "unit": 1,
+      "calories": 31,
+      "carbohydrates": 6,
+      "protein": 1,
+      "fiber": 2.1,
+      "fat": 0.3
+    },
+    "egg": {
+      "unit": 1,
+      "calories": 155,
+      "carbohydrates": 1.1,
+      "protein": 13,
+      "fiber": 0,
+      "fat": 11
+    },
+    "shrimp": {
+      "unit": 1,
+      "calories": 99,
+      "carbohydrates": 0.2,
+      "protein": 24,
+      "fiber": 0,
+      "fat": 0.3
+    },
+    "salmon": {
+      "unit": 1,
+      "calories": 208,
+      "carbohydrates": 0,
+      "protein": 20,
+      "fiber": 0,
+      "fat": 13
+    },
+    "bokChoy": {
+      "unit": 1,
+      "calories": 13,
+      "carbohydrates": 2.2,
+      "protein": 1.5,
+      "fiber": 1,
+      "fat": 0.2
+    },
+    "broccoli": {
+      "unit": 1,
+      "calories": 34,
+      "carbohydrates": 7.2,
+      "protein": 2.8,
+      "fiber": 2.6,
+      "fat": 0.4
+    },
+    "cucumber": {
+      "unit": 1,
+      "calories": 16,
+      "carbohydrates": 3.6,
+      "protein": 0.7,
+      "fiber": 0.5,
+      "fat": 0.1
+    },
+    "milk": {
+      "unit": 1,
+      "calories": 61,
+      "carbohydrates": 4.8,
+      "protein": 3.3,
+      "fiber": 0,
+      "fat": 3.2
+    },
+    "pumpkin": {
+      "unit": 1,
+      "calories": 26,
+      "carbohydrates": 6.5,
+      "protein": 1,
+      "fiber": 0.5,
+      "fat": 0.1
+    },
+    "tomato": {
+      "unit": 1,
+      "calories": 18,
+      "carbohydrates": 3.9,
+      "protein": 0.9,
+      "fiber": 1.2,
+      "fat": 0.2
+    },
+    "yogurt": {
+      "unit": 1,
+      "calories": 63,
+      "carbohydrates": 7,
+      "protein": 5.3,
+      "fiber": 0,
+      "fat": 1.5
+    },
+    "avocado": {
+      "unit": 1,
+      "calories": 160,
+      "carbohydrates": 8.5,
+      "protein": 2,
+      "fiber": 6.7,
+      "fat": 14.7
+    },
+    "bread": {
+      "unit": 1,
+      "calories": 150,
+      "carbohydrates": 12,
+      "protein": 3,
+      "fiber": 3,
+      "fat": 2.2
+    },
+    "rice": {
+      "unit": 1,
+      "calories": 130,
+      "carbohydrates": 28,
+      "protein": 2.4,
+      "fiber": 0.4,
+      "fat": 0.3
+    },
+    "garlic": {
+      "unit": 1,
+      "calories": 23,
+      "carbohydrates": 3,
+      "protein": 1,
+      "fiber": 0.5,
+      "fat": 0.1
+    },
+    "thyme": {
+      "unit": 1,
+      "calories": 101,
+      "carbohydrates": 24.5,
+      "protein": 5.6,
+      "fiber": 14,
+      "fat": 1.7
+    },
+    "soySauce": {
+      "unit": 1,
+      "calories": 53,
+      "carbohydrates": 4.9,
+      "protein": 8.1,
+      "fiber": 0.3,
+      "fat": 0.6
+    },
+    "honey": {
+      "unit": 1,
+      "calories": 304,
+      "carbohydrates": 82.4,
+      "protein": 0.3,
+      "fiber": 0.2,
+      "fat": 0
+    },
+    "carrot": {
+      "unit": 1,
+      "calories": 41,
+      "carbohydrates": 9.6,
+      "protein": 0.9,
+      "fiber": 2.8,
+      "fat": 0.2
+    },
+    "parsley": {
+      "unit": 1,
+      "calories": 36,
+      "carbohydrates": 6.3,
+      "protein": 3,
+      "fiber": 3.3,
+      "fat": 0.8
+    },
+    "dill": {
+      "unit": 1,
+      "calories": 43,
+      "carbohydrates": 7,
+      "protein": 3.5,
+      "fiber": 2.1,
+      "fat": 1.1
+    },
+    "lemon": {
+      "unit": 1,
+      "calories": 29,
+      "carbohydrates": 9.3,
+      "protein": 1.1,
+      "fiber": 2.8,
+      "fat": 0.3
+    }
+  }
+  

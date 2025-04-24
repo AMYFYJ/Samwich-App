@@ -1,7 +1,6 @@
 // src/components/MacrosCard.tsx
 import React from 'react';
 import { StyleSheet, View, Text, ViewStyle, TextStyle, Dimensions } from 'react-native';
-// import Pie from 'react-native-pie'; // REMOVED
 import { PieChart } from "react-native-chart-kit"; // Import PieChart
 
 // --- Prop Types ---

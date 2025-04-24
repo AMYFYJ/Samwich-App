@@ -7,6 +7,7 @@ type MacronutrientsProps = {
     carbohydrates: number;
     protein: number;
     fiber: number;
+    fat: number;
     [key: string]: number | undefined; // handle any other macronutrients
   };
 };
@@ -14,28 +15,19 @@ type MacronutrientsProps = {
 const RecipeMacro = ({ macronutrients }: MacronutrientsProps) => {
   // Extract values and convert to numbers where needed
   const calories = macronutrients.calories;
-  
-  // // Extract numeric values and units from strings like "25g"
-  // const extractValueAndUnit = (value: string | undefined) => {
-  //   if (!value) return { value: 0, unit: 'g' };
-  //   const match = value.match(/(\d+)(\w+)?/);
-  //   return { 
-  //     value: match ? parseInt(match[1], 10) : 0, 
-  //     unit: match && match[2] ? match[2] : 'g'
-  //   };
-  // };
-
   const carbs = macronutrients.carbohydrates;
   const protein = macronutrients.protein;
   const fiber = macronutrients.fiber;
-
+  const fat = macronutrients.fat;
   // Calculate percentages (example calculations - you may need to adjust based on your app's requirements)
   const dailyCalories = 2000;
   const dailyCarbs = 200;
   const dailyProtein = 80;
   const dailyFiber = 30;
+  const dailyFat = 60;
   const carbsPercent = Math.round((carbs/dailyCarbs) * 100); 
   const proteinPercent = Math.round((protein/dailyProtein) * 100);
+  const fatPercent = Math.round((fat/dailyFat) * 100);
   const fiberPercent = Math.round((fiber/dailyFiber) * 100);
 
   return (
@@ -75,6 +67,19 @@ const RecipeMacro = ({ macronutrients }: MacronutrientsProps) => {
         </View>
       </View>
 
+    {/* Fiber Bar */}
+    <View style={styles.macroContainer}>
+            <View style={styles.progressBarContainer}>
+              <View style={[styles.progressBar, styles.fatBar, { width: `${Math.min(fatPercent, 100)}%` }]} />
+            </View>
+            <View style={styles.macroTextRow}>
+              <Text style={styles.macroLabel}>Fat</Text>
+              <View style={styles.macroValueContainer}>
+                <Text style={styles.macroValue}>{fat} g</Text>
+                <Text style={styles.percentValue}>{fatPercent}%</Text>
+          </View>
+        </View>
+      </View>
       {/* Fiber Bar */}
       <View style={styles.macroContainer}>
         <View style={styles.progressBarContainer}>
@@ -166,10 +171,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#FAD759', // Yellow
   },
   proteinBar: {
+    backgroundColor: '#FB9702', // Orange
+  },
+  fatBar: {
     backgroundColor: '#F24C5F', // Red
   },
   fiberBar: {
-    backgroundColor: '#FB9702', // Orange
+    backgroundColor: '#372E3D', // Grey
   },
   macroLabel: {
     color: '#333',

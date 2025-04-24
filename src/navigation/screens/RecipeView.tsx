@@ -94,7 +94,10 @@ const RecipeViewScreen = ({ route }: Props) => {
           <View style={[styles.section, { flex: 1 }]}>
             <Text style={styles.sectionTitle}>Macronutrients</Text>
             <View style={styles.cardContainer}>
-              <RecipeMacro macronutrients={recipeData.macronutrients} />
+              <RecipeMacro macronutrients={{
+                ...recipeData.macronutrients,
+                fat: recipeData.macronutrients.fats
+              }} />
             </View>
           </View>
         </View>
